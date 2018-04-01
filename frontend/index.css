@@ -6,6 +6,53 @@ body {
   background: #fcfcfc;
 }
 
+body{
+    align-items: stretch; 
+}
+
+.sidenav {
+    height: 100%; 
+    width: 0; 
+    position: fixed; 
+    z-index: 1; 
+    top: 0; 
+    left: 0;
+    background-color: #111; 
+    overflow-x: hidden; 
+    transition: 0.5s; 
+    padding-top: 60px; 
+}
+
+.sidenav {
+    color: #818181; 
+    transition: 0.3s; 
+}
+
+.sidenav .closeSideNav {
+    padding: 8px 8px 8px 200px; 
+    font-size: 25px; 
+    display: block; 
+}
+
+.sidenav .closeSideNav:hover {
+    color: #f1f1f1; 
+}
+
+.sidenav .sidebartitle {
+    font-size: 25px; 
+}
+
+.sidenav .sideList li{
+    padding: 8px 8px 8px 32px; 
+    text-decoration: none; 
+    font-size: 15px; 
+    display: block; 
+}
+
+.sidenav .sideList li:hover{
+    color: #f1f1f1; 
+}
+
 .productList {
     padding-top: 20px;
     min-height: 100vh;
