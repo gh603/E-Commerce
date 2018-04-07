@@ -1,28 +1,13 @@
-@import url(https://fonts.googleapis.com/css?family=Fredoka+One);
-
-html { overflow-y: scroll; }
-body {
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  font-size: 1vw;
-  line-height: 1;
-  color: #414141;
-  background: white;
-  padding: 12px; 
-}
-
 table { border-collapse: collapse; border-spacing: 0; }
 
 img { border: 0; max-width: 100%; }
 
 h1 {
-  font-family: 'Fredoka One', Helvetica, Tahoma, sans-serif;
-  color: #fff;
-  text-shadow: 1px 2px 0 #7184d8;
-  font-size: 3.0em;
-  line-height: 1.1em;
+  font-size: 2.0em;
+  font-weight: bolder; 
+  line-height: 1.0em;
   padding: 6px 0;
   font-weight: normal;
-  text-align: center;
 }
 
 th {
@@ -33,27 +18,29 @@ th {
 /* page structure */
 #title {
   display: block;
-  background: #95a6d6;
   padding: 10px 0;
 }
 
 #page {
   display: block;
   background: #fff;
-  padding: 15px 0;
 }
 
 /** cart table **/
 #cart {
-  display: block;
+  display: table;
   border-collapse: collapse;
   margin: 0;
-  width: auto;
+  width: 100%;
   color: #444;
 }
 
 #cart thead {
-    width: auto; 
+    width: 100%; 
+}
+
+#cart thead tr {
+  border-bottom: 1px solid #d7dbe0;
 }
 
 #cart thead th {
@@ -85,31 +72,26 @@ th {
 tr.productitm {
   height: 65px;
   line-height: 65px;
-  border-bottom: 1px solid #d7dbe0;
+  /* border-bottom: 1px solid #d7dbe0; */
 }
 
 #cart tbody td img.thumb {
   vertical-align: bottom;
-  border: 1px solid #ddd;
+  /* border: 1px solid #ddd; */
+  max-width: 65px;
+  max-height: 65px;
   margin-bottom: 4px;
 }
 
 .qtyinput {
   width: 33px;
   height: 22px;
-  border: 1px solid #a3b8d3;
-  background: #dae4eb;
-  color: #616161;
   text-align: center;
 }
 
 tr.totalprice, tr.extracosts {
   height: 35px;
   line-height: 35px;
-}
-
-tr.extracosts {
-  background: #e4edf4;
 }
 
 .remove {
@@ -134,11 +116,11 @@ tr.extracosts {
 }
 
 /** submit btn **/
-tr.checkoutrow {
+/* tr.checkoutrow {
   background: #cfdae8;
   border-top: 1px solid #abc0db;
   border-bottom: 1px solid #abc0db;
-}
+} */
 
 td.checkout {
   padding: 12px 0;

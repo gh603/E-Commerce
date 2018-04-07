@@ -32,11 +32,11 @@ $('document').ready(function(){
 
     updateTaxAndTotal($table, $subTotal, $tax); 
 
-    $('.productitm').click((event) => {
-        console.log(event.currentTarget);
+    $('.remove').click((event) => {
         price = 0; 
 
-        target = event.currentTarget; 
+        target = $(event.currentTarget).parent().parent(); 
+        console.log(target); 
         $(target).children("td:nth-child(" + $priceIndex + ")").each((index, element) => {
             price += parseFloat($(element).text().slice(1));
         })
