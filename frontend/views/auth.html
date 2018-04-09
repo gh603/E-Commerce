@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Authorization</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- css -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="../styles/auth.css">
+    <!-- js -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="../js/auth.js"></script>
+</head>
+
+<body>
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">E-Commerce</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li>
+                    <a href="./index.html">Products</a>
+                </li>
+            </ul>
+            <form class="navbar-form navbar-left" action="/items.php">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Search">
+                </div>
+                <button type="submit" class="btn btn-default">Submit</button>
+            </form>
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a class="orders" href="./cart.html">Orders</a>
+                </li>
+
+                <li>
+                    <a href="./auth.html">
+                        <span class="glyphicon glyphicon-user"></span>Log In</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="auth">
+        <ul class="tab-group">
+            <li class="tab active">
+                <a href="#login">Log In</a>
+            </li>
+            <li class="tab">
+                <a href="#signup">Sign Up</a>
+            </li>
+        </ul>
+
+        <div class="tab-content">
+            <div id="login">
+                <h1>Welcome Back!</h1>
+
+                <form action="/" method="post">
+
+                    <div class="field-wrap">
+                        <input type="email" name="Email" placeholder="Email" />
+                    </div>
+
+                    <div class="field-wrap">
+                        <input type="password" name="Password" placeholder="Password" />
+                    </div>
+
+                    <p class="forgot">
+                        <a href="#">Forgot Password?</a>
+                    </p>
+
+                    <button class="button button-block" />Log In</button>
+
+                </form>
+
+            </div>
+            <div id="signup">
+                <h1>Sign Up for Free</h1>
+
+                <form action="/" method="post">
+
+                    <div class="top-row">
+                        <div class="field-wrap">
+                            <input type="text" name="First Name" placeholder="First Name" />
+                        </div>
+
+                        <div class="field-wrap">
+                            <input type="text" name="Last Name" placeholder="Last Name" />
+                        </div>
+                    </div>
+
+                    <div class="field-wrap">
+                        <input type="email" name="Email" placeholder="Email" />
+                    </div>
+
+                    <div class="field-wrap">
+                        <input type="password" name="Password" placeholder="Password" />
+                    </div>
+
+                    <button type="submit" class="button button-block" />Get Started</button>
+
+                </form>
+            </div>
+
+        </div>
+    </div>
+</body>
+
+</html>
