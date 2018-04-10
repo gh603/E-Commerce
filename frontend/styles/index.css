@@ -15,7 +15,7 @@
 
 .sidenav .closeSideNav {
     padding: 8px 8px 8px 160px; 
-    font-size: 25px; 
+    font-size: 1.0em; 
     display: block; 
 }
 
@@ -24,7 +24,7 @@
 }
 
 .sidenav .sidebartitle {
-    font-size: 1.2em; 
+    font-size: 1.0em; 
 }
 
 .sidenav .sideList li{
@@ -129,7 +129,7 @@
     padding: 0.3em;
     border-top: 0.5px solid #ececec;
     letter-spacing: 0.1em;
-    font-size: 11px;
+    font-size: 0.6em;
     color: white;
     justify-items: left;
     align-items: center;
@@ -139,7 +139,8 @@
 .card-footer .span {
     margin: 5px;
     width: auto;
-    background: #dedede;
+    /* background: #dededeb2; */
+    background: #1ab188; 
     padding: 4px 7px;
     border-radius: 2px;
     font-weight: 100;
@@ -147,6 +148,6 @@
 }
 
 .card-footer .span:hover {
-    background: #aaaaaa;  
+    background: #179b77;  
 }
 
