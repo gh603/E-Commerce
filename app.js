@@ -47,7 +47,7 @@ app.use(function(req, res, next){
 //=================
 
 app.get("/", function(req, res){
-    res.render("login");
+    res.render("auth");
 });
 
 
@@ -65,22 +65,28 @@ app.post("/login", passport.authenticate("local",
     }), function(req, res){
 });
 
-app.get("/register", function(req, res){
-   res.render("register"); 
-});
 
 
-app.post("/register", function(req, res){
+
+app.post("/signup", function(req, res){
+    // var newUser = new User({username: req.body.Email, FirstName: req.body.FirstName, LastName: req.body.LastName, Email: req.body.Email });
     var newUser = new User({username: req.body.username});
     User.register(newUser, req.body.password, function(err, user){
         if(err){
+            console.log("err");
             console.log(err);
-            return res.render("register");
+            return res.render("auth");
         }
         passport.authenticate("local")(req, res, function(){
-           res.redirect("/campgrounds"); 
+           
+           res.redirect("/products"); 
         });
     });
+});
+
+app.get("/logout", function(req, res){
+   req.logout();
+   res.redirect("/products");
 });
 //================
 // Show products
@@ -90,7 +96,7 @@ app.get("/products",function(req, res){
        if(err){
            console.log(err);
        } else {
-          res.render("index",{products:allProducts});
+          res.render("products",{products:allProducts});
        }
     });
 });
@@ -144,14 +150,14 @@ app.post("/products", function(req, res){
 // Show certain product detail
 //================
 app.get("/products/:id", function(req, res){
-    //find the campground with provided ID
+    //find the product with provided ID
     Product.findById(req.params.id, function(err, foundProduct){
         if(err){
             console.log(err);
         } else {
             console.log(foundProduct)
             
-            res.render("campgrounds/show", {product: foundProduct});
+            res.render("products", {products: foundProduct});
         }
     });
 });
@@ -161,7 +167,7 @@ app.get("/products/:id", function(req, res){
 //================
 app.delete("/products/:id", function(req, res){
     //findByIdAndRemove
-    Comment.findById(req.params.id, function(err, foundProduct){
+    Product.findById(req.params.id, function(err, foundProduct){
        if(err){
             res.redirect("back");
        } else {

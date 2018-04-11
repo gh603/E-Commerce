@@ -33,11 +33,13 @@
             </form>
             <ul class="nav navbar-nav navbar-right">
                 <li>
-                    <a class="orders" href="./cart.html">Orders</a>
+                    <a class="orders" href="./orders.html">Orders</a>
                 </li>
-
                 <li>
-                    <a href="/login">
+                    <a class="cart" href="./cart.html">Shopping cart</a>
+                </li>
+                <li>
+                    <a href="./auth.html">
                         <span class="glyphicon glyphicon-user"></span>Log In</a>
                 </li>
             </ul>
@@ -58,14 +60,14 @@
             <div id="login">
                 <h1>Welcome Back!</h1>
 
-                <form action="/" method="post">
+                <form action="/login" method="post">
 
                     <div class="field-wrap">
-                        <input type="email" name="Email" placeholder="Email" />
+                        <input type="text" name="username" placeholder="username" />
                     </div>
 
                     <div class="field-wrap">
-                        <input type="password" name="Password" placeholder="Password" />
+                        <input type="password" name="password" placeholder="Password" />
                     </div>
 
                     <p class="forgot">
@@ -80,24 +82,27 @@
             <div id="signup">
                 <h1>Sign Up for Free</h1>
 
-                <form action="/" method="post">
+                <form action="/signup" method="post">
 
-                    <div class="top-row">
+                    <!-- <div class="top-row">
                         <div class="field-wrap">
-                            <input type="text" name="First Name" placeholder="First Name" />
+                            <input type="text" name="FirstName" placeholder="First Name" />
                         </div>
 
                         <div class="field-wrap">
-                            <input type="text" name="Last Name" placeholder="Last Name" />
+                            <input type="text" name="LastName" placeholder="Last Name" />
                         </div>
                     </div>
 
                     <div class="field-wrap">
                         <input type="email" name="Email" placeholder="Email" />
+                    </div> -->
+                    <div class="field-wrap">
+                        <input type="text" name="username" placeholder="username" />
                     </div>
 
                     <div class="field-wrap">
-                        <input type="password" name="Password" placeholder="Password" />
+                        <input type="password" name="password" placeholder="Password" />
                     </div>
 
                     <button type="submit" class="button button-block" />Get Started</button>

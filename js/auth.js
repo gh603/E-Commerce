@@ -1,6 +1,6 @@
 $('document').ready(function(){
     $('.tab a').on('click', (event) => {
-        e.preventDefault(); 
+        event.preventDefault(); 
         target = $(event.currentTarget); 
         target.parent().addClass('active'); 
         target.parent().siblings().removeClass('active'); 
