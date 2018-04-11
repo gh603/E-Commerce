@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Orders</title>
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
+    <!-- css -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="../styles/main.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="../styles/order.css" />
+    <!-- js -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+
+<body>
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">E-Commerce</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li>
+                    <a href="./index.html">Products</a>
+                </li>
+            </ul>
+            <form class="navbar-form navbar-left" action="/items.php">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Search">
+                </div>
+                <button type="submit" class="btn btn-default">Submit</button>
+            </form>
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a class="orders" href="./orders.html">Orders</a>
+                </li>
+                <li>
+                    <a class="cart" href="./cart.html">Shopping cart</a>
+                </li>
+                <li>
+                    <a href="./auth.html">
+                        <span class="glyphicon glyphicon-user"></span>Log In</a>
+                </li>
+
+            </ul>
+        </div>
+    </nav>
+
+    <h1>Your Order</h1>
+
+    <div class='Orders'>
+        <div class="OrderCard">
+            <table class="order-desc">
+                <tr>
+                    <th style="width:15%">Order Placed</th>
+                    <th style="width:15%">Total</th>
+                    <th style="width:70%">Order #</th>
+                </tr>
+                <tr>
+                    <td style="width:15%">April 3rd, 2018</td>
+                    <td style="width:15%">$79.00</td>
+                    <td style="width:70%">1</td>
+                </tr>
+            </table>
+            <div class="order-content">
+                <div class='orderItems'>
+                    <div class='Item'>
+                        <div class='img'>
+                            <img src='https://tctechcrunch2011.files.wordpress.com/2014/11/solo2-wireless-red-quarter.jpg?w=738' />
+                        </div>
+                        <div class='title'>BEAT HEADPHONE</div>
+                    </div>
+                </div>
+                <ul class="orderFeedback">
+                    <li>
+                        <a>Leave Seller feedback</a>
+                    </li>
+                    <li>
+                        <a>Write a product review</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="OrderCard">
+            <table class="order-desc">
+                <tr>
+                    <th style="width:15%">Order Placed</th>
+                    <th style="width:15%">Total</th>
+                    <th style="width:70%">Order #</th>
+                </tr>
+                <tr>
+                    <td style="width:15%">April 3rd, 2018</td>
+                    <td style="width:15%">$79.00</td>
+                    <td style="width:70%">1</td>
+                </tr>
+            </table>
+            <div class="order-content">
+                <div class='orderItems'>
+                    <div class='Item'>
+                        <div class='img'>
+                            <img src='https://tctechcrunch2011.files.wordpress.com/2014/11/solo2-wireless-red-quarter.jpg?w=738' />
+                        </div>
+                        <div class='title'>BEAT HEADPHONE</div>
+                    </div>
+                    <div class='Item'>
+                        <div class='img'>
+                            <img src='https://www.bell.ca/Styles/wireless/all_languages/all_regions/catalog_images/large/iPhoneX_spgry-en_lrg.png' />
+                        </div>
+                        <div class='title'>IPHONEX</div>
+                    </div>
+                </div>
+                <ul class="orderFeedback">
+                    <li>
+                        <a>Leave Seller feedback</a>
+                    </li>
+                    <li>
+                        <a>Write a product review</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
