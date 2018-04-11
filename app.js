@@ -2,10 +2,13 @@ var express = require("express"),
     app = express(),
     bodyParser = require("body-parser"),
     mongoose = require("mongoose"),
+    passport = require("passport"),
+    LocalStrategy = require("passport-local"),
+    methodOverride = require("method-override"),
     seedDB      = require("./seed"),
-    Product  = require("./models/product")
-    // http = require("http"),
-    // fs = require("fs")
+    Product  = require("./models/product"),
+    User = require("./models/user")
+    
  
 mongoose.connect("mongodb://localhost/e-commerce");
 app.use(bodyParser.urlencoded({extended: true}));
@@ -17,34 +20,49 @@ app.use(express.static(__dirname));
 seedDB();
 
 
+app.use(methodOverride("_method"));
+// seedDB(); //seed the database
 
+// PASSPORT CONFIGURATION
+app.use(require("express-session")({
+    secret: "Once again Rusty wins cutest dog!",
+    resave: false,
+    saveUninitialized: false
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
+app.use(function(req, res, next){
+   res.locals.currentUser = req.user;
+   next();
+});
 
 
 
 //=================
 // Show
 //=================
-// app.get("/", function(req, res){
-//     res.writeHead(200, {'Content-Type': 'text/html'});
-//     fs.readFile('./views/index.html', function(err, data){
-//       if(err){
-//         console.log(err);
-//       }else{
-//         res.write(data);
-//       }
-//       res.end();  
-//     })
-// });
+
 app.get("/", function(req, res){
-    res.render("homepage");
+    res.render("login");
 });
 
 
 //================
-// Homepage
+// Login / Sign up
 //================
 app.get("/login", function(req, res){
     res.render("auth");
+});
+
+app.post("/login", passport.authenticate("local", 
+    {
+        successRedirect: "/products",
+        failureRedirect: "/login"
+    }), function(req, res){
 });
 
 //================
@@ -65,7 +83,7 @@ app.get("/products",function(req, res){
 //================
 // Search
 //================
-router.post("/", function(req, res){
+app.post("/search", function(req, res){
     // Get all techs from DB
     var item = req.body.itemName;
     Product.find({}, function(err, allProducts){
@@ -126,11 +144,12 @@ app.get("/products/:id", function(req, res){
 //================
 app.delete("/products/:id", function(req, res){
     //findByIdAndRemove
-    Comment.findByIdAndRemove(req.params.id, function(err){
+    Comment.findById(req.params.id, function(err, foundProduct){
        if(err){
-           res.redirect("back");
+            res.redirect("back");
        } else {
-           res.redirect("products");
+            // foundProduct.
+            res.redirect("products");
        }
     });
 });
