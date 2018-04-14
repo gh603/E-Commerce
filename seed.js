@@ -58,14 +58,14 @@ function seedDB(){
             });
         });
     }); 
-    User.remove({}, function(err){
-            if(err){
-                console.log(err);
-            }
-            console.log("removed users!");
+    // User.remove({}, function(err){
+    //         if(err){
+    //             console.log(err);
+    //         }
+    //         console.log("removed users!");
             
             
-        }); 
+    //     }); 
         
     
 }

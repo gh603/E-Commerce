@@ -60,6 +60,7 @@ app.get("/login", function(req, res){
 
 app.post("/login", passport.authenticate("local", 
     {
+        
         successRedirect: "/items",
         failureRedirect: "/login"
     }), function(req, res){
