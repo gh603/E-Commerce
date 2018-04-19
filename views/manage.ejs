@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>Authorization</title>
+    <title>Manage</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- css -->
@@ -63,14 +63,14 @@
             <div id="add">
                 <h1>Add Product</h1>
 
-                <form action="/" method="post">
+                <form action="/items" method="post">
 
                     <div class="field-wrap">
-                        <input type="text" name="name" placeholder="Product Name" />
+                        <input type="text" name="item" placeholder="Product Name" />
                     </div>
 
                     <div class="field-wrap">
-                        <input type="text" name="productId" placeholder="Product Id" />
+                        <input type="text" name="category" placeholder="Category" />
                     </div>
 					 <div class="field-wrap">
                         <input type="text" name="quantity" placeholder="Quantity" />
@@ -81,8 +81,11 @@
 					 <div class="field-wrap">
                         <input type="text" name="description" placeholder="Description" />
                     </div>
+                    <div class="field-wrap">
+                        <input type="text" name="price" placeholder="Price" />
+                    </div>
 
-                    <button class="button button-block" />Add</button>
+                    <button type="submit" class="button button-block" />Add</button>
 
                 </form>
 

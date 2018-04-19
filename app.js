@@ -1,3 +1,4 @@
+
 var express = require("express"),
     app = express(),
     bodyParser = require("body-parser"),
@@ -40,6 +41,22 @@ app.use(function(req, res, next){
    next();
 });
 
+var cartSchema = new mongoose.Schema({
+  user: 
+      {
+         type: mongoose.Schema.Types.ObjectId,
+         ref: "User"
+      }
+   ,
+  items: [
+      {
+         quantity: Number,
+         type: mongoose.Schema.Types.ObjectId,
+         ref: "Product"
+         
+      }
+   ]
+});
 
 
 //=================
@@ -129,6 +146,19 @@ app.get("/orders",function(req, res){
 });
 
 //================
+// Checkout
+//================
+
+app.post("/orders",function(req, res){
+  Product.find({}, function(err, allProducts){
+       if(err){
+           console.log(err);
+       } else {
+          res.render("orders",{products:allProducts});
+       }
+    });
+});
+//================
 // Cart
 //================
 
@@ -180,8 +210,8 @@ app.post("/items", function(req, res){
         if(err){
             console.log(err);
         } else {
-           
-            res.redirect("/products");
+            console.log(newlyCreated);
+            res.redirect("/");
         }
     });
 });
@@ -205,7 +235,7 @@ app.get("/items/:id", function(req, res){
 // Update
 //================
 
-app.put("/:id",function(req, res){
+app.put("/:id", isAdmin, function(req, res){
     // find and update the correct campground
     Product.findByIdAndUpdate(req.params.id, req.body.product, function(err, updatedCampground){
        if(err){
@@ -219,10 +249,10 @@ app.put("/:id",function(req, res){
 //================
 // Delete
 //================
-app.delete("/:id", function(req, res){
+app.delete("/:id", isAdmin, function(req, res){
     //findByIdAndRemove
     Product.findById(req.params.id, function(err, foundProduct){
-       if(err){
+       if(err){x
             res.redirect("back");
        } else {
             // foundProduct.
@@ -238,6 +268,13 @@ function isLoggedIn(req, res, next){
     res.redirect("/login");
 }
 
+function isAdmin(req,res,next){
+  
+    if(req.isAuthenticated() && res.user.isManager == true){
+        return next();
+    }
+    res.redirect("/items");
+}
 
 
 app.listen(8080, function(){
