@@ -10,7 +10,8 @@ var express = require("express"),
     seedDB      = require("./seed"),
     Product  = require("./models/product"),
     User = require("./models/user"),
-    Cart = require("./models/cart")
+    Cart = require("./models/cart"),
+    Order = require("./models/order")
  
 mongoose.connect("mongodb://localhost/e-commerce");
 app.use(bodyParser.urlencoded({extended: true}));
@@ -68,9 +69,12 @@ app.post("/login", passport.authenticate("local",
     }), function(req, res){
 });
 
+
+
+
 app.post("/signup", function(req, res){
     // var newUser = new User({username: req.body.Email, FirstName: req.body.FirstName, LastName: req.body.LastName, Email: req.body.Email });
-    var newUser = new User({username: req.body.email, fname: req.body.fname, lname: req.body.lname, email: req.body.email});
+    var newUser = new User({username: req.body.email, fname: req.body.fname, lname: req.body.lname, email: req.body.email, isManager: true});
     User.register(newUser, req.body.password, function(err, user){
         if(err){
             
@@ -80,6 +84,14 @@ app.post("/signup", function(req, res){
         passport.authenticate("local")(req, res, function(){
          
            console.log(newUser);
+           var newCart = {userId : req.user._id}
+           Cart.create(newCart, function(err, newlyCreated){
+                if(err){
+                  console.log(err);
+                } else {
+                  console.log(newlyCreated);
+                }
+           });
            res.redirect("/items"); 
         });
     });
@@ -117,12 +129,12 @@ app.get("/items",function(req, res){
 // Order
 //================
 
-app.get("/orders",function(req, res){
-  Product.find({}, function(err, allProducts){
+app.get("/orders", isLoggedIn, function(req, res){
+  Order.find({userId : req.user._id}, function(err, allOrders){
        if(err){
            console.log(err);
        } else {
-          res.render("orders",{products:allProducts});
+          res.render("orders",{orders:allOrders});
        }
     });
 });
@@ -131,52 +143,62 @@ app.get("/orders",function(req, res){
 // Checkout
 //================
 
-app.post("/orders",function(req, res){
-  Product.find({}, function(err, allProducts){
+app.post("/orders",isLoggedIn, function(req, res){
+  Cart.find({userId : req.user._id}, function(err, foundCart){
        if(err){
            console.log(err);
        } else {
-          res.render("orders",{products:allProducts});
-       }
+          var newOrder = {userId: req.user._id, date: new Date(), items: foundCart.items, total: foundCart.total};
+          Order.create(newOrder, function(err, newlyCreated){
+            if(err){
+               console.log(err);
+            } else {
+                console.log(newlyCreated);
+                redirect("/orders");
+            }
+          });          
+        }
     });
 });
 //================
 // Cart
 //================
 
-app.get("/cart",function(req, res){
-  Cart.find({id : req.user._id}, function(err, foundCart){
+app.get("/cart", isLoggedIn, function(req, res){
+  Cart.find({userId : req.user._id}).populate("items").exec(function(err, foundCart){
        if(err){
            console.log(err);
        } else {
+          console.log(foundCart);
           res.render("cart",{cart:foundCart});
        }
     });
 });
 
-app.post("/cart/:id",function(req, res){
-  Cart.find({id : req.user._id}, function(err, foundCart){
+app.post("/cart/:id", isLoggedIn ,function(req, res){
+  Cart.find({userId : req.user._id}, function(err, foundCart){
        if(err){
            console.log(err);
        } else {
-          Product.findById(req.params.id, function(err, foundProduct){
+            Product.findById(req.params.id, function(err, foundProduct){
             if(err){
               console.log(err);
             } else {
               console.log(foundProduct);
-              foundCart.items.push(foundProduct);
+              var item = {quantity: req.body.quantity, itemId: req.params.id};
+              foundCart.items.push(item);
               redirect("/cart");
-            }
+              }
           });
         }
-      });
     });
+});
 
 //================
 // Search
 //================
 app.get("/search", function(req, res){
-    // Get all techs from DB
+    // Get all items from DB
     var result = req.body.itemName;
     Product.find({item: result}, function(err, allProducts){
        if(err){
@@ -193,7 +215,7 @@ app.get("/search", function(req, res){
 //================
 
 
-//CREATE - add new campground to DB
+//CREATE - add new item to DB
 app.post("/items", isAdmin, function(req, res){
     // get data from form and add to products array
     var name = req.body.item;
@@ -237,7 +259,7 @@ app.get("/items/:id", function(req, res){
 
 app.put("/:id", isAdmin, function(req, res){
     // find and update the correct campground
-    Product.findByIdAndUpdate(req.params.id, req.body.product, function(err, updatedCampground){
+    Product.findByIdAndUpdate(req.params.id, req.body.product, function(err, updatedProduct){
        if(err){
            res.redirect("/items");
        } else {
@@ -251,7 +273,7 @@ app.put("/:id", isAdmin, function(req, res){
 //================
 app.delete("/:id", isAdmin, function(req, res){
     //findByIdAndRemove
-    Product.findById(req.params.id, function(err, foundProduct){
+    Product.findByIdAndRemove(req.params.id, function(err, foundProduct){
        if(err){x
             res.redirect("back");
        } else {
