@@ -36,7 +36,6 @@ $('document').ready(function(){
         price = 0; 
 
         target = $(event.currentTarget).parent().parent(); 
-        console.log(target); 
         $(target).children("td:nth-child(" + $priceIndex + ")").each((index, element) => {
             price += parseFloat($(element).text().slice(1));
         })
