@@ -148,11 +148,11 @@ app.post("/orders",function(req, res){
 //================
 
 app.get("/cart",function(req, res){
-  Product.find({}, function(err, allProducts){
+  Cart.find({id : req.user._id}, function(err, foundCart){
        if(err){
            console.log(err);
        } else {
-          res.render("cart",{products:allProducts});
+          res.render("cart",{cart:foundCart});
        }
     });
 });
@@ -168,7 +168,7 @@ app.post("/cart/:id",function(req, res){
             } else {
               console.log(foundProduct);
               foundCart.items.push(foundProduct);
-              res.render("cart",{products:allProducts});
+              redirect("/cart");
             }
           });
         }
@@ -214,7 +214,7 @@ app.post("/items", isAdmin, function(req, res){
             console.log(err);
         } else {
             console.log(newlyCreated);
-            res.redirect("/");
+            res.redirect("/items");
         }
     });
 });
