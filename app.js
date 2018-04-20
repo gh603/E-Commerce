@@ -68,9 +68,6 @@ app.post("/login", passport.authenticate("local",
     }), function(req, res){
 });
 
-
-
-
 app.post("/signup", function(req, res){
     // var newUser = new User({username: req.body.Email, FirstName: req.body.FirstName, LastName: req.body.LastName, Email: req.body.Email });
     var newUser = new User({username: req.body.email, fname: req.body.fname, lname: req.body.lname, email: req.body.email});
