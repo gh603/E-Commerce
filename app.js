@@ -4,12 +4,13 @@ var express = require("express"),
     bodyParser = require("body-parser"),
     mongoose = require("mongoose"),
     passport = require("passport"),
+    flash = require("connect-flash"),
     LocalStrategy = require("passport-local"),
     methodOverride = require("method-override"),
     seedDB      = require("./seed"),
     Product  = require("./models/product"),
-    User = require("./models/user")
-    
+    User = require("./models/user"),
+    Cart = require("./models/cart")
  
 mongoose.connect("mongodb://localhost/e-commerce");
 app.use(bodyParser.urlencoded({extended: true}));
@@ -22,7 +23,7 @@ seedDB();
 // seedDB(); //seed the database
 
 app.use(methodOverride("_method"));
-
+app.use(flash());
 
 // PASSPORT CONFIGURATION
 app.use(require("express-session")({
@@ -36,26 +37,10 @@ passport.use(new LocalStrategy({usernameField: 'email', passwordField : 'passwor
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+
 app.use(function(req, res, next){
    res.locals.currentUser = req.user;
    next();
-});
-
-var cartSchema = new mongoose.Schema({
-  user: 
-      {
-         type: mongoose.Schema.Types.ObjectId,
-         ref: "User"
-      }
-   ,
-  items: [
-      {
-         quantity: Number,
-         type: mongoose.Schema.Types.ObjectId,
-         ref: "Product"
-         
-      }
-   ]
 });
 
 
@@ -64,7 +49,7 @@ var cartSchema = new mongoose.Schema({
 //=================
 
 app.get("/", function(req, res){
-    res.render("index");
+    res.render("auth");
 });
 
 
@@ -172,17 +157,35 @@ app.get("/cart",function(req, res){
     });
 });
 
+app.post("/cart/:id",function(req, res){
+  Cart.find({id : req.user._id}, function(err, foundCart){
+       if(err){
+           console.log(err);
+       } else {
+          Product.findById(req.params.id, function(err, foundProduct){
+            if(err){
+              console.log(err);
+            } else {
+              console.log(foundProduct);
+              foundCart.items.push(foundProduct);
+              res.render("cart",{products:allProducts});
+            }
+          });
+        }
+      });
+    });
+
 //================
 // Search
 //================
 app.get("/search", function(req, res){
     // Get all techs from DB
-    var item = req.body.itemName;
-    Product.find({}, function(err, allProducts){
+    var result = req.body.itemName;
+    Product.find({item: result}, function(err, allProducts){
        if(err){
            console.log(err);
        } else {
-          res.render("index",{products:allProducts, item: item});
+          res.render("index",{products:allProducts});
        }
     });
 });
@@ -194,7 +197,7 @@ app.get("/search", function(req, res){
 
 
 //CREATE - add new campground to DB
-app.post("/items", function(req, res){
+app.post("/items", isAdmin, function(req, res){
     // get data from form and add to products array
     var name = req.body.item;
     var category = req.body.category;
@@ -270,7 +273,7 @@ function isLoggedIn(req, res, next){
 
 function isAdmin(req,res,next){
   
-    if(req.isAuthenticated() && res.user.isManager == true){
+    if(req.isAuthenticated() && req.user.isManager == true){
         return next();
     }
     res.redirect("/items");

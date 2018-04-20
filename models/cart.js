@@ -1,12 +1,12 @@
 var mongoose = require("mongoose");
 
 var cartSchema = new mongoose.Schema({
-	user: 
-      {
+	user:{
+      id:{
          type: mongoose.Schema.Types.ObjectId,
          ref: "User"
       }
-   ,
+   },
 	items: [
       {
          quantity: Number,
