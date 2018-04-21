@@ -48,39 +48,7 @@
     </nav>
 
     <div id='main'>
-        <nav class="navbar navbar-inverse">
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    <a class="navbar-brand" href="#">E-Commerce</a>
-                </div>
-                <ul class="nav navbar-nav">
-                    <li>
-                        <a href="/items">Products</a>
-                    </li>
-                </ul>
-                <form class="navbar-form navbar-left" action="/items.php">
-                    <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Search">
-                    </div>
-                    <button type="submit" class="btn btn-default">Submit</button>
-                </form>
-                <ul class="nav navbar-nav navbar-right">
-                    <li>
-						<a class="manage" href="/manage">Manage</a>
-					</li>
-					<li>
-                        <a class="orders" href="/orders">Orders</a>
-                    </li>
-                    <li>
-                        <a class="cart" href="/cart">Shopping cart</a>
-                    </li>
-                    <li>
-                        <a href="/login">
-                            <span class="glyphicon glyphicon-user"></span>Log In</a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
+        <% include ./partials/navbar %>
 
         <div id='content'>
             <div>
@@ -88,27 +56,6 @@
             </div>
 
             <div class="productList">
-                <!-- <div class="card">
-                    <div class="card-content">
-                        <div class="top-bar">
-                            <span>$12.95</span>
-                        </div>
-                        <div class="img">
-                            <img src='https://tctechcrunch2011.files.wordpress.com/2014/11/solo2-wireless-red-quarter.jpg?w=738'>
-                        </div>
-                    </div>
-                    <div class="card-description">
-                        <div class="title">Beats Headphone</div>
-                        <div class='cart'>
-                            <span class="glyphicon glyphicon-shopping-cart"></span>
-                        </div>
-                    </div>
-                    <div class='card-footer'>
-                        <div class='span'>RED</div>
-                        <div class='span'>BEATS</div>
-                        <div class='span'>HEADPHONE</div>
-                    </div>
-                </div> -->
             </div>
         </div>
     </div>
