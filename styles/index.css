@@ -114,6 +114,10 @@
     width: calc(100%-20px);
 }
 
+.card-description .id{
+    display: none; 
+}
+
 .card-description .title{
     text-transform: uppercase;
     text-align: left;

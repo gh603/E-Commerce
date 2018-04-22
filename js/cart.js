@@ -22,7 +22,7 @@ $('document').ready(function(){
     }
 
     $table = $('#cart'); 
-    $priceIndex = 4; 
+    $priceIndex = 5; 
     $taxRate = 0.06; 
     $subTotal = 0; 
     $tax = 0; 

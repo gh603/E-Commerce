@@ -13,7 +13,7 @@ $('document').ready(function(){
             cart: "#cart tbody", 
         }; 
 
-        displayProduct = (item) => {
+        displayProduct = (id, item) => {
             let element, newHtml; 
             element = $(DOMstrings.products); 
             const html = '<div class="card">' + 
@@ -21,6 +21,7 @@ $('document').ready(function(){
                         '<div class="top-bar"><span>$%price%</span></div>' + 
                         '<div class="img"><img src=%img%></div></div>' + 
                     '<div class="card-description">' + 
+                        '<div class="id">%id%</div>' + 
                         '<div class="title">%title%</div>' + 
                         '<div class="cart"><span class="glyphicon glyphicon-shopping-cart"></span></div></div>' + 
                     '<div class="card-footer">' + 
@@ -29,6 +30,7 @@ $('document').ready(function(){
                         '<div class="span">%category3%</div></div></div>'; 
             newHtml = html.replace('%price%', item.price); 
             newHtml = newHtml.replace('%img%', item.img); 
+            newHtml = newHtml.replace('%id%', id); 
             newHtml = newHtml.replace('%title%', item.title); 
             newHtml = newHtml.replace('%category1%', item.category[0]); 
             newHtml = newHtml.replace('%category2%', item.category[1]); 
@@ -65,7 +67,7 @@ $('document').ready(function(){
         return {
             displayProducts: function(items){
                 Object.keys(items).forEach((key) => {
-                    displayProduct(items[key]); 
+                    displayProduct(key, items[key]); 
                 })
             }, 
             displayOrders: function(orders){
@@ -78,6 +80,7 @@ $('document').ready(function(){
                 totalPrice = 0;  
                 element = $(DOMstrings.cart); 
                 const html = '<tr class="productitm">' + 
+                                '<td class="id">%id%</td>' + 
                                 '<td><img src="%image%" class="thumb"></td>' + 
                                 '<td><input type="number" value="%quantity%" min="0" max="99" class="qtyinput"></td>' + 
                                 '<td>%title%</td>' + 
@@ -87,9 +90,10 @@ $('document').ready(function(){
                     const item = cart[key]; 
                     const price = item.price * item.quantity; 
                     newHtml = html.replace('%image%', item.image)
-                                        .replace('%quantity%', item.quantity)
-                                        .replace('%title%', item.title)
-                                        .replace('%price%', price); 
+                                    .replace('%id%', key)
+                                    .replace('%quantity%', item.quantity)
+                                    .replace('%title%', item.title)
+                                    .replace('%price%', price); 
                     element.append(newHtml); 
                     totalPrice += price; 
                 }); 
@@ -105,9 +109,8 @@ $('document').ready(function(){
                             '<td>&nbsp;</td></tr>' + 
                           '<tr class="checkoutrow">' + 
                             '<td colspan="5" class="checkout">' + 
-                            '<button id="submitbtn">Checkout Now!</button>' + 
+                            '<button id="submitbtn">Checkout</button>' + 
                             '</td></tr>'; 
-                console.log(newHtml); 
                 newHtml = newHtml.replace("%tax%", tax.toFixed(2)).replace("%totalPrice%", totalPrice.toFixed(2)); 
                 element.append(newHtml); 
             }
@@ -192,4 +195,92 @@ $('document').ready(function(){
     UIController.displayProducts(products); 
     UIController.displayOrders(orders); 
     UIController.displayCart(cart); 
+
+    let listeners = (function(){
+        const DOMstrings = {
+            cart: '.card-description .cart', 
+            quantity: '.productitm .qtyinput', 
+            remove: '.remove', 
+            checkout: '.checkout', 
+        }; 
+
+        addItemToCartHandler = () => {
+            $(DOMstrings.cart).click(event => {
+                event.preventDefault(); 
+                console.log('Adding item to cart'); 
+                const id = $(event.target).parent().prev().prev().html(); 
+                $.ajax({
+                    type: 'POST', 
+                    quantity: 1, 
+                    contentType: 'application/json', 
+                    url: '/cart/' + id, 
+                    success: () => { console.log('success'); }, 
+                    error: () => { console.log('error'); }
+                })
+            }); 
+        }; 
+
+        updateItemQuantityHandler = () => {
+            $(DOMstrings.quantity).change(event => {
+                event.preventDefault(); 
+                console.log('Updating item quantity'); 
+                const id =  $(event.target).parent().parent().children("td:nth-child(1)").html(); 
+                const quantity = $(event.target).val(); 
+                if(quantity == 0){
+                    deleteFromCart(id); 
+                } else {
+                    $.ajax({
+                        type: "POST", 
+                        quantity: quantity, 
+                        url: '/cart/' + id, 
+                        contentType: 'application/json', 
+                        success: () => { console.log('success'); }, 
+                        error: () => { console.log('error'); }
+                    })
+                }
+            }); 
+        };
+
+        removeItemFromCartHandler = () => {
+            $(DOMstrings.remove).click(event => {
+                event.preventDefault(); 
+                const id = $(event.target).parent().parent().children("td:nth-child(1)").html(); 
+                deleteFromCart(id); 
+            }); 
+        };
+
+        checkoutHandler = () => {
+            $(DOMstrings.checkout).click(event => {
+                event.preventDefault(); 
+                console.log("Checking out"); 
+                $.ajax({
+                    type: "POST", 
+                    url: '/orders', 
+                    success: () => { console.log('success'); }, 
+                    error: () => { console.log('error'); }
+                }); 
+            }); 
+        }; 
+
+        deleteFromCart = (id) => {
+            console.log('Removing item from shopping cart')
+            $.ajax({
+                type: "DELETE", 
+                url: '/cart/' + id, 
+                success: () => { console.log('success'); }, 
+                error: () => { console.log('error'); }
+            });
+        };
+
+        return {
+            init: () => {
+                addItemToCartHandler(); 
+                updateItemQuantityHandler(); 
+                removeItemFromCartHandler();
+                checkoutHandler();
+            }
+        }
+    })();
+
+    listeners.init(); 
 })
