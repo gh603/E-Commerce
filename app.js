@@ -197,13 +197,15 @@ app.post("/cart/:id", isLoggedIn ,function(req, res){
 //================
 // Search
 //================
-app.get("/search", function(req, res){
+app.post("/search", function(req, res){
     // Get all items from DB
-    var result = req.body.itemName;
-    Product.find({item: result}, function(err, allProducts){
+    var keyWord = req.body.itemName;
+    
+    Product.find({item: keyWord}, function(err, allProducts){
        if(err){
            console.log(err);
        } else {
+          console.log(allProducts);
           res.render("index",{products:allProducts});
        }
     });
