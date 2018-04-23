@@ -20,6 +20,40 @@
     <h1>Your Order</h1>
 
     <div class='Orders'>
+            <% orders.forEach(function(order){%>
+                <div class="OrderCard">
+                    <table class="order-desc">
+                        <tr>
+                            <th style="width:15%">Order Placed</th>
+                            <th style="width:15%">Total</th>
+                            <th style="width:70%">Order #</th>
+                        </tr>
+                        <tr>
+                            <td style="width:15%">April 3rd, 2018</td>
+                            <td style="width:15%"><%=order.total%></td>
+                            <td style="width:70%"><%=order._id%></td>
+                        </tr>
+                    </table>
+                    <div class="order-content">
+                        <div class="orderItems">
+                            <%order.items.forEach(function(item){%>
+                                <div class="Item">
+                                    <div class="img"><img src="<%=item.image%>" /></div>
+                                    <div class="title"><%=item.title%></div>
+                                </div>
+                            <%})%>
+                        </div>
+                        <ul class="orderFeedback">
+                            <li>
+                                <a>Leave Seller feedback</a>
+                            </li>
+                            <li>
+                                <a>Write a product review</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            <%})%>
     </div>
 </body>
 

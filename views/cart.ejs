@@ -32,6 +32,37 @@
                 </tr>
             </thead>
             <tbody>
+                <% carts.forEach(function(item){%>
+                    <tr class="productitm">
+                        <td class="id"><%=item._id%></td> 
+                        <td><img src="<%=item.image%>" class="thumb"></td>
+                        <td><input type="number" value="<%=item.quantity%>" min="0" max="99" class="qtyinput"></td>
+                        <td><%=item.title%></td> 
+                        <td><%=item.price%></td>
+                        <td>
+                            <span class="remove glyphicon glyphicon-trash"></span>
+                        </td>
+                    </tr>
+                <%})%>
+                <tr class="extracosts"> 
+                    <td class="light">Shipping &amp; Tax</td>
+                    <td colspan="2" class="light"></td>
+                    <td></td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr class="totalprice"> 
+                    <td class="light">Total</td>
+                    <td colspan="2">&nbsp;</td>
+                    <td>
+                        <span class="thick"></span>
+                    </td> 
+                    <td>&nbsp;</td>
+                </tr> 
+                  <tr class="checkoutrow"> 
+                    <td colspan="5" class="checkout"> 
+                        <button id="submitbtn">Checkout</button> 
+                    </td>
+                </tr>; 
             </tbody>
         </table>
     </div>

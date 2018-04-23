@@ -121,7 +121,7 @@ app.get("/items",function(req, res){
        if(err){
            console.log(err);
        } else {
-           console.log(allProducts);
+        //    console.log(allProducts);
           res.render("index",{products:allProducts});
        }
     });
@@ -218,12 +218,13 @@ app.post("/cart/:id", isLoggedIn ,function(req, res){
 app.post("/search", function(req, res){
     // Get all items from DB
     var keyWord = req.body.itemName;
-    
+    console.log(keyWord); 
     Product.find({item: keyWord}, function(err, allProducts){
        if(err){
            console.log(err);
        } else {
           console.log(allProducts);
+        //   res.send({products: allProducts}); 
           res.render("index",{products:allProducts});
        }
     });

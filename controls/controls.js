@@ -193,8 +193,8 @@ $('document').ready(function(){
     }
 
     // UIController.displayProducts(products); 
-    UIController.displayOrders(orders); 
-    UIController.displayCart(cart); 
+    // UIController.displayOrders(orders); 
+    // UIController.displayCart(cart); 
 
     let listeners = (function(){
         const DOMstrings = {
@@ -202,7 +202,25 @@ $('document').ready(function(){
             quantity: '.productitm .qtyinput', 
             remove: '.remove', 
             checkout: '.checkout', 
+            search: '.navbar-form', 
         }; 
+
+        onSearchHandler = () => {
+            $(DOMstrings.search).submit(event => {
+                event.preventDefault(); 
+                $.ajax({
+                    type: 'POST', 
+                    url: '/search', 
+                    itemName: 'iphoneX', 
+                    success: () => {
+                        console.log('success'); 
+                    }, 
+                    error: () => {
+                        console.log('error'); 
+                    },  
+                }); 
+            })
+        }
 
         addItemToCartHandler = () => {
             $(DOMstrings.cart).click(event => {
@@ -274,6 +292,7 @@ $('document').ready(function(){
 
         return {
             init: () => {
+                // onSearchHandler(); 
                 addItemToCartHandler(); 
                 updateItemQuantityHandler(); 
                 removeItemFromCartHandler();
