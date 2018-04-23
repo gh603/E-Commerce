@@ -148,8 +148,7 @@ app.get("/items", function (req, res) {
 //================
 
 app.get("/orders", isLoggedIn, function (req, res) {
-    console.log('Received request for orders');
-    console.log(req.user._id);
+    console.log('GET: orders');
     Order.find({ userId: req.user._id }, function (err, allOrders) {
         // Order.find({ userId: 'gehui603@gmail.com' }, function (err, allOrders) {
         if (err) {
@@ -166,8 +165,7 @@ app.get("/orders", isLoggedIn, function (req, res) {
 //================
 
 app.post("/orders", isLoggedIn, function (req, res) {
-    console.log('received post request');
-    console.log(req.body);
+    console.log('POST: orders');
     Cart.find({ userId: req.user._id }, function (err, foundCart) {
         if (err) {
             console.log(err);
@@ -178,7 +176,7 @@ app.post("/orders", isLoggedIn, function (req, res) {
                     console.log(err);
                 } else {
                     // console.log(newlyCreated);
-                    redirect("/orders");
+                    redirect("/items");
                 }
             });
         }
@@ -189,20 +187,19 @@ app.post("/orders", isLoggedIn, function (req, res) {
 //================
 
 app.get("/cart", isLoggedIn, function (req, res) {
+    console.log("GET: cart"); 
     Cart.find({ userId: req.user._id }).populate("items").exec(function (err, foundCart) {
-        // Cart.find({ userId: "gehui603@gmail.com" }).populate("items").exec(function (err, foundCart) {
         if (err) {
             console.log(err);
         } else {
             console.log(foundCart);
-            res.render("cart", { carts: foundCart });
+            res.render("cart", { carts: foundCart[0] });
         }
     });
 });
 
 app.post("/cart/:id", isLoggedIn, function (req, res) {
-    console.log("Received post request for cart");
-    console.log(req.body);
+    console.log("POST: cart");
     Cart.find({ userId: req.user._id }, function (err, foundCart) {
         if (err) {
             console.log(err);
@@ -221,11 +218,16 @@ app.post("/cart/:id", isLoggedIn, function (req, res) {
     });
 });
 
+app.delete("/cart/:id", isLoggedIn, function(req, res){
+    console.log("DELETE: cart"); 
+})
+
 //================
 // Search
 //================
 app.post("/search", function (req, res) {
     // Get all items from DB
+    console.log("POST: search"); 
     var keyWord = req.body.itemName;
     console.log(keyWord);
     Product.find({ item: keyWord }, function (err, allProducts) {
