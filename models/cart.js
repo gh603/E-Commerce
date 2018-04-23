@@ -1,20 +1,16 @@
 var mongoose = require("mongoose");
 
 var cartSchema = new mongoose.Schema({
-	userId: {
-		type: mongoose.Schema.Types.ObjectId,
-        ref: "User"
-	},
+	userId: String,
 	items: [
-      {
+      {   
+        price: Number,
         quantity: Number,
-        itemId: {
-			type: mongoose.Schema.Types.ObjectId,
-        	ref: "Product"
-			}	
-      	}
-   	],
-   	total: Number
+        image: String,
+        title: String
+      }
+   ],
+
 });
 
 

@@ -1,19 +1,13 @@
 var mongoose = require("mongoose");
 
 var orderSchema = new mongoose.Schema({ 
-   userId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User"
-   },
-   date: Date,
+   userId: String,
    items: [     
        {
          quantity: Number,
-         itemId: {
-               type: mongoose.Schema.Types.ObjectId,
-               ref: "Product"
-            }       
-         }
+         image: String,
+         title: String      
+      }
    ],
    total: Number
 });

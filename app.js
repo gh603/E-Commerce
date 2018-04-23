@@ -148,10 +148,12 @@ app.get("/items",function(req, res){
 //================
 
 app.get("/orders", isLoggedIn, function(req, res){
-  Order.find({userId : req.user._id}, function(err, allOrders){
+    // Order.find({_id : req.user._id}, function(err, allOrders){
+    Order.find({userId : 'gehui603@gmail.com'}, function(err, allOrders){
        if(err){
            console.log(err);
        } else {
+          console.log(allOrders); 
           res.render("orders",{orders:allOrders});
        }
     });
@@ -171,7 +173,7 @@ app.post("/orders",isLoggedIn, function(req, res){
             if(err){
                console.log(err);
             } else {
-                console.log(newlyCreated);
+                // console.log(newlyCreated);
                 redirect("/orders");
             }
           });          
@@ -183,12 +185,13 @@ app.post("/orders",isLoggedIn, function(req, res){
 //================
 
 app.get("/cart", isLoggedIn, function(req, res){
-  Cart.find({userId : req.user._id}).populate("items").exec(function(err, foundCart){
+//   Cart.find({userId : req.user._id}).populate("items").exec(function(err, foundCart){
+  Cart.find({userId : "gehui603@gmail.com"}).populate("items").exec(function(err, foundCart){
        if(err){
            console.log(err);
        } else {
           console.log(foundCart);
-          res.render("cart",{cart:foundCart});
+          res.render("cart",{carts:foundCart});
        }
     });
 });
