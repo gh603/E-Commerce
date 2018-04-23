@@ -127,6 +127,22 @@ app.get("/items",function(req, res){
 });
 
 //================
+// Show filtered product detail
+//================
+app.get("/items",function(req, res){
+    //find all products
+  Product.find({}, function(err, allProducts){
+       if(err){
+           console.log(err);
+       } else {
+       //filter
+          var filterProduct = lodash.filter(allProducts, x => x.category === 'Headphone');
+          res.render("index",{filterproducts:filterProduct});
+       }
+    });
+});
+
+//================
 // Order
 //================
 
@@ -250,12 +266,11 @@ app.get("/items/:id", function(req, res){
             console.log(err);
         } else {
             console.log(foundProduct)
-            
+
             res.render("products", {products: foundProduct});
         }
     });
 });
-
 //================
 // Update
 //================
@@ -277,7 +292,7 @@ app.put("/:id", isAdmin, function(req, res){
 app.delete("/:id", isAdmin, function(req, res){
     //findByIdAndRemove
     Product.findByIdAndRemove(req.params.id, function(err, foundProduct){
-       if(err){x
+       if(err){
             res.redirect("back");
        } else {
             // foundProduct.
