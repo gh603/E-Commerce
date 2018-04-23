@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Authorization</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- css -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="../styles/manage.css">
+    <!-- js -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="../js/manage.js"></script>
+</head>
+
+<body>
+    <% include ./partials/navbar %>
+
+    <div class="manage">
+        <ul class="tab-group">
+            <li class="tab active">
+                <a href="#add">Add</a>
+            </li>
+            <li class="tab">
+                <a href="#delete">Delete</a>
+            </li>
+			<li class="tab">
+                <a href="#update">Update</a>
+            </li>
+        </ul>
+
+        <div class="tab-content">
+            <div id="add">
+                <h1>Add Product</h1>
+
+                <form action="/items" method="post">
+
+                    <div class="field-wrap">
+                        <input type="text" name="item" placeholder="Product Name" />
+                    </div>
+
+                    <div class="field-wrap">
+                        <input type="text" name="category" placeholder="Category" />
+                    </div>
+					 <div class="field-wrap">
+                        <input type="text" name="quantity" placeholder="Quantity" />
+                    </div>
+					 <div class="field-wrap">
+                        <input type="text" name="image" placeholder="Image" />
+                    </div>
+					 <div class="field-wrap">
+                        <input type="text" name="description" placeholder="Description" />
+                    </div>
+
+                    <button class="button button-block" />Add</button>
+
+                </form>
+
+            </div>
+            <div id="delete">
+                <h1>Delete Product</h1>
+
+                <form action="/items" method="delete">
+
+                    <div class="field-wrap">
+                        <input type="text" name="deleteID" placeholder="Product ID" />
+                    </div>
+                    <button type="submit" class="button button-block" />Delete</button>
+
+                </form>
+            </div>
+			<div id="update">
+                <h1>Update Product</h1>
+
+                <form action="/items" method="put">
+
+                    <div class="field-wrap">
+                        <input type="text" name="name" placeholder="Product Name" />
+                    </div>
+
+                    <div class="field-wrap">
+                        <input type="text" name="productId" placeholder="Product Id" />
+                    </div>
+					 <div class="field-wrap">
+                        <input type="text" name="quantity" placeholder="Quantity" />
+                    </div>
+					 <div class="field-wrap">
+                        <input type="text" name="image" placeholder="Image" />
+                    </div>
+					 <div class="field-wrap">
+                        <input type="text" name="description" placeholder="Description" />
+                    </div>
+
+                    <button class="button button-block" />Update</button>
+
+                </form>
+            </div>
+			
+			
+
+        </div>
+    </div>
+</body>
+
+</html>
