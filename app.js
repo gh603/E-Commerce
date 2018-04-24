@@ -121,7 +121,7 @@ app.get("/login", function (req, res) {
 // Show products with filter function
 //================
 app.get("/items", isLoggedIn, function (req, res) {
-    var filtercategory = '';
+    var filtercategory = req.body.cate || '';
     var perPage = 9;
     var page = req.query.page || 1;
 
@@ -217,6 +217,8 @@ app.get("/cart", isLoggedIn, function (req, res) {
 
 app.post("/cart/:id", isLoggedIn, function (req, res) {
     console.log("POST: cart");
+    console.log(req.params.id); 
+    console.log(req.body.quantity); 
 
     Cart.findOne({ userId: req.user._id }, function (err, foundCart) {
         if (err) {
@@ -226,8 +228,22 @@ app.post("/cart/:id", isLoggedIn, function (req, res) {
                 if (err) {
                     console.log(err);
                 } else {
-                    var item = { title: foundProduct.item, id: req.params.id, price: foundProduct.price, image: foundProduct.image, quantity: 1 };
-                    foundCart.items.push(item);
+                    let isFound = false; 
+                    // console.log("request item id:" + req.params.id); 
+                    foundCart.items.forEach((item) => {
+                        // console.log("cart item id:" + item._id); 
+                        if(item._id == req.params.id){
+                            isFound = true; 
+                            item.quantity = req.body.quantity; 
+                        }
+                    }); 
+
+                    if(!isFound) {
+                        var item = { title: foundProduct.item, id: req.params.id, price: foundProduct.price, image: foundProduct.image, quantity: 1 };
+                        foundCart.items.push(item);
+                    }
+                    // var item = { title: foundProduct.item, id: req.params.id, price: foundProduct.price, image: foundProduct.image, quantity: 1 };
+                    // foundCart.items.push(item);
                     foundCart.save();
                     console.log(foundCart);
                     res.redirect("/items");
@@ -272,6 +288,7 @@ app.post("/search", function (req, res) {
             if (err) {
                 console.log(err);
             } else {
+                console.log(allProducts.length); 
                 res.render("index", { products: allProducts, current: page, pages: Math.ceil(allProducts.length / perPage) });
 
             }

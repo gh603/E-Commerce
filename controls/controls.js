@@ -27,6 +27,18 @@ const listeners = (function () {
         });
     };
 
+    filterInProducts = (cate) => {
+        console.log('Filter products'); 
+        const data = {cate: cate}; 
+        $.ajax({
+            type: "GET", 
+            url: '/items', 
+            data: data, 
+            success: () => { console.log('success'); }, 
+            error: () => { console.log('error')}
+        })
+    }
+
     return {
         removeItemFromCartHandler: (event) => {
             event.preventDefault();
@@ -61,6 +73,11 @@ const listeners = (function () {
                 success: () => { console.log('success'); },
                 error: () => { console.log('error'); }
             });
+        },
+        filterHandler: (event) => {
+            event.preventDefault(); 
+            const cate = $(event.currentTarget).text(); 
+            filterInProducts(cate); 
         }
     }
 })();
@@ -157,7 +174,7 @@ const UIController = (function () {
         },
         addItemToCartHandler: (event) => {
             addToCart(event); 
-        }
+        }, 
     };
 })();
 
@@ -203,7 +220,7 @@ const controller = (function(reqCtrl, UICtrl) {
         $(DOMstrings.checkout).click(event => {
             reqCtrl.checkoutHandler(event); 
         })
-    }
+    };
 
     return {
         init: () => {
