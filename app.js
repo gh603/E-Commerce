@@ -141,7 +141,7 @@ app.get("/items",isLoggedIn, function(req, res){
                                 }
                             });
                         }
-                    });
+                        });
   }
 
   else {
@@ -269,7 +269,8 @@ app.post("/search", function (req, res) {
         } else {
             console.log(allProducts);
             //   res.send({products: allProducts}); 
-            res.render("index", { products: allProducts });
+            res.render("search", { products: allProducts });
+
         }
     });
 });
