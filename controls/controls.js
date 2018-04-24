@@ -66,6 +66,11 @@ const listeners = (function () {
 })();
 
 const UIController = (function () {
+    const DOMstrings = {
+        cartNav: '.nav .cart', 
+        cartBtn: '.card .cart', 
+    }; 
+
     calculateTotalPrice = (table, priceIndex) => {
         var tot = 0;
         table.find('.productitm').children("td:nth-child(" + priceIndex + ")").each((index, element) => {
@@ -97,7 +102,46 @@ const UIController = (function () {
         const total = price * counts; 
         $($(target).parent().next().next().next()).text('$' + total.toFixed(2)); 
         updateTaxAndTotal(table, priceIndex, taxRate); 
-    }
+    }; 
+
+    addToCart = (event) => {
+        var cart = $(DOMstrings.cartNav);
+        var imgtodrag = $(event.currentTarget).parent().prev().find(".img").find('img').eq(0);
+        if (imgtodrag) {
+            var imgclone = imgtodrag.clone()
+                .offset({
+                top: imgtodrag.offset().top,
+                left: imgtodrag.offset().left
+            })
+                .css({
+                'opacity': '0.5',
+                    'position': 'absolute',
+                    'height': '150px',
+                    'width': '150px',
+                    'z-index': '100'
+            })
+                .appendTo($('body'))
+                .animate({
+                'top': cart.offset().top + 10,
+                    'left': cart.offset().left + 10,
+                    'width': 75,
+                    'height': 75
+            }, 1000, 'easeInOutExpo');
+            
+            setTimeout(function () {
+                cart.effect("shake", {
+                    times: 2
+                }, 200);
+            }, 1500);
+
+            imgclone.animate({
+                'width': 0,
+                    'height': 0
+            }, function () {
+                $(this).detach()
+            });
+        }
+    }; 
 
     return {
         removeItemFromCartHandler: (event, table, priceIndex, taxRate) => {
@@ -110,6 +154,9 @@ const UIController = (function () {
         },
         loadCartHandler: (table, priceIndex, taxRate) => {
             updateTaxAndTotal; 
+        },
+        addItemToCartHandler: (event) => {
+            addToCart(event); 
         }
     };
 })();
@@ -131,25 +178,17 @@ const controller = (function(reqCtrl, UICtrl) {
         taxRate: 0.06, 
     }; 
 
-    // loadCartHandler = () => {
-    //     // console.log($(DOMstrings.cartTable)); 
-    //     // $('document').ready(() => { console.log('loaded')}); 
-    //     $('.cartItem').ready((event) => {
-    //         console.log('loaded'); 
-    //         UICtrl.loadCartHandler($(DOMstrings.cartTable), config.priceIndex, config.taxRate); 
-    //     })
-    // }
-
     addItemToCartHandler = () => {
         $(DOMstrings.cart).click(event => {
             reqCtrl.addItemToCartHandler(event); 
+            UICtrl.addItemToCartHandler(event); 
         }); 
     }; 
 
     updateItemQuantityHandler = () => {
         $(DOMstrings.quantity).change(event => {
             UICtrl.updateItemQuantityHandler(event, $(DOMstrings.cartTable), config.priceIndex, config.taxRate); 
-            // reqCtrl.updateItemQuantityHandler(event); 
+            reqCtrl.updateItemQuantityHandler(event); 
         }); 
     }; 
 
@@ -168,7 +207,6 @@ const controller = (function(reqCtrl, UICtrl) {
 
     return {
         init: () => {
-            // loadCartHandler(); 
             addItemToCartHandler(); 
             updateItemQuantityHandler(); 
             removeItemFromCartHandler(); 

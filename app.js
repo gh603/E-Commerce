@@ -15,6 +15,7 @@ var express = require("express"),
     Order = require("./models/order")
 
 mongoose.connect("mongodb://localhost/e-commerce");
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 app.use(express.static(__dirname));
@@ -85,7 +86,7 @@ app.post("/signup", function (req, res) {
         passport.authenticate("local")(req, res, function () {
 
             console.log(newUser);
-            var newCart = { userId: req.user._id, items:[]}
+            var newCart = { userId: req.user._id, items: [] }
             Cart.create(newCart, function (err, newlyCreated) {
                 if (err) {
                     console.log(err);
@@ -119,46 +120,44 @@ app.get("/login", function (req, res) {
 //================
 // Show products with filter function
 //================
-app.get("/items",isLoggedIn, function(req, res){
-  var filtercategory = '';
-  var perPage = 9;
-  var page = req.query.page || 1;
+app.get("/items", isLoggedIn, function (req, res) {
+    var filtercategory = '';
+    var perPage = 9;
+    var page = req.query.page || 1;
 
-  if (filtercategory === ''){
-            Product
-                    .find({})
-                    .skip((perPage * page) - perPage)
-                    .limit(perPage)
-                    .exec(function(err, allProducts){
-                        if(err){
+    if (filtercategory === '') {
+        Product
+            .find({})
+            .skip((perPage * page) - perPage)
+            .limit(perPage)
+            .exec(function (err, allProducts) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    Product.count().exec(function (err, count) {
+                        if (err) {
                             console.log(err);
                         } else {
-                            Product.count().exec(function(err, count) {
-                                if(err){
-                                    console.log(err);
-                                } else {
-                                    res.render("index",{products:allProducts, current: page, pages: Math.ceil(count / perPage)});
-                                }
-                            });
+                            res.render("index", { products: allProducts, current: page, pages: Math.ceil(count / perPage) });
                         }
-                        });
-  }
+                    });
+                }
+            });
+    } else {
+        Product
+            .find({})
+            .skip((perPage * page) - perPage)
+            .limit(perPage)
+            .exec(function (err, allProducts) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    var filterProduct = filter(allProducts, x => x.category === filtercategory);
+                    res.render("index", { products: filterProduct, current: page, pages: Math.ceil(filterProduct.length / perPage) });
 
-  else {
-            Product
-                      .find({})
-                      .skip((perPage * page) - perPage)
-                      .limit(perPage)
-                      .exec(function(err, allProducts){
-                          if(err){
-                              console.log(err);
-                          } else {
-                              var filterProduct = filter(allProducts, x => x.category === filtercategory);
-                              res.render("index",{products:filterProduct, current: page, pages: Math.ceil(filterProduct.length / perPage)});
-
-                          }
-                      });
-  }
+                }
+            });
+    }
 
 });
 
@@ -206,7 +205,7 @@ app.post("/orders", isLoggedIn, function (req, res) {
 //================
 
 app.get("/cart", isLoggedIn, function (req, res) {
-    console.log("GET: cart"); 
+    console.log("GET: cart");
     Cart.findOne({ userId: req.user._id }, function (err, foundCart) {
         if (err) {
             console.log(err);
@@ -218,8 +217,8 @@ app.get("/cart", isLoggedIn, function (req, res) {
 
 app.post("/cart/:id", isLoggedIn, function (req, res) {
     console.log("POST: cart");
-    
-    Cart.findOne({userId: req.user._id }, function (err, foundCart) {
+
+    Cart.findOne({ userId: req.user._id }, function (err, foundCart) {
         if (err) {
             //console.log(err);
         } else {
@@ -227,7 +226,7 @@ app.post("/cart/:id", isLoggedIn, function (req, res) {
                 if (err) {
                     console.log(err);
                 } else {
-                    var item = { title: foundProduct.item, id: req.params.id, price: foundProduct.price, image: foundProduct.image, quantity: 1};
+                    var item = { title: foundProduct.item, id: req.params.id, price: foundProduct.price, image: foundProduct.image, quantity: 1 };
                     foundCart.items.push(item);
                     foundCart.save();
                     console.log(foundCart);
@@ -238,19 +237,19 @@ app.post("/cart/:id", isLoggedIn, function (req, res) {
     });
 });
 
-app.delete("/cart/:id", isLoggedIn, function(req, res){
+app.delete("/cart/:id", isLoggedIn, function (req, res) {
     console.log(req.params.id);
-    Cart.findOne({userId: req.user._id }, function (err, foundCart){
-        if(err){
+    Cart.findOne({ userId: req.user._id }, function (err, foundCart) {
+        if (err) {
             console.log(err);
         } else {
-            foundCart.items.pull({_id: req.params.id });
-            foundCart.save(); 
-            console.log("DELETE: cart"); 
+            foundCart.items.pull({ _id: req.params.id });
+            foundCart.save();
+            console.log("DELETE: cart");
         }
-      });
-   // Cart.update( {userId: req.user._id }, { $pull: {id: [req.params.id] } } );
-    
+    });
+    // Cart.update( {userId: req.user._id }, { $pull: {id: [req.params.id] } } );
+
 });
 
 
@@ -260,19 +259,23 @@ app.delete("/cart/:id", isLoggedIn, function(req, res){
 //================
 app.post("/search", function (req, res) {
     // Get all items from DB
-    console.log("POST: search"); 
+    console.log("POST: search");
+    var perPage = 9;
+    var page = req.query.page || 1;
     var keyWord = req.body.itemName;
-    console.log(keyWord);
-    Product.find({ item: keyWord }, function (err, allProducts) {
-        if (err) {
-            console.log(err);
-        } else {
-            console.log(allProducts);
-            //   res.send({products: allProducts}); 
-            res.render("search", { products: allProducts });
 
-        }
-    });
+    const regex = '\.*' + keyWord + '\.';
+    Product.find({ item: { $regex: keyWord, $options: 'i' } })
+        .skip((perPage * page) - perPage)
+        .limit(perPage)
+        .exec(function (err, allProducts) {
+            if (err) {
+                console.log(err);
+            } else {
+                res.render("index", { products: allProducts, current: page, pages: Math.ceil(allProducts.length / perPage) });
+
+            }
+        });
 });
 
 

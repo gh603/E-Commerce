@@ -28,7 +28,7 @@ var productData = [
         item: 'Dell Headphone',
         category: 'Headphone',
         quantity: 1,
-        image: 'http://farm9.static.flickr.com/8201/29662194851_617508e4bd.jpg',
+        image: 'https://images-na.ssl-images-amazon.com/images/I/71z5xSk89rL._SX425_.jpg',
         description: "Maximizing your personal audio experience has never been easier than with ZX-Series Monitor headphones. Built with comfort and performance in mind, there's no need to compromise.",
         price: 18.00
     },
@@ -61,14 +61,6 @@ var productData = [
     },
 
     {
-        item: 'iphoneX',
-        category: 'phone',
-        quantity: 1,
-        image: 'http://farm1.static.flickr.com/867/26766876557_0bcd995428.jpg',
-        price: 1299.0,
-    },
-
-    {
         item: 'iphone8',
         category: 'phone',
         quantity: 1,
@@ -88,7 +80,7 @@ var productData = [
         item: 'iphone6',
         category: 'phone',
         quantity: 1,
-        image: 'http://farm1.static.flickr.com/879/41607810591_bd54c5f9c2.jpg',
+        image: 'https://cdn2.gsmarena.com/vv/bigpic/apple-iphone-6-4.jpg',
         price: 399.99,
     },
 
@@ -120,7 +112,7 @@ var productData = [
         item: 'Canon EF 75-300mm III',
         category: 'Camera Lens',
         quantity: 1,
-        image: 'https://www.grootgadgets.com/wp-content/uploads/2017/03/Canon-70-200mm-Lens-mug-White-replica-groot-gadgets-1-400x400.jpg',
+        image: 'https://www.adorama.com/images/Large/ca75300afu_2.jpg',
         description: "This Certified Refurbished product is Manufacturer refurbished, shows limited or no wear, and includes all original accessories plus a 90-day warranty EF Mount Lens Aperture Range: f/4-45 DC Autofocus Motor Minimum Focus Distance: 4.9' 58mm Filter Thread Diameter",
         price: 70.97,
     },
@@ -129,7 +121,7 @@ var productData = [
         item: 'Canon EF 24-70mm II USM Lens',
         category: 'Camera Lens',
         quantity: 1,
-        image: 'https://www.grootgadgets.com/wp-content/uploads/2017/03/Canon-70-200mm-Lens-mug-White-replica-groot-gadgets-1-400x400.jpg',
+        image: 'https://static.bhphoto.com/images/images500x500/Canon_5175B002_EF_24_70mm_f_2_8L_II_1457983216000_843008.jpg',
         description: 'Spanning a popular and versatile range of focal lengths, the EF 24-70mm f/2.8L II USM is a Canon L-series zoom commonly thought of as the workhorse of lenses. Ranging from wide-angle to portrait length, this lens is also distinguished by its constant f/2.8 maximum aperture to benefit working in difficult lighting conditions and to afford greater control over depth of field. ',
         price: 1699.00,
     },
@@ -138,7 +130,7 @@ var productData = [
         item: 'Canon EF-S 18-55mm IS Zoom Lens',
         category: 'Camera Lens',
         quantity: 1,
-        image: 'https://www.grootgadgets.com/wp-content/uploads/2017/03/Canon-70-200mm-Lens-mug-White-replica-groot-gadgets-1-400x400.jpg',
+        image: 'https://shop.usa.canon.com/wcsstore/CanonB2BStoreFrontAssetStore/images/EFS18-55-4-56-IS-STM-Lens_2_xl.jpg',
         description: 'Spanning a popular and versatile range of focal lengths, the EF 24-70mm f/2.8L II USM is a Canon L-series zoom commonly thought of as the workhorse of lenses. Ranging from wide-angle to portrait length, this lens is also distinguished by its constant f/2.8 maximum aperture to benefit working in difficult lighting conditions and to afford greater control over depth of field. ',
         price: 218.99,
     },
@@ -147,7 +139,7 @@ var productData = [
         item: 'Canon EF 800mm IS USM Lens',
         category: 'Camera Lens',
         quantity: 1,
-        image: 'https://www.grootgadgets.com/wp-content/uploads/2017/03/Canon-70-200mm-Lens-mug-White-replica-groot-gadgets-1-400x400.jpg',
+        image: 'https://shop.usa.canon.com/wcsstore/ExtendedSitesCatalogAssetStore/ef800_56lisu_1_xl.jpg',
         description: "The EF 800mm f/5.6L IS USM Lens from Canon is currently Canon's longest telephoto lens, and an excellent choice for any long-distance application such as outdoor sports, wildlife, and photojournalism. Even though it has a long 800mm focal length, the magnesium alloy used in the construction for this lens makes it lighter then the 600mm f/4L lens, weighing in at less than 10 lb.",
         price: 218.99,
     },
@@ -166,7 +158,7 @@ var productData = [
         item: 'GUCCI Cheryl GG Supreme Pump',
         category: 'Shoes',
         quantity: 1,
-        image: 'https://i.pinimg.com/736x/05/58/c7/0558c796ee706b5cb289ffb68e3b509c--is-the-best-to-the.jpg',
+        image: 'https://keep-ci-images.global.ssl.fastly.net/25ee7a9161885a7f0044de4f36680092.jpg',
         description: 'A fierce cat centers the horsebit hardware on a chic pump featuring a GG Supreme detail at the loafer-style vamp.',
         price: 995.00,
     },
@@ -194,14 +186,6 @@ var productData = [
         description: 'This Certified Refurbished product is Manufacturer refurbished, shows limited or no wear, and includes all original accessories plus a 90-day warranty EF Mount Lens Aperture Range: f/4-45 DC Autofocus Motor Minimum Focus Distance: 4.9 58mm Filter Thread Diameter',
         price: 70.97,
     },
-    {
-        item: 'Lethato Wingtip Oxford Goodyear Welted Formal Handmade Leather Dress Shoes',
-        category: 'Shoes',
-        quantity: 1,
-        image: 'https://i.pinimg.com/736x/05/58/c7/0558c796ee706b5cb289ffb68e3b509c--is-the-best-to-the.jpg',
-        description: 'Handmade Wingtip Oxford Goodyear Welted Shoes, made of fine quality Calfskin leather. Goodyear welted construction process makes the shoes highly durable, water resistant and comfortable fitting as the leather molds to the foot over time.',
-        price: 130,
-    }
 
 ]
 
