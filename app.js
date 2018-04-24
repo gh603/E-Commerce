@@ -227,7 +227,7 @@ app.post("/cart/:id", isLoggedIn, function (req, res) {
                 if (err) {
                     console.log(err);
                 } else {
-                    var item = { title: foundProduct.item, id: req.params.id, price: foundProduct.price, image: foundProduct.image};
+                    var item = { title: foundProduct.item, id: req.params.id, price: foundProduct.price, image: foundProduct.image, quantity: 1};
                     foundCart.items.push(item);
                     foundCart.save();
                     console.log(foundCart);
