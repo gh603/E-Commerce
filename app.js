@@ -114,35 +114,53 @@ app.get("/login", function (req, res) {
 
     res.render("auth");
 });
-//================
-// Show products
-//================
-app.get("/items",isLoggedIn, function (req, res) {
-    Product.find({}, function (err, allProducts) {
-        if (err) {
-            console.log(err);
-        } else {
-            //    console.log(allProducts);
-            res.render("index", { products: allProducts });
-        }
-    });
-});
+
 
 //================
-// Show filtered product detail
+// Show products with filter function
 //================
-// app.get("/items", function (req, res) {
-//     //find all products
-//     Product.find({}, function (err, allProducts) {
-//         if (err) {
-//             console.log(err);
-//         } else {
-//             //filter
-//             var filterProduct = lodash.filter(allProducts, x => x.category === 'Headphone');
-//             res.render("index", { filterproducts: filterProduct });
-//         }
-//     });
-// });
+app.get("/items",isLoggedIn, function(req, res){
+  var filtercategory = '';
+  var perPage = 9;
+  var page = req.query.page || 1;
+
+  if (filtercategory === ''){
+            Product
+                    .find({})
+                    .skip((perPage * page) - perPage)
+                    .limit(perPage)
+                    .exec(function(err, allProducts){
+                        if(err){
+                            console.log(err);
+                        } else {
+                            Product.count().exec(function(err, count) {
+                                if(err){
+                                    console.log(err);
+                                } else {
+                                    res.render("index",{products:allProducts, current: page, pages: Math.ceil(count / perPage)});
+                                }
+                            });
+                        }
+                    });
+  }
+
+  else {
+            Product
+                      .find({})
+                      .skip((perPage * page) - perPage)
+                      .limit(perPage)
+                      .exec(function(err, allProducts){
+                          if(err){
+                              console.log(err);
+                          } else {
+                              var filterProduct = filter(allProducts, x => x.category === filtercategory);
+                              res.render("index",{products:filterProduct, current: page, pages: Math.ceil(filterProduct.length / perPage)});
+
+                          }
+                      });
+  }
+
+});
 
 //================
 // Order
