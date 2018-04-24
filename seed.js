@@ -170,8 +170,6 @@ var productData = [
         description: 'A fierce cat centers the horsebit hardware on a chic pump featuring a GG Supreme detail at the loafer-style vamp.',
         price: 995.00,
     },
-
-
     {
         item: 'Nike Lunar Fingertrap TR',
         category: 'Shoes',
@@ -179,15 +177,6 @@ var productData = [
         image: 'http://farm5.static.flickr.com/4311/35352999243_ddc4db90f9.jpg',
         description: "There's no games with your training schedule when you have the comfort of the Nike Lunar Fingertrap TR! Textile upper with synthetic overlays offers a wrapped-like look. Lace-up closure for a secure, adjustable fit. Plush tongue and collar offers support. Mesh lining gives a breathable wear in shoe.Rubber outsole.",
         price: 75.00,
-    },
-
-    {
-        item: 'Beats Headphone',
-        category: 'Headphone',
-        quantity: 1,
-        image: 'https://tctechcrunch2011.files.wordpress.com/2014/11/solo2-wireless-red-quarter.jpg?w=738',
-        description: 'Immerse yourself in an emotional experience. The Solo2 has a more dynamic, wider range of sound, with a clarity that will bring you closer to what the artist intended. Whether you’re into hip-hop, heavy metal, jazz or electronic, you will feel the higher fidelity sound in your Solo2 . Take control. With the color-matched RemoteTalk cable, you can change songs, adjust the volume and even take calls, without having to reach for your device. (Compatible with iOS devices. Functionality may vary by device',
-        price: 139.99
     },
     {
         item: 'iphoneX',
@@ -216,32 +205,32 @@ var productData = [
 
 ]
 
-var cartData = [
-    {
-        userId: "5ade3079c3dbed2c01b73d16",
-        items: [
-            {
-                price: 70,
-                quantity: 1,
-                image: "https://tctechcrunch2011.files.wordpress.com/2014/11/solo2-wireless-red-quarter.jpg?w=738",
-                title: "Design Bundle Package",
-            },
-            {
-                price: 80,
-                quantity: 2,
-                image: "https://www.bell.ca/Styles/wireless/all_languages/all_regions/catalog_images/large/iPhoneX_spgry-en_lrg.png",
-                title: "Stuff on my Cat: The Book",
-            },
-            {
-                price: 90.05,
-                quantity: 3,
-                image: "https://www.grootgadgets.com/wp-content/uploads/2017/03/Canon-70-200mm-Lens-mug-White-replica-groot-gadgets-1-400x400.jpg",
-                title: "SpongeBob's First 100 Episodes",
-            }
+// var cartData = [
+//     {
+//         userId: "5ade3079c3dbed2c01b73d16",
+//         items: [
+//             {
+//                 price: 70,
+//                 quantity: 1,
+//                 image: "https://tctechcrunch2011.files.wordpress.com/2014/11/solo2-wireless-red-quarter.jpg?w=738",
+//                 title: "Design Bundle Package",
+//             },
+//             {
+//                 price: 80,
+//                 quantity: 2,
+//                 image: "https://www.bell.ca/Styles/wireless/all_languages/all_regions/catalog_images/large/iPhoneX_spgry-en_lrg.png",
+//                 title: "Stuff on my Cat: The Book",
+//             },
+//             {
+//                 price: 90.05,
+//                 quantity: 3,
+//                 image: "https://www.grootgadgets.com/wp-content/uploads/2017/03/Canon-70-200mm-Lens-mug-White-replica-groot-gadgets-1-400x400.jpg",
+//                 title: "SpongeBob's First 100 Episodes",
+//             }
 
-        ]
-    }
-]
+//         ]
+//     }
+// ]
 
 var orderData = [
     {

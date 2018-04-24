@@ -61,12 +61,12 @@
             <div id="delete">
                 <h1>Delete Product</h1>
 
-                <form action="/items" method="delete">
+                <form action="/delete?_method=DELETE" method="post">
 
                     <div class="field-wrap">
-                        <input type="text" name="deleteID" placeholder="Product ID" />
+                        <input type="text" name="id" placeholder="Product ID" />
                     </div>
-                    <button type="submit" class="button button-block" />Delete</button>
+                    <button  class="button button-block" />Delete</button>
 
                 </form>
             </div>

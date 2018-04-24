@@ -177,7 +177,7 @@ app.post("/orders", isLoggedIn, function (req, res) {
                     console.log(err);
                 } else {
                     // console.log(newlyCreated);
-                    redirect("/items");
+                    res.redirect("/items");
                 }
             });
         }
@@ -189,12 +189,10 @@ app.post("/orders", isLoggedIn, function (req, res) {
 
 app.get("/cart", isLoggedIn, function (req, res) {
     console.log("GET: cart"); 
-    console.log(req.user._id);
     Cart.findOne({ userId: req.user._id }, function (err, foundCart) {
         if (err) {
             console.log(err);
         } else {
-            console.log(foundCart);
             res.render("cart", { carts: foundCart });
         }
     });
@@ -211,7 +209,7 @@ app.post("/cart/:id", isLoggedIn, function (req, res) {
                 if (err) {
                     console.log(err);
                 } else {
-                    var item = { title: foundProduct.item, itemId: req.params.id, price: foundProduct.price, image: foundProduct.image};
+                    var item = { title: foundProduct.item, id: req.params.id, price: foundProduct.price, image: foundProduct.image};
                     foundCart.items.push(item);
                     foundCart.save();
                     console.log(foundCart);
@@ -223,14 +221,21 @@ app.post("/cart/:id", isLoggedIn, function (req, res) {
 });
 
 app.delete("/cart/:id", isLoggedIn, function(req, res){
-    console.log(req.params);
+    console.log(req.params.id);
     Cart.findOne({userId: req.user._id }, function (err, foundCart){
-      foundCart.items.pull({id: req.params.id });
-      foundCart.save();
+        if(err){
+            console.log(err);
+        } else {
+            foundCart.items.pull({_id: req.params.id });
+            foundCart.save(); 
+            console.log("DELETE: cart"); 
+        }
       });
-   
-    console.log("DELETE: cart"); 
+   // Cart.update( {userId: req.user._id }, { $pull: {id: [req.params.id] } } );
+    
 });
+
+
 
 //================
 // Search
@@ -314,9 +319,10 @@ app.put("/:id", isAdmin, function (req, res) {
 //================
 // Delete
 //================
-app.delete("/:id", isAdmin, function (req, res) {
+app.delete("/delete", isAdmin, function (req, res) {
     //findByIdAndRemove
-    Product.findByIdAndRemove(req.params.id, function (err, foundProduct) {
+    console.log(req.body.id);
+    Product.findByIdAndRemove(req.body.id, function (err) {
         if (err) {
             res.redirect("back");
         } else {
@@ -325,6 +331,15 @@ app.delete("/:id", isAdmin, function (req, res) {
         }
     });
 });
+
+
+// Campground.findByIdAndRemove(req.params.id, function(err){
+//       if(err){
+//           res.redirect("/campgrounds");
+//       } else {
+//           res.redirect("/campgrounds");
+//       }
+//    });
 
 function isLoggedIn(req, res, next) {
     if (req.isAuthenticated()) {
