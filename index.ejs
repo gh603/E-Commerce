@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Home</title>
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
+    <!-- css -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="../styles/index.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="../styles/main.css" />
+    <!-- js -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="../js/index.js"></script>
+    <script src="../controls/controls.js"></script>
+</head>
+
+<body>
+    <nav id="mySideNav" class="sidenav">
+        <div class='closeSideNav' onclick="closeSideNav()">&times; </div>
+        <div class='sidebartitle'>
+            Categories
+            <ul class='sideList'>
+                <li>Cate1</li>
+                <li>Cate2</li>
+                <li>Cata3</li>
+                <li>Cata4</li>
+            </ul>
+        </div>
+        <div class='sidebartitle'>
+            Price
+            <ul class='sideList'>
+                <li>Price Range 1</li>
+                <li>Price Range 2</li>
+                <li>Price Range 3</li>
+                <li>Price Range 4</li>
+            </ul>
+        </div>
+        <div class='sidebartitle'>
+            Brand
+            <ul class='sideList'>
+                <li>Brand 1</li>
+                <li>Brand 2</li>
+                <li>Brand 3</li>
+                <li>Brand 4</li>
+            </ul>
+        </div>
+    </nav>
+
+    <div id='main'>
+        <% include ./partials/navbar %>
+
+        <div id='content'>
+            <div>
+                <span style="font-size: 15px; cursor: pointer; padding-left: 30px" onclick="openSideNav()">&#9776; Filter</span>
+            </div>
+
+            <div class="productList">
+                <% products.forEach(function(product){%>
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="top-bar">
+                                <span>$<%=product.price%></span>
+                            </div>
+                            <div class="img"><img src="<%=product.image%>"></div>
+                        </div>
+                        <div class="card-description">
+                            <div class="id"><%=product.id%></div>
+                            <div class="title"><%=product.item%></div>
+                            <div class="cart">
+                                <span class="glyphicon glyphicon-shopping-cart"></span>
+                            </div>
+                        </div> 
+                        <div class="card-footer">
+                            <div class="span"><%=product.category%></div>
+                        </div>
+                    </div> 
+                <%})%>
+            </div>
+        </div>
+        <% include ./partials/pagination %>
+    </div>
+</body>
+
+</html>
