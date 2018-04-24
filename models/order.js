@@ -4,6 +4,7 @@ var orderSchema = new mongoose.Schema({
    userId: String,
    items: [     
        {
+         price: Number,
          quantity: Number,
          image: String,
          title: String      

@@ -184,21 +184,32 @@ app.get("/orders", isLoggedIn, function (req, res) {
 
 app.post("/orders", isLoggedIn, function (req, res) {
     console.log('POST: orders');
-    Cart.find({ userId: req.user._id }, function (err, foundCart) {
+    Cart.findOne({ userId: req.user._id }, function (err, foundCart) {
         if (err) {
             console.log(err);
         } else {
-            var newOrder = { userId: req.user._id, date: new Date(), items: foundCart.items, total: foundCart.total };
+            var newItems = [];
+            var total = 0;
+            foundCart.items.forEach((item) =>{
+                newItems.push(item);
+                total += (item.price * item.quantity);
+            });
+            var newOrder = { userId: req.user._id, items: newItems, total: total };
             Order.create(newOrder, function (err, newlyCreated) {
                 if (err) {
                     console.log(err);
                 } else {
-                    // console.log(newlyCreated);
-                    res.redirect("/items");
+                    console.log(newlyCreated);
+                    foundCart.items = [];
+                    foundCart.save();
+                    
                 }
             });
+            console.log("luozhangji");
+            res.redirect("/orders");
         }
     });
+    
 });
 //================
 // Cart
