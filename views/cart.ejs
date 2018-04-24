@@ -39,7 +39,8 @@
                         <td><img src="<%=item.image%>" class="thumb"></td>
                         <td><input type="number" value="<%=item.quantity%>" min="0" max="99" class="qtyinput"></td>
                         <td><%=item.title%></td> 
-                        <td><%=item.price%></td>
+                        <td class="hidden"><%=item.price%></td>
+                        <td>$<%=item.price * item.quantity%></td>
                         <td>
                             <span class="remove glyphicon glyphicon-trash"></span>
                         </td>
@@ -48,7 +49,7 @@
                 <tr class="extracosts"> 
                     <td class="light">Shipping &amp; Tax</td>
                     <td colspan="2" class="light"></td>
-                    <td></td>
+                    <td class="tax"></td>
                     <td>&nbsp;</td>
                 </tr>
                 <tr class="totalprice"> 
