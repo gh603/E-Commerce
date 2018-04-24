@@ -1,0 +1,183 @@
+﻿products = {
+	1: {
+		item: 'Beats Headphone', 
+		category: 'Headphone', 
+		quantity: 1, 
+		image: 'https://tctechcrunch2011.files.wordpress.com/2014/11/solo2-wireless-red-quarter.jpg?w=738',
+		description: 'Immerse yourself in an emotional experience. The Solo2 has a more dynamic, wider range of sound, with a clarity that will bring you closer to what the artist intended. Whether you’re into hip-hop, heavy metal, jazz or electronic, you will feel the higher fidelity sound in your Solo2 . Take control. With the color-matched RemoteTalk cable, you can change songs, adjust the volume and even take calls, without having to reach for your device. (Compatible with iOS devices. Functionality may vary by device', 
+		price: 139.99
+	}, 
+
+	2: {
+		item: 'Sennheiser Headphone', 
+		category: 'Headphone', 
+		quantity: 1, 
+		image: 'https://en-us.sennheiser.com/hd-1-edition-pink-floyd?gclid=Cj0KCQjw5LbWBRDCARIsALAbcOe2VQosM_Pp10PDhxESjr2oo9pVZ7aeHmXOndGQImjo-5gsP__oBsIaAgWxEALw_wcB',
+		description: 'With Pink Floyd references like printed triangles and rainbow coating background on the ear cups, and rainbow-colored stitching on the headband we gave this HD1 Wireless Special Edition a look all its own.', 
+		price: 499.95
+	}, 
+
+	3: {
+		item: 'Dell Headphone', 
+		category: 'Headphone', 
+		quantity: 1, 
+		image: 'http://www.dell.com/en-us/work/shop/accessories/apd/a7943045?cid=298721&st=&gclid=Cj0KCQjw5LbWBRDCARIsALAbcOfCjR37OStcuCf7KmfvLGLrJHtWoFDmY-CjdmZhOenCqhjXrTKINRUaApM4EALw_wcB&lid=5704670&VEN1=sq0INGzUN,101952148149,901q5c14135,c,,A7943045&VEN2=,&dgc=st&dgseg=so&acd=12309152537501410&VEN3=830104357101227115',
+		description: 'Maximizing your personal audio experience has never been easier than with ZX-Series Monitor headphones. Built with comfort and performance in mind, there's no need to compromise.', 
+		price: 18.00
+	}, 
+
+	4: {
+		item: 'Dell Mic Headphone', 
+		category: 'Headphone', 
+		quantity: 1, 
+		image: 'http://www.dell.com/en-us/work/shop/accessories/apd/a8566699?cid=298721&st=&gclid=Cj0KCQjw5LbWBRDCARIsALAbcOdeI6BR9Y_szJBLOR3Kgqzq0wV1xi2izqioCej9FYk2K6aFXH_pDbQaAoOAEALw_wcB&lid=5704670&VEN1=sq0INGzUN,101952148149,901q5c14135,c,,A8566699&VEN2=,&dgc=st&dgseg=so&acd=12309152537501410&VEN3=830104357101227115',
+		description: 'These headphones combine low profile design, soft ear pillows, and supreme sound with the ultra-convenient mic / remote, making it a go-to on any budget.', 
+		price: 34.99
+	}, 
+
+	5: {
+		item: 'Bluetooth Headphone', 
+		category: 'Headphone', 
+		quantity: 1, 
+		image: 'Be ready to take the call, wherever you’re connected. The Voyager 5200 UC Bluetooth headset offers our most advanced, adaptive noise cancelling with WindSmart technology to reduce disruptive noise. It’s ready to work.',
+		description: 'Be ready to take the call, wherever you’re connected. The Voyager 5200 UC Bluetooth headset offers our most advanced, adaptive noise cancelling with WindSmart technology to reduce disruptive noise. It’s ready to work.', 
+		price: 179.99
+	}, 
+
+	6: {
+		item: 'Sporty Headphone', 
+		category: 'Headphone', 
+		quantity: 1, 
+		image: 'http://www.sportys.com/pilotshop/bose-a20-aviation-headset-with-bluetooth.html?utm_source=google_shopping&m=configurable&508=5650&aid=15579&utm_medium=cpc&utm_campaign=Headsets&adpos=1o5&creative=74939016862&device=c&matchtype=&network=s&mrkgcl=596&mrkgadid=3052702995&rkg_id=h-adac182750abaa888fd7dafde3c5571a_t-1523499376&gclid=Cj0KCQjw5LbWBRDCARIsALAbcOeriXqhshhywlQPEmV_qirgTww2MWH9p6E6Ot3JGA_eGHL0Lx8LDQEaAlZqEALw_wcB',
+		description: 'Bose A20 Aviation Headset with Bluetooth 10% off 2nd & subsequent Bose A20 Headset FREE Bose Bluetooth Speaker.', 
+		price: 1095.99
+	}, 
+
+	7: {
+		item: 'iphoneX', 
+		category: phone,
+		quantity: 1,
+		image: 'https://www.bell.ca/Styles/wireless/all_languages/all_regions/catalog_images/large/iPhoneX_spgry-en_lrg.png',
+		description: 'iPhone x features an all-screen design with a 5.8-Inch super Retina HD display with HDR and true tone. Face ID lets you unlock and use Apple pay with just a glance. Powered by A11 Bionic, the most powerful and smartest chip ever in a smartphone. Supports augmented reality experiences in games and apps.', 
+		price: 1299.0,
+	}, 
+
+	8: {
+		item: 'iphone8', 
+		category: phone,
+		quantity: 1,
+		image: 'https://www.bell.ca/Styles/wireless/all_languages/all_regions/catalog_images/large/iPhoneX_spgry-en_lrg.png',
+		description: 'iPhone 8 is a new generation of iPhone. Designed with the most durable glass ever in a smartphone and a stronger aerospace grade aluminum band. Charges wirelessly.Resists water and dust.4.7-inch Retina HD display with True Tone.12MP camera with new sensor and advanced image signal processor. Powered by A11 Bionic, the most powerful and smartest chip ever in a smartphone.', 
+		price: 599.99,
+	},
+ 
+	9: {
+		item: 'iphone7', 
+		category: phone,
+		quantity: 1,
+		image: 'https://www.bell.ca/Styles/wireless/all_languages/all_regions/catalog_images/large/iPhoneX_spgry-en_lrg.png',
+		description: 'iPhone 7 features an all-new 12 MP camera with an ƒ/1.8 aperture for great low-light photos and 4K video. Optical image stabilization. A 4.7-inch Retina HD display with wide color and 3D Touch. An A10 Fusion chip for up to 2x faster performance than iPhone 6. Touch ID. Faster LTE2 The longest battery life in an iPhone.', 
+		price: 499.99,
+	}, 
+
+	10: {
+		item: 'iphone6', 
+		category: phone,
+		quantity: 1,
+		image: 'https://www.bell.ca/Styles/wireless/all_languages/all_regions/catalog_images/large/iPhoneX_spgry-en_lrg.png',
+		description: 'A 5.5-inch Retina HD display with 3D Touch. 7000 series aluminum and stronger cover glass. An A9 chip with 64-bit desktop-class architecture. All new 12MP iSight camera with Live Photos and optical image stabilization for stills and video. Touch ID. Faster LTE and Wi-Fi.Long battery life.', 
+		price: 399.99,
+	}, 
+
+	11: {
+		item: 'iphone8plus', 
+		category: phone,
+		quantity: 1,
+		image: 'https://www.bell.ca/Styles/wireless/all_languages/all_regions/catalog_images/large/iPhoneX_spgry-en_lrg.png',
+		description: 'iPhone 8 plus is a new generation of iPhone. Designed with the most durable glass ever in a smartphone and a stronger aerospace grade aluminum band. Charges wirelessly.Resists water and dust.5.5-inch Retina HD display with True Tone.12MP dual cameras offer improved Portrait mode and new Portrait Lighting.', 
+		price: 699.99,
+	},
+
+	12: {
+		item: 'iphone7plus', 
+		category: phone,
+		quantity: 1,
+		image: 'https://www.bell.ca/Styles/wireless/all_languages/all_regions/catalog_images/large/iPhoneX_spgry-en_lrg.png',
+		description: 'All-new dual 12MP cameras. The brightest, most colorful iPhone display ever. The fastest performance and best battery life in an iPhone. Water and splash resistant. And stereo speakers. Every bit as powerful as it looks—this is iPhone 7 Plus.', 
+		price: 569.99,
+	},
+
+	13: {
+		item: 'iphone6plus', 
+		category: phone,
+		quantity: 1,
+		image: 'https://www.bell.ca/Styles/wireless/all_languages/all_regions/catalog_images/large/iPhoneX_spgry-en_lrg.png',
+		description: 'A 5.5-inch Retina HD display with 3D Touch. 7000 series aluminum and stronger cover glass. An A9 chip with 64-bit desktop-class architecture. All new 12MP iSight camera with Live Photos and optical image stabilization for stills and video. Touch ID. Faster LTE and Wi-Fi.Long battery life', 
+		price: 399.99,
+	},
+
+	14: {
+		item: 'Canon EF 75-300mm f/4-5.6 III', 
+		category: 'Camera Lens',
+		quantity: 1,
+		image: 'https://www.grootgadgets.com/wp-content/uploads/2017/03/Canon-70-200mm-Lens-mug-White-replica-groot-gadgets-1-400x400.jpg',
+		description: 'This Certified Refurbished product is Manufacturer refurbished, shows limited or no wear, and includes all original accessories plus a 90-day warranty EF Mount Lens Aperture Range: f/4-45 DC Autofocus Motor Minimum Focus Distance: 4.9' 58mm Filter Thread Diameter', 
+		price: 70.97,
+	},
+
+	15: {
+		item: 'Canon EF 24-70mm f/2.8L II USM Lens', 
+		category: 'Camera Lens',
+		quantity: 1,
+		image: 'https://www.grootgadgets.com/wp-content/uploads/2017/03/Canon-70-200mm-Lens-mug-White-replica-groot-gadgets-1-400x400.jpg',
+		description: 'Spanning a popular and versatile range of focal lengths, the EF 24-70mm f/2.8L II USM is a Canon L-series zoom commonly thought of as the workhorse of lenses. Ranging from wide-angle to portrait length, this lens is also distinguished by its constant f/2.8 maximum aperture to benefit working in difficult lighting conditions and to afford greater control over depth of field. ', 
+		price: 1699.00,
+	},
+
+	16: {
+		item: 'Canon EF-S 18-55mm f/3.5-5.6 IS Zoom Lens', 
+		category: 'Camera Lens',
+		quantity: 1,
+		image: 'https://www.grootgadgets.com/wp-content/uploads/2017/03/Canon-70-200mm-Lens-mug-White-replica-groot-gadgets-1-400x400.jpg',
+		description: 'Spanning a popular and versatile range of focal lengths, the EF 24-70mm f/2.8L II USM is a Canon L-series zoom commonly thought of as the workhorse of lenses. Ranging from wide-angle to portrait length, this lens is also distinguished by its constant f/2.8 maximum aperture to benefit working in difficult lighting conditions and to afford greater control over depth of field. ', 
+		price: 218.99,
+	},
+
+	17: {
+		item: 'Canon EF 800mm f/5.6L IS USM Lens', 
+		category: 'Camera Lens',
+		quantity: 1,
+		image: 'https://www.grootgadgets.com/wp-content/uploads/2017/03/Canon-70-200mm-Lens-mug-White-replica-groot-gadgets-1-400x400.jpg',
+		description: 'The EF 800mm f/5.6L IS USM Lens from Canon is currently Canon's longest telephoto lens, and an excellent choice for any long-distance application such as outdoor sports, wildlife, and photojournalism. Even though it has a long 800mm focal length, the magnesium alloy used in the construction for this lens makes it lighter then the 600mm f/4L lens, weighing in at less than 10 lb.', 
+		price: 218.99,
+	},
+
+	18: {
+		item: 'Lethato Wingtip Oxford Goodyear Welted Formal Handmade Leather Dress Shoes', 
+		category: 'Shoes',
+		quantity: 1,
+		image: 'https://i.pinimg.com/736x/05/58/c7/0558c796ee706b5cb289ffb68e3b509c--is-the-best-to-the.jpg',
+		description: 'Handmade Wingtip Oxford Goodyear Welted Shoes, made of fine quality Calfskin leather. Goodyear welted construction process makes the shoes highly durable, water resistant and comfortable fitting as the leather molds to the foot over time.', 
+		price: 130,
+	},
+}
+
+	19: {
+		item: 'GUCCI Cheryl GG Supreme Pump', 
+		category: 'Shoes',
+		quantity: 1,
+		image: 'https://i.pinimg.com/736x/05/58/c7/0558c796ee706b5cb289ffb68e3b509c--is-the-best-to-the.jpg',
+		description: 'A fierce cat centers the horsebit hardware on a chic pump featuring a GG Supreme detail at the loafer-style vamp.', 
+		price: 995,
+	},
+}
+
+	20: {
+		item: 'Nike Lunar Fingertrap TR', 
+		category: 'Shoes',
+		quantity: 1,
+		image: 'https://i.pinimg.com/736x/05/58/c7/0558c796ee706b5cb289ffb68e3b509c--is-the-best-to-the.jpg',
+		description: 'There's no games with your training schedule when you have the comfort of the Nike Lunar Fingertrap TR! Textile upper with synthetic overlays offers a wrapped-like look. Lace-up closure for a secure, adjustable fit. Plush tongue and collar offers support. Mesh lining gives a breathable wear in shoe.Rubber outsole.', 
+		price: 75,
+	},
+}
