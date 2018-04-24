@@ -85,7 +85,7 @@ app.post("/signup", function (req, res) {
         passport.authenticate("local")(req, res, function () {
 
             console.log(newUser);
-            var newCart = { userId: req.user._id }
+            var newCart = { userId: req.user._id, items:[]}
             Cart.create(newCart, function (err, newlyCreated) {
                 if (err) {
                     console.log(err);
@@ -111,12 +111,13 @@ app.get("/manage", function (req, res) {
 });
 
 app.get("/login", function (req, res) {
+
     res.render("auth");
 });
 //================
 // Show products
 //================
-app.get("/items", function (req, res) {
+app.get("/items",isLoggedIn, function (req, res) {
     Product.find({}, function (err, allProducts) {
         if (err) {
             console.log(err);
@@ -130,18 +131,18 @@ app.get("/items", function (req, res) {
 //================
 // Show filtered product detail
 //================
-app.get("/items", function (req, res) {
-    //find all products
-    Product.find({}, function (err, allProducts) {
-        if (err) {
-            console.log(err);
-        } else {
-            //filter
-            var filterProduct = lodash.filter(allProducts, x => x.category === 'Headphone');
-            res.render("index", { filterproducts: filterProduct });
-        }
-    });
-});
+// app.get("/items", function (req, res) {
+//     //find all products
+//     Product.find({}, function (err, allProducts) {
+//         if (err) {
+//             console.log(err);
+//         } else {
+//             //filter
+//             var filterProduct = lodash.filter(allProducts, x => x.category === 'Headphone');
+//             res.render("index", { filterproducts: filterProduct });
+//         }
+//     });
+// });
 
 //================
 // Order
@@ -188,30 +189,33 @@ app.post("/orders", isLoggedIn, function (req, res) {
 
 app.get("/cart", isLoggedIn, function (req, res) {
     console.log("GET: cart"); 
-    Cart.find({ userId: req.user._id }).populate("items").exec(function (err, foundCart) {
+    console.log(req.user._id);
+    Cart.findOne({ userId: req.user._id }, function (err, foundCart) {
         if (err) {
             console.log(err);
         } else {
             console.log(foundCart);
-            res.render("cart", { carts: foundCart[0] });
+            res.render("cart", { carts: foundCart });
         }
     });
 });
 
 app.post("/cart/:id", isLoggedIn, function (req, res) {
     console.log("POST: cart");
-    Cart.find({ userId: req.user._id }, function (err, foundCart) {
+    
+    Cart.findOne({userId: req.user._id }, function (err, foundCart) {
         if (err) {
-            console.log(err);
+            //console.log(err);
         } else {
             Product.findById(req.params.id, function (err, foundProduct) {
                 if (err) {
                     console.log(err);
                 } else {
-                    console.log(foundProduct);
-                    var item = { quantity: req.body.quantity, itemId: req.params.id };
+                    var item = { title: foundProduct.item, itemId: req.params.id, price: foundProduct.price, image: foundProduct.image};
                     foundCart.items.push(item);
-                    redirect("/cart");
+                    foundCart.save();
+                    console.log(foundCart);
+                    res.redirect("/items");
                 }
             });
         }
@@ -219,8 +223,14 @@ app.post("/cart/:id", isLoggedIn, function (req, res) {
 });
 
 app.delete("/cart/:id", isLoggedIn, function(req, res){
+    console.log(req.params);
+    Cart.findOne({userId: req.user._id }, function (err, foundCart){
+      foundCart.items.pull({id: req.params.id });
+      foundCart.save();
+      });
+   
     console.log("DELETE: cart"); 
-})
+});
 
 //================
 // Search
@@ -311,7 +321,7 @@ app.delete("/:id", isAdmin, function (req, res) {
             res.redirect("back");
         } else {
             // foundProduct.
-            res.redirect("items");
+            res.redirect("/items");
         }
     });
 });

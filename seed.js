@@ -310,27 +310,21 @@ function seedDB() {
         console.log("Finished Initialization of Orders");
     });
 
-    Cart.remove({}, function (err) {
-        if (err) {
-            console.log(err);
-        }
-        console.log("Initialize cart!");
-        //add a few campgrounds
-        cartData.forEach(function(cart){
-            let newCart = {userId:cart.userId, items:[]}; 
-            // console.log(cart.items); 
-            cart.items.forEach(function(item){
-                newCart.items.push(item); 
-            })
-            // console.log(newCart); 
-            Cart.create(newCart, function(err, cart){
-                if(err){
-                    console.log(err); 
-                }else {
-                    // console.log(cart); 
-                }
-            }); 
-        }); 
+    // Cart.remove({}, function (err) {
+    //     if (err) {
+    //         console.log(err);
+    //     }
+    //     console.log("Initialize cart!");
+    //     //add a few campgrounds
+    //     cartData.forEach(function(cart){
+    //         let newCart = {userId:cart.userId, items:[]}; 
+    //         // console.log(cart.items); 
+    //         cart.items.forEach(function(item){
+    //             newCart.items.push(item); 
+    //         })
+    //         // console.log(newCart); 
+    //     });
+    // });
         // var newCart = {userId:carData.userId};
         // Cart.create(newCart, function (err, newCart) {
         //     console.log("Initialization of cart");
@@ -346,8 +340,8 @@ function seedDB() {
         //     console.log("Finished Initialization of carts");
         // });
 
-        console.log("Finished Initialization of Carts");
-    });
+    //     console.log("Finished Initialization of Carts");
+    // });
 
 
 
@@ -362,8 +356,8 @@ function seedDB() {
 
     //     }); 
 
-
 }
+
 
 
 module.exports = seedDB;

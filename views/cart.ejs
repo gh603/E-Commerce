@@ -32,6 +32,7 @@
                 </tr>
             </thead>
             <tbody>
+                <% if(carts.items != null) { %>
                 <% carts.items.forEach(function(item){%>
                     <tr class="productitm">
                         <td class="id"><%=item._id%></td> 
@@ -43,7 +44,7 @@
                             <span class="remove glyphicon glyphicon-trash"></span>
                         </td>
                     </tr>
-                <%})%>
+                <%}) }%>
                 <tr class="extracosts"> 
                     <td class="light">Shipping &amp; Tax</td>
                     <td colspan="2" class="light"></td>
