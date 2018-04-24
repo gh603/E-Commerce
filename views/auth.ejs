@@ -11,6 +11,8 @@
     <link rel="stylesheet" href="../styles/auth.css">
     <!-- js -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	
+	<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
     <script src="../js/auth.js"></script>
 </head>
 
@@ -31,51 +33,64 @@
             <div id="login">
                 <h1>Welcome Back!</h1>
 
-                <form action="/login" method="post">
+                <form id="form1" action="/login" method="post">
 
                     <div class="field-wrap">
-                        <input type="email" name="email" placeholder="Email" />
+                        <input id="email" type="email" name="email" placeholder="Email" />
                     </div>
-
+					
+					<div class="field-wrap error-message" id="error1" > Invalid email address
+					</div>
+					
                     <div class="field-wrap">
-                        <input type="password" name="password" placeholder="Password" />
+                        <input id="password" type="password" name="password" placeholder="Password" />
                     </div>
-
+					
+					<div class="field-wrap error-message" id="error2" > Password must have at least 6 digits
+					</div>
+					
                     <p class="forgot">
                         <a href="#">Forgot Password?</a>
                     </p>
 
-                    <button class="button button-block" />Log In</button>
-
                 </form>
+				
+				<button class="button button-block" id="button_login"/>Log In</button>
 
             </div>
             <div id="signup">
                 <h1>Sign Up for Free</h1>
 
-                <form action="/signup" method="post">
+                <form id="form2" action="/signup" method="post">
 
                     <div class="top-row">
                         <div class="field-wrap">
-                            <input type="text" name="fname" placeholder="First Name" />
+                            <input id="firstname" type="text" name="fname" placeholder="First Name" />
                         </div>
 
                         <div class="field-wrap">
-                            <input type="text" name="lname" placeholder="Last Name" />
+                            <input  id="lastname" type="text" name="lname" placeholder="Last Name" />
                         </div>
                     </div>
+					<div class="field-wrap error-message" id="error3"> Invalid first name or last name</div>
 
                     <div class="field-wrap">
-                        <input type="email" name="email" placeholder="Email" />
+                        <input id="signup_email" type="email" name="email" placeholder="Email" />
                     </div>
+					
+					<div class="field-wrap error-message" id="error4"> Invalid email address
+					</div>
 
                     <div class="field-wrap">
-                        <input type="password" name="password" placeholder="Password" />
+                        <input id="signup_password" type="password" name="password" placeholder="Password" />
                     </div>
-
-                    <button type="submit" class="button button-block" />Get Started</button>
-
+					
+					<div class="field-wrap error-message" id="error5"> Password must have at least 6 digits
+					</div>
+					
                 </form>
+				
+				<button type="submit" class="button button-block" id="button_signup"/>Get Started</button>
             </div>
 
         </div>
