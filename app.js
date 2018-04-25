@@ -259,7 +259,7 @@ app.post("/cart/:id", isLoggedIn, function (req, res) {
                     });
 
                     if (!isFound) {
-                        var item = { title: foundProduct.item, id: req.params.id, price: foundProduct.price, image: foundProduct.image, quantity: 1 };
+                        var item = { title: foundProduct.item, id: req.params.id, price: foundProduct.price, image: foundProduct.image, quantity: req.body.quantity };
                         foundCart.items.push(item);
                     }
                     // var item = { title: foundProduct.item, id: req.params.id, price: foundProduct.price, image: foundProduct.image, quantity: 1 };
