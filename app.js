@@ -76,7 +76,8 @@ app.post("/login", passport.authenticate("local",
 
 app.post("/signup", function (req, res) {
     // var newUser = new User({username: req.body.Email, FirstName: req.body.FirstName, LastName: req.body.LastName, Email: req.body.Email });
-    var newUser = new User({ username: req.body.email, fname: req.body.fname, lname: req.body.lname, email: req.body.email, isManager: true });
+    var newUser = new User({ username: req.body.email, fname: req.body.fname, 
+        lname: req.body.lname, email: req.body.email, isManager: false });
     User.register(newUser, req.body.password, function (err, user) {
         if (err) {
 
@@ -121,7 +122,9 @@ app.get("/login", function (req, res) {
 // Show products with filter function
 //================
 app.get("/items", isLoggedIn, function (req, res) {
-    var filtercategory = req.body.cate || '';
+    console.log("GET: items");
+    var filtercategory = req.query.cate || '';
+    console.log(filtercategory);
     var perPage = 9;
     var page = req.query.page || 1;
 
@@ -147,14 +150,20 @@ app.get("/items", isLoggedIn, function (req, res) {
         Product
             .find({})
             .skip((perPage * page) - perPage)
-            .limit(perPage)
+            // .limit(perPage)
             .exec(function (err, allProducts) {
                 if (err) {
                     console.log(err);
                 } else {
-                    var filterProduct = filter(allProducts, x => x.category === filtercategory);
+                    const filterProduct = allProducts.filter(product => product.category === filtercategory); 
+                    // var filterProduct = filter(allProducts,
+                    //     (x) => {
+                    //         console.log(x.category + ' vs. ' + filtercategory + ':'); 
+                    //         console.log(x.category === filtercategory); 
+                    //         x.category === filtercategory; 
+                    //     });
+                    console.log(filterProduct.length); 
                     res.render("index", { products: filterProduct, current: page, pages: Math.ceil(filterProduct.length / perPage) });
-
                 }
             });
     }
@@ -228,8 +237,8 @@ app.get("/cart", isLoggedIn, function (req, res) {
 
 app.post("/cart/:id", isLoggedIn, function (req, res) {
     console.log("POST: cart");
-    console.log(req.params.id); 
-    console.log(req.body.quantity); 
+    console.log(req.params.id);
+    console.log(req.body.quantity);
 
     Cart.findOne({ userId: req.user._id }, function (err, foundCart) {
         if (err) {
@@ -239,17 +248,17 @@ app.post("/cart/:id", isLoggedIn, function (req, res) {
                 if (err) {
                     console.log(err);
                 } else {
-                    let isFound = false; 
+                    let isFound = false;
                     // console.log("request item id:" + req.params.id); 
                     foundCart.items.forEach((item) => {
                         // console.log("cart item id:" + item._id); 
-                        if(item._id == req.params.id){
-                            isFound = true; 
-                            item.quantity = req.body.quantity; 
+                        if (item._id == req.params.id) {
+                            isFound = true;
+                            item.quantity = req.body.quantity;
                         }
-                    }); 
+                    });
 
-                    if(!isFound) {
+                    if (!isFound) {
                         var item = { title: foundProduct.item, id: req.params.id, price: foundProduct.price, image: foundProduct.image, quantity: 1 };
                         foundCart.items.push(item);
                     }
@@ -299,7 +308,7 @@ app.post("/search", function (req, res) {
             if (err) {
                 console.log(err);
             } else {
-                console.log(allProducts.length); 
+                console.log(allProducts.length);
                 res.render("index", { products: allProducts, current: page, pages: Math.ceil(allProducts.length / perPage) });
 
             }

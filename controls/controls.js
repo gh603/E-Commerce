@@ -27,9 +27,7 @@ const listeners = (function () {
         });
     };
 
-    filterInProducts = (cate) => {
-        console.log('Filter products'); 
-        const data = {cate: cate}; 
+    filterInProducts = (data) => {
         $.ajax({
             type: "GET", 
             url: '/items', 
@@ -76,8 +74,10 @@ const listeners = (function () {
         },
         filterHandler: (event) => {
             event.preventDefault(); 
-            const cate = $(event.currentTarget).text(); 
-            filterInProducts(cate); 
+            const cate = $(event.currentTarget).text();
+            const data = {cate: cate}; 
+            console.log(data); 
+            filterInProducts(data); 
         }
     }
 })();
@@ -188,6 +188,7 @@ const controller = (function(reqCtrl, UICtrl) {
         search: '.navbar-form',
         cartTable: '#cart', 
         totalPrice: '.totalprice', 
+        sideList: '.sideList li', 
     }; 
 
     const config = {
@@ -222,12 +223,20 @@ const controller = (function(reqCtrl, UICtrl) {
         })
     };
 
+    filterInProductsHandler = () => {
+        console.log(DOMstrings.sideList); 
+        $(DOMstrings.sideList).click(event => {
+            reqCtrl.filterHandler(event); 
+        })
+    }
+
     return {
         init: () => {
             addItemToCartHandler(); 
             updateItemQuantityHandler(); 
             removeItemFromCartHandler(); 
             checkoutHandler(); 
+            filterInProductsHandler(); 
         }
     }
 })(listeners, UIController); 
