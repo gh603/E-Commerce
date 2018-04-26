@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Manage</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- css -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="../styles/manage.css">
+    <!-- js -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="../js/manage.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="../styles/manage.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="../styles/main.css" />
+    <link rel="stylesheet" href="../styles/modal.css">
+    <script src='http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.5/jquery-ui.min.js'></script>
+    <script src="../js/index.js"></script>
+    <script src="../controls/controls.js"></script>
+    <script src="../js/modal.js"></script>
+
+	
+	
+	
+</head>
+
+<body>
+    <% include ./partials/navbar %>
+
+    <div class="manage">
+        <ul class="tab-group">
+            <li class="tab active">
+                <a href="#add">Add</a>
+            </li>
+            <li class="tab">
+                <a href="#delete">Delete</a>
+            </li>
+			<li class="tab">
+                <a href="#update">Update</a>
+            </li>
+        </ul>
+
+        <div class="tab-content">
+            <div id="add">
+                <h1>Add Product</h1>
+
+                <form action="/items" method="post">
+
+                    <div class="field-wrap">
+                        <input type="text" name="item" placeholder="Product Name" />
+                    </div>
+
+                    <div class="field-wrap">
+                        <input type="text" name="category" placeholder="Category" />
+                    </div>
+                    <div class="field-wrap">
+                        <input type="text" name="price" placeholder="Price" />
+                    </div>
+					 <div class="field-wrap">
+                        <input type="text" name="quantity" placeholder="Quantity" />
+                    </div>
+					 <div class="field-wrap">
+                        <input type="text" name="image" placeholder="Image" />
+                    </div>
+					 <div class="field-wrap">
+                        <input type="text" name="description" placeholder="Description" />
+                    </div>
+
+                    <button class="button button-block" />Add</button>
+
+                </form>
+
+            </div>
+            <div id="delete">
+                <h1>Delete Product</h1>
+
+                <form action="/delete?_method=DELETE" method="post">
+
+                    <div class="field-wrap">
+                        <input type="text" name="id" placeholder="Product ID" />
+                    </div>
+                    <button  class="button button-block" />Delete</button>
+
+                </form>
+            </div>
+			
+        </div>
+    
+
+    <div id='main' style="margin-top:80px">
+        <div id='content'>
+            <div class="productList">
+                <% products.forEach(function(product){%>
+                    
+                        <div class="card-content">
+						
+						<form action="/delete?_method=DELETE" method="post">
+                            <div class="top-bar">
+                                <span>$<%=product.price%></span>
+                            </div>
+							
+							<div class="id"><%=product._id%></div>
+                            <div class="title"><%=product.item%></div>
+							
+							<div class="span"><%=product.category%></div>
+							
+							<input type="text" name="id" value="<%=product._id%>" style="visibility:hidden" />
+							
+							<button class="glyphicon glyphicon-remove" style="float:right;width:30px;height:30px"></button>
+							<div class="img" ><img style="width:60px;height:60px;" src="<%=product.image%>"></div>
+						</form>	
+                        </div>
+						<br>
+                    
+                <%})%>
+            </div>
+        </div>
+        <% include ./partials/pagination %>
+    </div>
+	
+	
+	
+</body>
+
+</html>
