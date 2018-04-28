@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Authorization</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- css -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="../styles/auth.css">
+    <!-- js -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	
+	<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="../js/auth.js"></script>
+</head>
+
+<body>
+    <% include ./partials/navbar %>
+
+    <div class="auth">
+        <ul class="tab-group">
+            <li class="tab active">
+                <a href="#login">Log In</a>
+            </li>
+            <li class="tab">
+                <a href="#signup">Sign Up</a>
+            </li>
+        </ul>
+
+        <div class="tab-content">
+            <div id="login">
+                <h1>Welcome Back!</h1>
+
+                <form id="form1" action="/login" method="post">
+
+                    <div class="field-wrap">
+                        <input id="email" type="email" name="email" placeholder="Email" />
+                    </div>
+					
+					<div class="field-wrap error-message" id="error1" > Invalid email address
+					</div>
+					
+                    <div class="field-wrap">
+                        <input id="password" type="password" name="password" placeholder="Password" />
+                    </div>
+					
+					<div class="field-wrap error-message" id="error2" > Password must have at least 6 digits
+					</div>
+					
+                    <p class="forgot">
+                        <a href="#">Forgot Password?</a>
+                    </p>
+
+                </form>
+				
+				<button class="button button-block" id="button_login"/>Log In</button>
+
+            </div>
+            <div id="signup">
+                <h1>Sign Up for Free</h1>
+
+                <form id="form2" action="/signup" method="post">
+
+                    <div class="top-row">
+                        <div class="field-wrap">
+                            <input id="firstname" type="text" name="fname" placeholder="First Name" />
+                        </div>
+
+                        <div class="field-wrap">
+                            <input  id="lastname" type="text" name="lname" placeholder="Last Name" />
+                        </div>
+                    </div>
+					<div class="field-wrap error-message" id="error3"> Invalid first name or last name</div>
+
+                    <div class="field-wrap">
+                        <input id="signup_email" type="email" name="email" placeholder="Email" />
+                    </div>
+					
+					<div class="field-wrap error-message" id="error4"> Invalid email address
+					</div>
+
+                    <div class="field-wrap">
+                        <input id="signup_password" type="password" name="password" placeholder="Password" />
+                    </div>
+					
+					<div class="field-wrap error-message" id="error5"> Password must have at least 6 digits
+					</div>
+					
+					<div class="field-wrap " style="height: 100px";>
+                        <input type="text" name="address" placeholder="address" />
+                    </div>
+					 <div class="field-wrap" >
+                        <input type="text" name="zip" placeholder="zip code" />
+                    </div>
+					 <div class="field-wrap">
+                        <input type="text" name="phone" placeholder="phone" />
+                    </div>
+					
+                </form>
+				
+				<button type="submit" class="button button-block" id="button_signup"/>Get Started</button>
+            </div>
+
+        </div>
+    </div>
+</body>
+
+</html>

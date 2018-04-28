@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Home</title>
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
+    <!-- css -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="../styles/index.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="../styles/main.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="../styles/modal.css" />
+    <!-- js -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src='http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.5/jquery-ui.min.js'></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="../js/index.js"></script>
+    <script src="../js/modal.js"></script>
+    <script src="../controls/controls.js"></script>
+</head>
+
+<body>
+    <nav id="mySideNav" class="sidenav">
+        <div class='closeSideNav' onclick="closeSideNav()">&times; </div>
+        <div class='sidebartitle'>
+            Categories
+            <ul class='sideList'>
+                <li onclick="hide_Headphone()">Headphone</li>
+                <li onclick="hide_Shoes()">Shoes</li>
+                <li onclick="hide_Camera_Lens()">Camera Lens</li>
+                <li onclick="hide_phone()">phone</li>
+            </ul>
+        </div>
+        <div class='sidebartitle'>
+            Price
+            <ul class='sideList'>
+                <li>Price Range 1</li>
+                <li>Price Range 2</li>
+                <li>Price Range 3</li>
+                <li>Price Range 4</li>
+            </ul>
+        </div>
+        <div class='sidebartitle'>
+            Brand
+            <ul class='sideList'>
+                <li>Brand 1</li>
+                <li>Brand 2</li>
+                <li>Brand 3</li>
+                <li>Brand 4</li>
+            </ul>
+        </div>
+    </nav>
+
+    <div id='main'>
+        <% include ./partials/navbar %>
+
+        <div id="tallModal" class="modal modal-wide fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h3 class="modal-title">Product Title</h3>
+                    </div>
+                    <div class="modal-body">
+                        <div class="img">
+                            <img src="https://www.t-mobile.com/content/dam/t-mobile/en-p/cell-phones/samsung/samsung-galaxy-s8/midnight-black/samsung-galaxy-s8-midnight-black-1-3x.jpg"
+                                alt="">
+                        </div>
+                        <div style="margin: 6% 6%">
+                            <div class="id">id</div>
+                            <div class="modal-description" style="min-height:50%">
+                                <h4>Description</h4>
+                                <p></p>
+                            </div>
+                            <div class="modal-price" style="height:15%">
+                                <h4>Price:</h4>
+                                <p></p>
+                            </div>
+                            <div style="height:10%">
+                                <h4>Quantity</h4>
+                                <input type="number" value="1" min="0" max="99" class="qtyinput">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Add To Cart</button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <!-- /.modal -->
+        <div id='content'>
+            <div>
+                <span style="font-size: 15px; cursor: pointer; padding-left: 30px" onclick="openSideNav()">&#9776; Filter</span>
+            </div>
+            <div class="productList">
+                <% products.forEach(function(product){%>
+                    <div class="card <%=product.category%>">
+                        <div class="card-content">
+                            <div class="top-bar">
+                                <span>$
+                                    <%=product.price%>
+                                </span>
+                            </div>
+                            <a data-toggle="modal" href="#tallModal" class="img">
+                                <img src="<%=product.image%>">
+                            </a>
+                            <!-- <div class="img"><img src="<%=product.image%>"></div> -->
+                        </div>
+                        <div class="card-description">
+                            <div class="id">
+                                <%=product._id%>
+                            </div>
+                            <div class="title">
+                                <%=product.item%>
+                            </div>
+                            <div class="cart">
+                                <span class="glyphicon glyphicon-shopping-cart"></span>
+                            </div>
+                            <div class='item-desc hidden'>
+                                    <%=product.description%>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="span">
+                                <%=product.category%>
+                            </div>
+                        </div>
+                    </div>
+                    <%})%>
+            </div>
+        </div>
+        <% include ./partials/pagination %>
+    </div>
+</body>
+
+</html>

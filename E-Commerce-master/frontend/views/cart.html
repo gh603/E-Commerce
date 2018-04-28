@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Shopping Cart</title>
+    <!-- css style sheet -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="../styles/cart.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="../styles/main.css" />
+    <!-- js -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="../js/cart.js"></script>
+</head>
+
+<body>
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">E-Commerce</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li>
+                    <a href="./index.html">Products</a>
+                </li>
+            </ul>
+            <form class="navbar-form navbar-left" action="/items.php">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Search">
+                </div>
+                <button type="submit" class="btn btn-default">Submit</button>
+            </form>
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a class="orders" href="./orders.html">Orders</a>
+                </li>
+                <li>
+                    <a class="cart" href="./cart.html">Shopping cart</a>
+                </li>
+                <li>
+                    <a href="./auth.html">
+                        <span class="glyphicon glyphicon-user"></span>Log In</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <header id="title">
+        <h1>Shopping Cart</h1>
+    </header>
+    <div id="page">
+        <table id="cart">
+            <thead>
+                <tr>
+                    <th class="first">Photo</th>
+                    <th class="second">Qty</th>
+                    <th class="third">Product</th>
+                    <th class="fourth">Line Total</th>
+                    <th class="fifth">&nbsp;</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- shopping cart contents -->
+                <tr class="productitm">
+                    <!-- http://www.inkydeals.com/deal/ginormous-bundle/ -->
+                    <td>
+                        <img src='https://tctechcrunch2011.files.wordpress.com/2014/11/solo2-wireless-red-quarter.jpg?w=738' class="thumb">
+                    </td>
+                    <td>
+                        <input type="number" value="1" min="0" max="99" class="qtyinput">
+                    </td>
+                    <td>Design Bundle Package</td>
+                    <td>$79.00</td>
+                    <td>
+                        <span class="remove glyphicon glyphicon-trash"></span>
+                    </td>
+                </tr>
+                <tr class="productitm">
+                    <!-- http://www.amazon.com/Stuff-My-Cat-The-Book/dp/0811855384 -->
+                    <td>
+                        <img src="https://www.bell.ca/Styles/wireless/all_languages/all_regions/catalog_images/large/iPhoneX_spgry-en_lrg.png" class="thumb">
+                    </td>
+                    <td>
+                        <input type="number" value="1" min="0" max="99" class="qtyinput">
+                    </td>
+                    <td>Stuff on my Cat: The Book</td>
+                    <td>$8.95</td>
+                    <td>
+                        <span class="remove glyphicon glyphicon-trash"></span>
+                    </td>
+                </tr>
+                <tr class="productitm">
+                    <!-- http://www.amazon.com/SpongeBob-SquarePants-The-First-Episodes/dp/B002DYJTVW -->
+                    <td>
+                        <img src="https://www.grootgadgets.com/wp-content/uploads/2017/03/Canon-70-200mm-Lens-mug-White-replica-groot-gadgets-1-400x400.jpg"
+                            class="thumb">
+                    </td>
+                    <td>
+                        <input type="number" value="1" min="0" max="99" class="qtyinput">
+                    </td>
+                    <td>SpongeBob's First 100 Episodes</td>
+                    <td>$75.00</td>
+                    <td>
+                        <span class="remove glyphicon glyphicon-trash"></span>
+                    </td>
+                </tr>
+                <tr class="productitm">
+                    <!-- http://www.barnesandnoble.com/w/javascript-and-jquery-david-sawyer-mcfarland/1100405042 -->
+                    <td>
+                        <img src="https://i.pinimg.com/736x/05/58/c7/0558c796ee706b5cb289ffb68e3b509c--is-the-best-to-the.jpg" class="thumb">
+                    </td>
+                    <td>
+                        <input type="number" value="1" min="0" max="99" class="qtyinput">
+                    </td>
+                    <td>JavaScript &amp; jQuery: The Missing Manual</td>
+                    <td>$27.50</td>
+                    <td>
+                        <span class="remove glyphicon glyphicon-trash"></span>
+                    </td>
+                </tr>
+
+                <!-- tax + subtotal -->
+                <tr class="extracosts">
+                    <td class="light">Shipping &amp; Tax</td>
+                    <td colspan="2" class="light"></td>
+                    <td>$35.00</td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr class="totalprice">
+                    <td class="light">Total</td>
+                    <td colspan="2">&nbsp;</td>
+                    <td>
+                        <span class="thick">$225.45</span>
+                    </td>
+                    <td>&nbsp;</td>
+                </tr>
+
+                <!-- checkout btn -->
+                <tr class="checkoutrow">
+                    <td colspan="5" class="checkout">
+                        <button id="submitbtn">Checkout Now!</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+
+</html>
