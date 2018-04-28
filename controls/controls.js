@@ -101,6 +101,7 @@ const UIController = (function () {
             modalImg: '.modal-body .img img', 
             modalDes: '.modal-body .modal-description', 
             modalPrice: '.modal-body .modal-price', 
+            // modalInventory: '.modal-body .modal-quantity', 
             modalBtnToSubmit: '.modal-footer .btn'
         }
     }; 
@@ -188,7 +189,8 @@ const UIController = (function () {
         $(DOMstrings.modal.modalTitle).text(data.title);
         $(DOMstrings.modal.modalPrice).find('p').eq(0).text(data.price); 
         $(DOMstrings.modal.modalId).text(data.id);  
-        $(DOMstrings.modal.modalDes).find('p').eq(0).text(data.description); 
+        $(DOMstrings.modal.modalDes).find('p').eq(0).text(data.description);
+        // $(DOMstrings.modal.modalInventory).find('p').eq(0).text(data.quantity); 
         $(DOMstrings.modal.modalImg).attr('src', data.img); 
     }
 
