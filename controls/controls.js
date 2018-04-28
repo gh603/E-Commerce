@@ -27,9 +27,7 @@ const listeners = (function () {
         });
     };
 
-    filterInProducts = (cate) => {
-        console.log('Filter products'); 
-        const data = {cate: cate}; 
+    filterInProducts = (data) => {
         $.ajax({
             type: "GET", 
             url: '/items', 
@@ -60,10 +58,19 @@ const listeners = (function () {
         addItemToCartHandler:(event)=>{
             event.preventDefault();
             console.log('Adding item to cart');
-            const id = $(event.target).parent().prev().prev().html();
+            const id = $.trim($(event.target).parent().prev().prev().html());
             const data = { quantity: 1 };
             updateItemInCart(id, data);
         },
+        addItemToCartFromDescHandler: (event) => {
+            event.preventDefault(); 
+            console.log('Adding item to cart'); 
+            const modalBody = $(event.currentTarget).parent().prev(); 
+            const id = $.trim(modalBody.find('div .id').html()); 
+            const data = {quantity: parseInt(modalBody.find('div div .qtyinput').val())}; 
+            console.log(data); 
+            updateItemInCart(id, data); 
+        }, 
         checkoutHandler: (event) => {
             event.preventDefault();
             console.log("Checking out");
@@ -76,8 +83,10 @@ const listeners = (function () {
         },
         filterHandler: (event) => {
             event.preventDefault(); 
-            const cate = $(event.currentTarget).text(); 
-            filterInProducts(cate); 
+            const cate = $(event.currentTarget).text();
+            const data = {cate: cate}; 
+            console.log(data); 
+            filterInProducts(data); 
         }
     }
 })();
@@ -86,6 +95,15 @@ const UIController = (function () {
     const DOMstrings = {
         cartNav: '.nav .cart', 
         cartBtn: '.card .cart', 
+        modal: {
+            modalTitle: '.modal-title', 
+            modalId: '.modal-body .id', 
+            modalImg: '.modal-body .img img', 
+            modalDes: '.modal-body .modal-description', 
+            modalPrice: '.modal-body .modal-price', 
+            // modalInventory: '.modal-body .modal-quantity', 
+            modalBtnToSubmit: '.modal-footer .btn'
+        }
     }; 
 
     calculateTotalPrice = (table, priceIndex) => {
@@ -144,12 +162,6 @@ const UIController = (function () {
                     'width': 75,
                     'height': 75
             }, 1000, 'easeInOutExpo');
-            
-            setTimeout(function () {
-                cart.effect("shake", {
-                    times: 2
-                }, 200);
-            }, 1500);
 
             imgclone.animate({
                 'width': 0,
@@ -159,6 +171,28 @@ const UIController = (function () {
             });
         }
     }; 
+
+    extractInfoFromCard = (cardEvent) => {
+        let data = []; 
+        target = $(cardEvent.currentTarget); 
+        data['img'] = $(target).find('img').eq(0).attr('src'); 
+        data['price'] = $(target).prev().find('span').eq(0).text(); 
+        card_desc = $(target).parent().next(); 
+        data['id'] = $(card_desc).find('.id').text(); 
+        data['title'] = $(card_desc).find('.title').text();
+        data['description'] = $(card_desc).find('.item-desc').text(); 
+        return data;
+    }
+
+    showItemDescription = (event) => {
+        const data = extractInfoFromCard(event);
+        $(DOMstrings.modal.modalTitle).text(data.title);
+        $(DOMstrings.modal.modalPrice).find('p').eq(0).text(data.price); 
+        $(DOMstrings.modal.modalId).text(data.id);  
+        $(DOMstrings.modal.modalDes).find('p').eq(0).text(data.description);
+        // $(DOMstrings.modal.modalInventory).find('p').eq(0).text(data.quantity); 
+        $(DOMstrings.modal.modalImg).attr('src', data.img); 
+    }
 
     return {
         removeItemFromCartHandler: (event, table, priceIndex, taxRate) => {
@@ -175,6 +209,9 @@ const UIController = (function () {
         addItemToCartHandler: (event) => {
             addToCart(event); 
         }, 
+        viewItemDescHandler: (event) => {
+            showItemDescription(event); 
+        }
     };
 })();
 
@@ -188,6 +225,9 @@ const controller = (function(reqCtrl, UICtrl) {
         search: '.navbar-form',
         cartTable: '#cart', 
         totalPrice: '.totalprice', 
+        sideList: '.sideList li', 
+        cartDesLink: '.card .img', 
+        modalAddToCart: '.modal-footer .btn',
     }; 
 
     const config = {
@@ -200,6 +240,10 @@ const controller = (function(reqCtrl, UICtrl) {
             reqCtrl.addItemToCartHandler(event); 
             UICtrl.addItemToCartHandler(event); 
         }); 
+        $(DOMstrings.modalAddToCart).click(event => {
+            reqCtrl.addItemToCartFromDescHandler(event); 
+        })
+
     }; 
 
     updateItemQuantityHandler = () => {
@@ -222,12 +266,27 @@ const controller = (function(reqCtrl, UICtrl) {
         })
     };
 
+    filterInProductsHandler = () => {
+        $(DOMstrings.sideList).click(event => {
+            reqCtrl.filterHandler(event); 
+        })
+    }; 
+    
+    viewItemDescHandler = () => {
+        $(DOMstrings.cartDesLink).click(event => {
+            console.log(event); 
+            UICtrl.viewItemDescHandler(event); 
+        })
+    }
+
     return {
         init: () => {
+            viewItemDescHandler();
             addItemToCartHandler(); 
             updateItemQuantityHandler(); 
             removeItemFromCartHandler(); 
             checkoutHandler(); 
+            filterInProductsHandler(); 
         }
     }
 })(listeners, UIController); 

@@ -30,7 +30,7 @@ app.use(flash());
 
 // PASSPORT CONFIGURATION
 app.use(require("express-session")({
-    secret: "Once again Rusty wins cutest dog!",
+    secret: "!",
     resave: false,
     saveUninitialized: false
 }));
@@ -43,6 +43,8 @@ passport.deserializeUser(User.deserializeUser());
 
 app.use(function (req, res, next) {
     res.locals.currentUser = req.user;
+    res.locals.error = req.flash("error");
+    res.locals.success = req.flash("success");
     next();
 });
 
@@ -63,6 +65,7 @@ app.get("/login", function (req, res) {
     res.render("auth");
 });
 
+
 app.post("/login", passport.authenticate("local",
     {
 
@@ -73,14 +76,14 @@ app.post("/login", passport.authenticate("local",
 
 
 
-
 app.post("/signup", function (req, res) {
     // var newUser = new User({username: req.body.Email, FirstName: req.body.FirstName, LastName: req.body.LastName, Email: req.body.Email });
-    var newUser = new User({ username: req.body.email, fname: req.body.fname, lname: req.body.lname, email: req.body.email, isManager: true });
+    var newUser = new User({ username: req.body.email, fname: req.body.fname, 
+        lname: req.body.lname, email: req.body.email, isManager: true, address: req.body.address, phone: req.body.phone, zipcode: req.body.zip });
     User.register(newUser, req.body.password, function (err, user) {
         if (err) {
-
             console.log(err);
+            req.flash("error", err.message);
             return res.render("auth");
         }
         passport.authenticate("local")(req, res, function () {
@@ -94,6 +97,8 @@ app.post("/signup", function (req, res) {
                     console.log(newlyCreated);
                 }
             });
+            
+            req.flash("success", "welcome!" );
             res.redirect("/items");
         });
     });
@@ -103,25 +108,78 @@ app.get("/logout", function (req, res) {
     req.logout();
     res.redirect("/items");
 });
+
+//================
+// Account
+//================
+
+app.get("/account", isLoggedIn, function (req, res) {
+    User.findById(req.user._id, function(err, foundUser){
+        if(err){
+            console.log(err);
+        } else {
+            res.render("account", {user: foundUser});
+        }
+    })
+    
+});
+
 //================
 // Manager
 //================
 
-app.get("/manage", function (req, res) {
-    res.render("manage");
-});
 
-app.get("/login", function (req, res) {
+app.get("/manage", isLoggedIn, function (req, res) {
+    var filtercategory = "";
+    console.log(req.body);
+    var perPage = 10000;
+    var page = req.query.page || 1;
 
-    res.render("auth");
-});
+    if (filtercategory === '') {
+        Product
+            .find({})
+            .skip((perPage * page) - perPage)
+            .limit(perPage)
+            .exec(function (err, allProducts) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    Product.count().exec(function (err, count) {
+                        if (err) {
+                            console.log(err);
+                        } else {
+                            res.render("manage", { products: allProducts, current: page, pages: Math.ceil(count / perPage) });
+                        }
+                    });
+                }
+            });
+    } else {
+        Product
+            .find({})
+            .skip((perPage * page) - perPage)
+            .limit(perPage)
+            .exec(function (err, allProducts) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    var filterProduct = filter(allProducts, x => x.category === filtercategory);
+                    res.render("manage", { products: filterProduct, current: page, pages: Math.ceil(filterProduct.length / perPage) });
+                }
+            });
+        }
+
+    });
+
+
 
 
 //================
 // Show products with filter function
 //================
 app.get("/items", isLoggedIn, function (req, res) {
-    var filtercategory = req.body.cate || '';
+    console.log("GET: items");
+    var filtercategory = req.query.cate || '';
+    console.log(filtercategory);
     var perPage = 9;
     var page = req.query.page || 1;
 
@@ -147,19 +205,24 @@ app.get("/items", isLoggedIn, function (req, res) {
         Product
             .find({})
             .skip((perPage * page) - perPage)
-            .limit(perPage)
+            // .limit(perPage)
             .exec(function (err, allProducts) {
                 if (err) {
                     console.log(err);
                 } else {
-                    var filterProduct = filter(allProducts, x => x.category === filtercategory);
+                    const filterProduct = allProducts.filter(product => product.category === filtercategory); 
+                    // var filterProduct = filter(allProducts,
+                    //     (x) => {
+                    //         console.log(x.category + ' vs. ' + filtercategory + ':'); 
+                    //         console.log(x.category === filtercategory); 
+                    //         x.category === filtercategory; 
+                    //     });
+                    console.log(filterProduct.length); 
                     res.render("index", { products: filterProduct, current: page, pages: Math.ceil(filterProduct.length / perPage) });
-
                 }
             });
-    }
-
-});
+        }
+    });
 
 //================
 // Order
@@ -172,7 +235,6 @@ app.get("/orders", isLoggedIn, function (req, res) {
         if (err) {
             console.log(err);
         } else {
-            console.log(allOrders);
             res.render("orders", { orders: allOrders });
         }
     });
@@ -182,34 +244,80 @@ app.get("/orders", isLoggedIn, function (req, res) {
 // Checkout
 //================
 
+// app.post("/orders", isLoggedIn, function (req, res) {
+//     console.log('POST: orders');
+//     var flag = false;
+//     Cart.findOne({ userId: req.user._id }, function (err, foundCart) {
+//         if (err) {
+//             console.log(err);
+//         } else {
+//             var newItems = [];
+//             var total = 0;  
+//             foundCart.items.forEach((item) =>{       
+//                 Product.findById(item.id, function(err, foundProduct){
+//                     if(err){
+//                         console.log(err);
+//                     } else {
+//                         var temp = foundProduct.quantity - item.quantity;
+//                         console.log("temp is " + temp );
+//                         if(temp >= 0){
+//                             foundProduct.quantity -= item.quantity;
+//                             foundProduct.save(); 
+//                             newItems.push(item);
+//                             total += (item.price * item.quantity);
+//                         } else {
+//                             console.log("not enough inventory");
+//                             let flag = true;
+//                         } 
+//                     }    
+//                     console.log(foundProduct);    
+//                 });    
+//             });
+//             console.log("flag is " + flag);
+//             if(!flag){
+//                 var newOrder = { userId: req.user._id, items: newItems, total: total };
+//                 Order.create(newOrder, function (err, newlyCreated) {
+//                 if (err) {
+//                     console.log(err);
+//                 } else {
+//                     console.log(newlyCreated);
+//                     foundCart.items = [];
+//                     foundCart.save(); 
+//                     res.redirect("/items");    
+//                     }
+//                 });
+//             }  
+//         }
+//      });                       
+// });
 app.post("/orders", isLoggedIn, function (req, res) {
     console.log('POST: orders');
+    var newItems = [];
+    var total = 0;
     Cart.findOne({ userId: req.user._id }, function (err, foundCart) {
         if (err) {
             console.log(err);
         } else {
-            var newItems = [];
-            var total = 0;
             foundCart.items.forEach((item) =>{
                 newItems.push(item);
                 total += (item.price * item.quantity);
+                Product.findById(item.id, function(err, foundProduct){
+                foundProduct.quantity -= item.quantity;
+                foundProduct.save();
+                });
             });
             var newOrder = { userId: req.user._id, items: newItems, total: total };
+            console.log("new items are " + newItems);
             Order.create(newOrder, function (err, newlyCreated) {
                 if (err) {
                     console.log(err);
                 } else {
-                    console.log(newlyCreated);
                     foundCart.items = [];
-                    foundCart.save();
-                    
+                    foundCart.save();     
                 }
             });
-            console.log("luozhangji");
-            res.redirect("/orders");
         }
-    });
-    
+    });    
 });
 //================
 // Cart
@@ -228,8 +336,8 @@ app.get("/cart", isLoggedIn, function (req, res) {
 
 app.post("/cart/:id", isLoggedIn, function (req, res) {
     console.log("POST: cart");
-    console.log(req.params.id); 
-    console.log(req.body.quantity); 
+    console.log(req.params.id);
+    console.log(req.body.quantity);
 
     Cart.findOne({ userId: req.user._id }, function (err, foundCart) {
         if (err) {
@@ -239,24 +347,24 @@ app.post("/cart/:id", isLoggedIn, function (req, res) {
                 if (err) {
                     console.log(err);
                 } else {
-                    let isFound = false; 
+                    let isFound = false;
                     // console.log("request item id:" + req.params.id); 
                     foundCart.items.forEach((item) => {
                         // console.log("cart item id:" + item._id); 
-                        if(item._id == req.params.id){
-                            isFound = true; 
-                            item.quantity = req.body.quantity; 
+                        if (item._id == req.params.id) {
+                            isFound = true;
+                            item.quantity = req.body.quantity;
                         }
-                    }); 
+                    });
 
-                    if(!isFound) {
-                        var item = { title: foundProduct.item, id: req.params.id, price: foundProduct.price, image: foundProduct.image, quantity: 1 };
+                    if (!isFound) {
+                        var item = { title: foundProduct.item, id: req.params.id, price: foundProduct.price, image: foundProduct.image, quantity: req.body.quantity };
                         foundCart.items.push(item);
                     }
                     // var item = { title: foundProduct.item, id: req.params.id, price: foundProduct.price, image: foundProduct.image, quantity: 1 };
                     // foundCart.items.push(item);
                     foundCart.save();
-                    console.log(foundCart);
+                    // console.log(foundCart);
                     res.redirect("/items");
                 }
             });
@@ -299,7 +407,7 @@ app.post("/search", function (req, res) {
             if (err) {
                 console.log(err);
             } else {
-                console.log(allProducts.length); 
+                console.log(allProducts.length);
                 res.render("index", { products: allProducts, current: page, pages: Math.ceil(allProducts.length / perPage) });
 
             }
@@ -321,10 +429,11 @@ app.post("/items", isAdmin, function (req, res) {
     var image = req.body.image;
     var desc = req.body.description;
     var price = req.body.price;
+    var quantity = req.body.quantity;
 
     var newProduct = {
         item: name, category: category, quantity: quantity,
-        image: image, description: desc, price: price
+        image: image, description: desc, price: price, quantity: quantity
     }
     // Create a new campground and save to DB
     Product.create(newProduct, function (err, newlyCreated) {
@@ -391,6 +500,9 @@ app.delete("/delete", isAdmin, function (req, res) {
 //       }
 //    });
 
+// ============
+// Middleware
+// ============
 function isLoggedIn(req, res, next) {
     if (req.isAuthenticated()) {
         return next();
@@ -399,7 +511,6 @@ function isLoggedIn(req, res, next) {
 }
 
 function isAdmin(req, res, next) {
-
     if (req.isAuthenticated() && req.user.isManager == true) {
         return next();
     }
@@ -410,4 +521,13 @@ function isAdmin(req, res, next) {
 app.listen(8080, function () {
     console.log("The E-commerce Server Has Started!");
 });
+
+///////////////////////////////added on 4/26
+
+
+
+
+
+
+
 

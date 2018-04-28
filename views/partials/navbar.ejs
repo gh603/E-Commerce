@@ -17,7 +17,7 @@
         <ul class="nav navbar-nav navbar-right">
             <% if(currentUser && currentUser.isManager){ %>
             <li>
-                <a class="manage" href="/manage">Manage</a>
+                <a class="manager" href="/manage">Manage</a>
             </li>
             <% } %>
             <li>
@@ -25,6 +25,9 @@
             </li>
             <li>
                 <a class="cart" href="/cart">Shopping cart</a>
+            </li>
+			<li>
+                <a class="account" href="/account">Account</a>
             </li>
             <% if(!currentUser){ %>
             <li>
@@ -40,3 +43,17 @@
         </ul>
     </div>
 </nav>
+
+    <div class="container">
+        
+        <% if(error && error.length > 0){ %>
+            <div class="alert alert-danger" role="alert">
+                <%= error %>
+            </div>
+        <% } %>
+        <% if(success && success.length > 0){ %>
+            <div class="alert alert-success" role="alert">
+                <%= success %>
+            </div>
+        <% } %>
+    </div>
