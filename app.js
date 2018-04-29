@@ -100,21 +100,21 @@ app.post("/signup", function (req, res) {
 });
 
 app.get("/signup", (req, res) => {
-    console.log('GET: /signup'); 
-    const email = req.query.email; 
-    console.log(email); 
-    User.find({email: email}, (err, user) => {
-        if(err) {
-            console.log(err); 
-            return res.render("auth"); 
+    console.log('GET: /signup');
+    const email = req.query.email;
+    console.log(email);
+    User.find({ email: email }, (err, user) => {
+        if (err) {
+            console.log(err);
+            return res.render("auth");
         } else {
-            if(user.length > 0) {
-                res.send('fail'); 
+            if (user.length > 0) {
+                res.send('fail');
             } else {
-                res.send('success'); 
+                res.send('success');
             }
         }
-    }); 
+    });
 });
 
 app.get("/logout", function (req, res) {
@@ -142,25 +142,40 @@ app.get("/items", isLoggedIn, function (req, res) {
     console.log("GET: items");
     var perPage = 9;
     var page = req.query.page || 1;
+    var filtercategory = req.query.cate || '';
 
-    Product
-        .find({})
-        .skip((perPage * page) - perPage)
-        .limit(perPage)
-        .exec(function (err, allProducts) {
-            if (err) {
-                console.log(err);
-            } else {
-                Product.count().exec(function (err, count) {
-                    if (err) {
-                        console.log(err);
-                    } else {
-                        res.render("index", { products: allProducts, current: page, pages: Math.ceil(count / perPage) });
-                        return;
-                    }
-                });
-            }
-        });
+    if (filtercategory === '') {
+        Product
+            .find({})
+            .skip((perPage * page) - perPage)
+            .limit(perPage)
+            .exec(function (err, allProducts) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    Product.count().exec(function (err, count) {
+                        if (err) {
+                            console.log(err);
+                        } else {
+                            res.render("index", { products: allProducts, current: page, pages: Math.ceil(count / perPage) });
+                            return;
+                        }
+                    });
+                }
+            });
+    } else {
+        var query = { category: filtercategory };
+        Product.find(query)
+            .skip((perPage * page) - perPage)
+            .limit(perPage)
+            .exec(function (err, allProducts) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    res.render('./partials/productList', { products: allProducts, current: page, pages: Math.ceil(allProducts.length / perPage) });
+                }
+            });
+    };
 });
 
 //================
@@ -309,27 +324,7 @@ app.post("/search", function (req, res) {
 });
 
 
-//================
-// Filter
-//================
-app.post("/filter", (req, res) => {
-    var perPage = 9;
-    var page = req.query.page || 1;
-    var filtercategory = req.body.cate || '';
-    var query = {category: filtercategory}; 
-    console.log(query);
-    Product.find(query)
-        .skip((perPage * page) - perPage)
-        .limit(perPage)
-        .exec(function (err, allProducts) {
-            if (err) {
-                console.log(err);
-            } else {
-                console.log(allProducts.length);
-                res.render('./partials/productList', { products: allProducts, current: page, pages: Math.ceil(allProducts.length / perPage) });
-            }
-        });
-})
+
 
 
 //================

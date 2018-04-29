@@ -33,8 +33,8 @@ const listeners = (function () {
         //     console.log(data); 
         // })
         $.ajax({
-            type: "POST", 
-            url: '/filter', 
+            type: "GET", 
+            url: '/items', 
             data: data, 
             success: (data) => { 
                 $(DOMstrings.products).empty(); 
