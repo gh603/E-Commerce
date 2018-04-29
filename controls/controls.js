@@ -112,7 +112,7 @@ const UIController = (function () {
             modalImg: '.modal-body .img img', 
             modalDes: '.modal-body .modal-description', 
             modalPrice: '.modal-body .modal-price', 
-            // modalInventory: '.modal-body .modal-quantity', 
+            modalInventory: '.modal-body .modal-quantity', 
             modalBtnToSubmit: '.modal-footer .btn'
         }
     }; 
@@ -192,6 +192,8 @@ const UIController = (function () {
         data['id'] = $(card_desc).find('.id').text(); 
         data['title'] = $(card_desc).find('.title').text();
         data['description'] = $(card_desc).find('.item-desc').text(); 
+        data['qty'] = $(card_desc).find('.item-qty').text(); 
+        console.log(data); 
         return data;
     };
 
@@ -199,10 +201,13 @@ const UIController = (function () {
         const data = extractInfoFromCard(event);
         $(DOMstrings.modal.modalTitle).text(data.title);
         $(DOMstrings.modal.modalPrice).find('p').eq(0).text(data.price); 
+        console.log($(DOMstrings.modal.modalPrice).find('p'));
         $(DOMstrings.modal.modalId).text(data.id);  
         $(DOMstrings.modal.modalDes).find('p').eq(0).text(data.description);
         // $(DOMstrings.modal.modalInventory).find('p').eq(0).text(data.quantity); 
         $(DOMstrings.modal.modalImg).attr('src', data.img); 
+        console.log($(DOMstrings.modal.modalStock).find('p'));
+        $(DOMstrings.modal.modalInventory).find('p').eq(0).text(data.qty); 
     };
 
     return {
