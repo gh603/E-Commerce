@@ -7,7 +7,8 @@ var Order = require("./models/order");
 var productData = [
 
     {
-        quantity: 99,
+        isDeleted: false,
+        quantity: 1,
         item: 'Beats Headphone',
         category: 'Headphone',
         image: 'https://tctechcrunch2011.files.wordpress.com/2014/11/solo2-wireless-red-quarter.jpg?w=738',
@@ -17,6 +18,7 @@ var productData = [
     },
 
     {
+        isDeleted: false,
         quantity: 99,
         item: 'Sennheiser Headphone',
         category: 'Headphone',
@@ -26,6 +28,7 @@ var productData = [
     },
 
     {
+        isDeleted: false,
         quantity: 99,
         item: 'Dell Headphone',
         category: 'Headphone',
@@ -35,6 +38,7 @@ var productData = [
     },
 
     {
+        isDeleted: false,
         quantity: 99,
         item: 'Dell Mic Headphone',
         category: 'Headphone',
@@ -44,6 +48,7 @@ var productData = [
     },
 
     {
+        isDeleted: false,
         quantity: 99,
         item: 'Bluetooth Headphone',
         category: 'Headphone',
@@ -53,6 +58,7 @@ var productData = [
     },
 
     {
+        isDeleted: false,
         quantity: 99,
         item: 'Sporty Headphone',
         category: 'Headphone',
@@ -62,6 +68,7 @@ var productData = [
     },
 
     {
+        isDeleted: false,
         quantity: 99,
         item: 'iphone8',
         category: 'phone',
@@ -71,6 +78,7 @@ var productData = [
     },
 
     {
+        isDeleted: false,
         quantity: 99,
         item: 'iphone7',
         category: 'phone',
@@ -81,6 +89,7 @@ var productData = [
     },
 
     {
+        isDeleted: false,
         quantity: 99,
         item: 'iphone6',
         category: 'phone',
@@ -90,6 +99,7 @@ var productData = [
     },
 
     {
+        isDeleted: false,
         quantity: 99,
         item: 'iphone8plus',
         category: 'phone',
@@ -99,6 +109,7 @@ var productData = [
     },
 
     {
+        isDeleted: false,
         quantity: 99,
         item: 'iphone7plus',
         category: 'phone',
@@ -108,6 +119,7 @@ var productData = [
     },
 
     {
+        isDeleted: false,
         quantity: 99,
         item: 'iphone6plus',
         category: 'phone',
@@ -117,6 +129,7 @@ var productData = [
     },
 
     {
+        isDeleted: false,
         quantity: 99,
         item: 'Canon EF 75-300mm III',
         category: 'Camera Lens',
@@ -126,6 +139,7 @@ var productData = [
     },
 
     {
+        isDeleted: false,
         quantity: 99,
         item: 'Canon EF 24-70mm II USM Lens',
         category: 'Camera Lens',
@@ -135,6 +149,7 @@ var productData = [
     },
 
     {
+        isDeleted: false,
         quantity: 99,
         item: 'Canon EF-S 18-55mm IS Zoom Lens',
         category: 'Camera Lens',
@@ -144,6 +159,7 @@ var productData = [
     },
 
     {
+        isDeleted: false,
         quantity: 99,
         item: 'Canon EF 800mm IS USM Lens',
         category: 'Camera Lens',
@@ -153,6 +169,7 @@ var productData = [
     },
 
     {
+        isDeleted: false,
         quantity: 99,
         item: 'Lethato Oxford Goodyear Shoes',
         category: 'Shoes',
@@ -163,6 +180,7 @@ var productData = [
 
 
     {
+        isDeleted: false,
         quantity: 99,
         item: 'GUCCI Cheryl GG Supreme Pump',
         category: 'Shoes',
@@ -171,6 +189,7 @@ var productData = [
         price: 995.00,
     },
     {
+        isDeleted: false,
         quantity: 99,
         item: 'Nike Lunar Fingertrap TR',
         category: 'Shoes',
@@ -179,6 +198,7 @@ var productData = [
         price: 75.00,
     },
     {
+        isDeleted: false,
         quantity: 99,
         item: 'iphoneX',
         category: 'phone',
@@ -187,6 +207,7 @@ var productData = [
         price: 1299.0,
     },
     {
+        isDeleted: false,
         quantity: 99,
         item: 'Canon EF 75-300mm f/4-5.6 III',
         category: 'Camera Lens',

@@ -6,7 +6,8 @@ var productSchema = new mongoose.Schema({
    	image: String,
    	description: String,
 	price: Number,
-	quantity: Number
+	quantity: Number,
+	isDeleted: Boolean
 });
 
 

@@ -77,7 +77,10 @@ const listeners = (function () {
             $.ajax({
                 type: "POST",
                 url: '/orders',
-                success: () => { console.log('success'); },
+                success: (data) => { 
+                    console.log(data);
+                    window.location.href = data
+                },
                 error: () => { console.log('error'); }
             });
         },

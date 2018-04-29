@@ -135,4 +135,40 @@ textarea {
   margin-top: -20px;
   text-align: right;
 }
-  
+
+.description_update {
+	
+	
+    display: none;
+}
+
+.img_update{
+	display: none;
+}
+
+.quantity_update {
+   display: none;
+}
+.card-content .edit{
+	display: inline-block !important;
+	width: 78%;
+	box-sizing: border-box;
+}
+
+.card-content .title{
+	display: inline-block !important;s
+	width: 78%;
+	box-sizing: border-box;
+}
+.form-row .title{
+	display: inline-block  !important;
+	width: 20%;
+	box-sizing: border-box;
+}
+.form-row .price_update.edit{
+	display: inline-block !important;
+	width: 78%;
+	box-sizing: border-box;
+}
+
+

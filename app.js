@@ -12,18 +12,17 @@ var express = require("express"),
     Product = require("./models/product"),
     User = require("./models/user"),
     Cart = require("./models/cart"),
-    Order = require("./models/order")
+    Order = require("./models/order"),
+    async = require("async")
+
 
 mongoose.connect("mongodb://localhost/e-commerce");
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 app.use(express.static(__dirname));
-// app.use(express.static(__dirname + '/views'));
-
-// app.use(express.static(path.join(__dirname, 'views')));
 seedDB();
-// seedDB(); //seed the database
+
 
 app.use(methodOverride("_method"));
 app.use(flash());
@@ -89,7 +88,7 @@ app.post("/signup", function (req, res) {
         passport.authenticate("local")(req, res, function () {
 
             console.log(newUser);
-            var newCart = { userId: req.user._id, items: [] }
+            var newCart = { userId: newUser._id, items: [] }
             Cart.create(newCart, function (err, newlyCreated) {
                 if (err) {
                     console.log(err);
@@ -98,7 +97,7 @@ app.post("/signup", function (req, res) {
                 }
             });
             
-            req.flash("success", "welcome!" );
+            req.flash("success", "Welcome! " + newUser.fname );
             res.redirect("/items");
         });
     });
@@ -155,7 +154,7 @@ app.get("/manage", isLoggedIn, function (req, res) {
             });
     } else {
         Product
-            .find({})
+                  .find({})
             .skip((perPage * page) - perPage)
             .limit(perPage)
             .exec(function (err, allProducts) {
@@ -185,7 +184,7 @@ app.get("/items", isLoggedIn, function (req, res) {
 
     if (filtercategory === '') {
         Product
-            .find({})
+            .find({isDeleted: false})
             .skip((perPage * page) - perPage)
             .limit(perPage)
             .exec(function (err, allProducts) {
@@ -203,7 +202,7 @@ app.get("/items", isLoggedIn, function (req, res) {
             });
     } else {
         Product
-            .find({})
+            .find({isDeleted: false})
             .skip((perPage * page) - perPage)
             // .limit(perPage)
             .exec(function (err, allProducts) {
@@ -244,81 +243,67 @@ app.get("/orders", isLoggedIn, function (req, res) {
 // Checkout
 //================
 
-// app.post("/orders", isLoggedIn, function (req, res) {
-//     console.log('POST: orders');
-//     var flag = false;
-//     Cart.findOne({ userId: req.user._id }, function (err, foundCart) {
-//         if (err) {
-//             console.log(err);
-//         } else {
-//             var newItems = [];
-//             var total = 0;  
-//             foundCart.items.forEach((item) =>{       
-//                 Product.findById(item.id, function(err, foundProduct){
-//                     if(err){
-//                         console.log(err);
-//                     } else {
-//                         var temp = foundProduct.quantity - item.quantity;
-//                         console.log("temp is " + temp );
-//                         if(temp >= 0){
-//                             foundProduct.quantity -= item.quantity;
-//                             foundProduct.save(); 
-//                             newItems.push(item);
-//                             total += (item.price * item.quantity);
-//                         } else {
-//                             console.log("not enough inventory");
-//                             let flag = true;
-//                         } 
-//                     }    
-//                     console.log(foundProduct);    
-//                 });    
-//             });
-//             console.log("flag is " + flag);
-//             if(!flag){
-//                 var newOrder = { userId: req.user._id, items: newItems, total: total };
-//                 Order.create(newOrder, function (err, newlyCreated) {
-//                 if (err) {
-//                     console.log(err);
-//                 } else {
-//                     console.log(newlyCreated);
-//                     foundCart.items = [];
-//                     foundCart.save(); 
-//                     res.redirect("/items");    
-//                     }
-//                 });
-//             }  
-//         }
-//      });                       
-// });
-app.post("/orders", isLoggedIn, function (req, res) {
+
+
+app.post("/orders", isLoggedIn, async function (req, res) {
     console.log('POST: orders');
-    var newItems = [];
+    var newItems = []
+    
     var total = 0;
-    Cart.findOne({ userId: req.user._id }, function (err, foundCart) {
-        if (err) {
-            console.log(err);
+    var flag = false;
+    const foundCart = await new Promise((resolve, reject)=>{
+        Cart.findOne({ userId: req.user._id}, (err, foundCart1) => {
+        if(err) {
+            console.log(err); 
+            reject(err)
         } else {
-            foundCart.items.forEach((item) =>{
-                newItems.push(item);
-                total += (item.price * item.quantity);
-                Product.findById(item.id, function(err, foundProduct){
-                foundProduct.quantity -= item.quantity;
-                foundProduct.save();
-                });
-            });
-            var newOrder = { userId: req.user._id, items: newItems, total: total };
-            console.log("new items are " + newItems);
-            Order.create(newOrder, function (err, newlyCreated) {
-                if (err) {
-                    console.log(err);
-                } else {
-                    foundCart.items = [];
-                    foundCart.save();     
-                }
-            });
+            
+            resolve(foundCart1)
         }
-    });    
-});
+
+        });
+    })
+    for(let i = 0; i < foundCart.items.length; i++){
+        var item = foundCart.items[i]
+        var tmp = await new Promise((resolve, reject)=>{
+                total += item.price * item.quantity; 
+                Product.findById(item.id, (err, foundProduct) => {    
+                    resolve(foundProduct)
+                })
+        })
+        newItems.push(tmp); 
+        total += item.price * item.quantity; 
+    }
+    for(let j = 0; j < newItems.length; j++){
+        if(foundCart.items[j].quantity>newItems[j].quantity){
+            flag = true;
+        }
+    }
+    if(!flag){
+        const newOrder = { userId: req.user._id, items: newItems, total:total}; 
+        Order.create(newOrder, (err, newlyCreated) => {
+            if(err) { console.log(err); }
+            else {
+                foundCart.items = []; 
+                foundCart.save(); 
+            }
+        });
+        for(let k = 0; k < newItems.length; k++){
+            Product.findById(newItems[k].id, function(err, foundProduct){
+                foundProduct.quantity -=  newItems[k].quantity;
+                foundProduct.save();
+            })
+        }
+        req.flash("success", "Order successfully!"); 
+        res.send("/orders");
+    } else {
+            req.flash("error", "Not enough inventory!"); 
+            res.send("/cart");
+    }
+    
+})   
+ 
+
 //================
 // Cart
 //================
@@ -400,7 +385,7 @@ app.post("/search", function (req, res) {
     var keyWord = req.body.itemName;
 
     const regex = '\.*' + keyWord + '\.';
-    Product.find({ item: { $regex: keyWord, $options: 'i' } })
+    Product.find({ item: { $regex: keyWord, $options: 'i' }, isDeleted: false })
         .skip((perPage * page) - perPage)
         .limit(perPage)
         .exec(function (err, allProducts) {
@@ -431,47 +416,40 @@ app.post("/items", isAdmin, function (req, res) {
     var price = req.body.price;
     var quantity = req.body.quantity;
 
+
     var newProduct = {
         item: name, category: category, quantity: quantity,
-        image: image, description: desc, price: price, quantity: quantity
+        image: image, description: desc, price: price, quantity: quantity, isDeleted: false
     }
     // Create a new campground and save to DB
     Product.create(newProduct, function (err, newlyCreated) {
         if (err) {
+            req.flash("error", "Wrong created!");
             console.log(err);
         } else {
             console.log(newlyCreated);
+            req.flash("success", "New item successfully created!");
             res.redirect("/items");
         }
     });
 });
-//================
-// Show certain product detail
-//================
-app.get("/items/:id", function (req, res) {
-    //find the product with provided ID
-    Product.findById(req.params.id, function (err, foundProduct) {
-        if (err) {
-            console.log(err);
-        } else {
-            console.log(foundProduct)
 
-            res.render("products", { products: foundProduct });
-        }
-    });
-});
 //================
 // Update
 //================
 
 app.put("/:id", isAdmin, function (req, res) {
     // find and update the correct campground
+    console.log("req.body="+req.body);
     Product.findByIdAndUpdate(req.params.id, req.body.product, function (err, updatedProduct) {
+        console.log("req.body.product"+req.body.product);
         if (err) {
+            req.flash("error", "Fail to update");
             res.redirect("/items");
         } else {
             //redirect somewhere(show page)
-            res.redirect("/campgrounds/" + req.params.id);
+            req.flash("success", "Updated successfully");
+            res.redirect("/items");
         }
     });
 });
@@ -481,24 +459,19 @@ app.put("/:id", isAdmin, function (req, res) {
 app.delete("/delete", isAdmin, function (req, res) {
     //findByIdAndRemove
     console.log(req.body.id);
-    Product.findByIdAndRemove(req.body.id, function (err) {
+    Product.findById(req.body.id, function (err, foundProduct) {
         if (err) {
             res.redirect("back");
         } else {
-            // foundProduct.
+            foundProduct.isDeleted = true;
+            foundProduct.save();
             res.redirect("/items");
         }
     });
 });
 
 
-// Campground.findByIdAndRemove(req.params.id, function(err){
-//       if(err){
-//           res.redirect("/campgrounds");
-//       } else {
-//           res.redirect("/campgrounds");
-//       }
-//    });
+
 
 // ============
 // Middleware

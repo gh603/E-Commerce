@@ -42,14 +42,19 @@ $('document').ready(function () {
         //check password	
         var error2 = document.getElementById("error2");
         var passwordLength = document.getElementById("password").value;
+		
+		error2.innerHTML = 'Password must have at least 6 digits';
         if (passwordLength.length < 6) {
             error2.style.visibility = 'visible';
+			
             b = 1;
         } else {
             error2.style.visibility = 'hidden';
             b = 0;
         }
 
+	
+		
         if (a == 0 && b == 0) {
             $("#form1").submit();
         }
@@ -104,3 +109,34 @@ $('document').ready(function () {
 
     });
 })
+
+
+
+function passStrength(pass){
+	
+	
+	var error5 = document.getElementById("error5");
+	 
+	 
+	if(pass.length < 10 && pass.length> 6){
+		error5.style.visibility = 'visible';
+		error5.innerHTML = "medium safety";
+	}else if (pass.length >= 10){
+		error5.style.visibility = 'visible';
+		error5.innerHTML = "high safety";
+	}else{
+		error5.style.visibility = 'visible';
+		error5.innerHTML = "low safety. Password must have at least 6 digits";
+	}
+	
+}
+
+
+
+
+
+
+
+
+
+

@@ -83,10 +83,10 @@
 					</div>
 
                     <div class="field-wrap">
-                        <input id="signup_password" type="password" name="password" placeholder="Password" />
+                        <input id="signup_password" type="password" name="password" placeholder="Password" onchange="passStrength(this.value)"/>
                     </div>
 					
-					<div class="field-wrap error-message" id="error5"> Password must have at least 6 digits
+					<div class="field-wrap error-message" id="error5" >Password must have at least 6 digits
 					</div>
 					
 					<div class="field-wrap " style="height: 100px";>
