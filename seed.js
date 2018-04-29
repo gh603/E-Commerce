@@ -287,11 +287,7 @@ function seedDB() {
             Product.create(seed, function (err, product) {
                 if (err) {
                     console.log(err)
-                } else {
-                    // console.log(product); 
-                    // console.log("added a product");
-                    //create a comment
-                }
+                } 
             });
         });
         console.log("Finished Initialization of Products");
@@ -301,52 +297,25 @@ function seedDB() {
             console.log(err);
         }
         console.log("Initialize orders!");
-        //add a few campgrounds
-        // Order.insertMany(orderData, function (err, allOrders) {
-        //     if (err) {
-        //         console.log(err);
-        //     } else {
-        //         // console.log(allOrders);
-        //     }
-        // });
+
         console.log("Finished Initialization of Orders");
     });
 
-    // Cart.remove({}, function (err) {
-    //     if (err) {
-    //         console.log(err);
-    //     }
-    //     console.log("Initialize cart!");
-        //add a few campgrounds
-        // cartData.forEach(function(cart){
-        //     let newCart = {userId:cart.userId, items:[]}; 
-        //     // console.log(cart.items); 
-        //     cart.items.forEach(function(item){
-        //         newCart.items.push(item); 
-        //     })
-        //     // console.log(newCart); 
-        // });
-    //});
-    //     var newCart = {userId:carData.userId};
-    //     Cart.create(newCart, function (err, newCart) {
-    //         console.log("Initialization of cart");
-    //         if (err) {
-    //             console.log(err)
-    //         } else {
-    //             cartData.forEach(function (item) {
-    //                 newCart.items.push(item);
-    //             });
-    //             console.log(newCart);
-    //             //create a cart
-    //         }
-    //         console.log("Finished Initialization of carts");
-    //     });
-
-    //     console.log("Finished Initialization of Carts");
-    // });
 
 
+Cart.find({},function(err, foundCart){
+    if(err){
+        console.log(err);
+    } else {
+        foundCart.forEach(function(cart){
+            cart.items = [];
+            cart.save();
+        })
+    }
+        console.log("Initialize carts!");
 
+        console.log("Finished Initialization of carts");
+})
 
 
     // User.remove({}, function(err){
