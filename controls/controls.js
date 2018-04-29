@@ -63,7 +63,8 @@ const listeners = (function () {
             event.preventDefault();
             console.log('Adding item to cart');
             const id = $.trim($(event.target).parent().prev().prev().html());
-            const data = { quantity: 1 };
+            const title = $.trim($(event.target).parent().prev().text()); 
+            const data = { quantity: 1, title: title };
             updateItemInCart(id, data);
         },
         addItemToCartFromDescHandler: (event) => {
@@ -110,7 +111,8 @@ const UIController = (function () {
             modalDes: '.modal-body .modal-description', 
             modalPrice: '.modal-body .modal-price', 
             modalInventory: '.modal-body .modal-quantity', 
-            modalBtnToSubmit: '.modal-footer .btn'
+            modalBtnToSubmit: '.modal-footer .btn', 
+            modalQty: '.modal-body .qtyinput', 
         }
     }; 
 
@@ -190,7 +192,6 @@ const UIController = (function () {
         data['title'] = $(card_desc).find('.title').text();
         data['description'] = $(card_desc).find('.item-desc').text(); 
         data['qty'] = $(card_desc).find('.item-qty').text(); 
-        console.log(data); 
         return data;
     };
 
@@ -198,12 +199,11 @@ const UIController = (function () {
         const data = extractInfoFromCard(event);
         $(DOMstrings.modal.modalTitle).text(data.title);
         $(DOMstrings.modal.modalPrice).find('p').eq(0).text(data.price); 
-        console.log($(DOMstrings.modal.modalPrice).find('p'));
         $(DOMstrings.modal.modalId).text(data.id);  
         $(DOMstrings.modal.modalDes).find('p').eq(0).text(data.description);
         $(DOMstrings.modal.modalImg).attr('src', data.img); 
-        console.log($(DOMstrings.modal.modalStock).find('p'));
         $(DOMstrings.modal.modalInventory).find('p').eq(0).text(data.qty); 
+        $(DOMstrings.modal.modalQty).val(1); 
     };
 
     return {
@@ -301,6 +301,7 @@ const controller = (function(reqCtrl, UICtrl) {
     
     viewItemDescHandler = () => {
         $(DOMstrings.products).delegate('.card .img', 'click', event => {
+            console.log("View Item Description"); 
             UICtrl.viewItemDescHandler(event); 
         }); 
     }; 

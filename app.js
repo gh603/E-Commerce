@@ -163,7 +163,7 @@ app.get("/manage", isLoggedIn, function (req, res) {
             });
     } else {
         Product
-                  .find({})
+            .find({})
             .skip((perPage * page) - perPage)
             .limit(perPage)
             .exec(function (err, allProducts) {
@@ -317,39 +317,31 @@ app.get("/cart", isLoggedIn, function (req, res) {
 
 app.post("/cart/:id", isLoggedIn, function (req, res) {
     console.log("POST: cart");
-    console.log(req.params.id);
-    console.log(req.body.quantity);
 
     Cart.findOne({ userId: req.user._id }, function (err, foundCart) {
         if (err) {
             //console.log(err);
         } else {
-            Product.findById(req.params.id, function (err, foundProduct) {
-                if (err) {
-                    console.log(err);
-                } else {
-                    let isFound = false;
-                    // console.log("request item id:" + req.params.id); 
-                    foundCart.items.forEach((item) => {
-                        // console.log("cart item id:" + item._id); 
-                        if (item.id == req.params.id) {
-                            isFound = true;
-                            item.quantity += parseInt(req.body.quantity , 10);
-
-                        }
-                    });
-
-                    if (!isFound) {
-                        var item = { title: foundProduct.item, id: req.params.id, price: foundProduct.price, image: foundProduct.image, quantity: req.body.quantity };
-                        foundCart.items.push(item);
-                    }
-                    // var item = { title: foundProduct.item, id: req.params.id, price: foundProduct.price, image: foundProduct.image, quantity: 1 };
-                    // foundCart.items.push(item);
-                    foundCart.save();
-                    // console.log(foundCart);
-                    res.redirect("/items");
+            let isFound = false; 
+            foundCart.items.forEach(item => {
+                if(item.title === req.body.title) {
+                    isFound = true; 
+                    item.quantity += parseInt(req.body.quantity); 
                 }
-            });
+                foundCart.save(); 
+            }); 
+
+            if(!isFound) {
+                Product.findById(req.params.id, (err, foundProduct) => {
+                    if(err){ console.log(err); }
+                    else {
+                        var item = {title: foundProduct.item, id: req.params.id, price: foundProduct.price, image: foundProduct.image, quantity: req.body.quantity }
+                        foundCart.items.push(item); 
+                        foundCart.save(); 
+                    }
+                }); 
+            }; 
+            res.redirect("/items"); 
         }
     });
 });
@@ -368,8 +360,6 @@ app.delete("/cart/:id", isLoggedIn, function (req, res) {
     // Cart.update( {userId: req.user._id }, { $pull: {id: [req.params.id] } } );
 
 });
-
-
 
 //================
 // Search

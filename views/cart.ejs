@@ -32,7 +32,7 @@
                 </tr>
             </thead>
             <tbody>
-                <% let total =0; 
+                <% let total =0, tax = 0; 
                     const taxRate = 0.06; 
                     if(carts.items != null) { %>
                 <% carts.items.forEach(function(item){
@@ -49,11 +49,15 @@
                             <span class="remove glyphicon glyphicon-trash"></span>
                         </td>
                     </tr>
-                <%}) }%>
+                    <%}) }; 
+                    console.log(total); 
+                    tax = total * taxRate; 
+                    total = total + tax; 
+                %>
                 <tr class="extracosts"> 
                     <td class="light">Shipping &amp; Tax</td>
                     <td colspan="2" class="light"></td>
-                    <td class="tax">$<%=(total*taxRate).toFixed(2)%></td>
+                    <td class="tax">$<%=tax.toFixed(2)%></td>
                     <td>&nbsp;</td>
                 </tr>
                 <tr class="totalprice"> 
