@@ -99,6 +99,24 @@ app.post("/signup", function (req, res) {
     });
 });
 
+app.get("/signup", (req, res) => {
+    console.log('GET: /signup'); 
+    const email = req.query.email; 
+    console.log(email); 
+    User.find({email: email}, (err, user) => {
+        if(err) {
+            console.log(err); 
+            return res.render("auth"); 
+        } else {
+            if(user.length > 0) {
+                res.send('fail'); 
+            } else {
+                res.send('success'); 
+            }
+        }
+    }); 
+});
+
 app.get("/logout", function (req, res) {
     req.logout();
     res.redirect("/items");

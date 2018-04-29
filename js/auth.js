@@ -10,16 +10,19 @@ $('document').ready(function () {
         $(href).fadeIn(600);
     })
 
-    var error1 = document.getElementById("error1");
-    var error2 = document.getElementById("error2");
-    var error3 = document.getElementById("error3");
-    var error4 = document.getElementById("error4");
-    var error5 = document.getElementById("error5");
-    error1.style.visibility = 'hidden';
-    error2.style.visibility = 'hidden';
-    error3.style.visibility = 'hidden';
-    error4.style.visibility = 'hidden';
-    error5.style.visibility = 'hidden';
+    var error1 = $('#error1')
+    var error2 = $('#error2')
+    var error3 = $('#error3')
+    var error4 = $('#error4')
+    var error5 = $('#error5')
+    var error6 = $('#error6')
+    error1.hide(); 
+    error2.hide(); 
+    error3.hide(); 
+    error4.hide(); 
+    error5.hide(); 
+    error6.hide(); 
+
 
     //login check
     $("#button_login").click(function () {
@@ -28,25 +31,23 @@ $('document').ready(function () {
         var b = 1;
 
         //check email
-        var error1 = document.getElementById("error1");
         var emailValue = document.getElementById("email").value;
         var testEmail = /^[A-Z0-9._%+-]+@([A-Z0-9-]+\.)+[A-Z]{2,4}$/i;
         if (!testEmail.test(emailValue)) {
-            error1.style.visibility = 'visible';
+            error1.show();
             a = 1;
         } else {
-            error1.style.visibility = 'hidden';
+            error1.hide();
             a = 0;
         }
 
         //check password	
-        var error2 = document.getElementById("error2");
         var passwordLength = document.getElementById("password").value;
         if (passwordLength.length < 6) {
-            error2.style.visibility = 'visible';
+            error2.show();
             b = 1;
         } else {
-            error2.style.visibility = 'hidden';
+            error2.hide();
             b = 0;
         }
 
@@ -68,38 +69,52 @@ $('document').ready(function () {
         var lname = document.getElementById("lastname").value;
 
         if ($.trim(fname) == "" || fname == undefined || fname == null || $.trim(lname) == "" || lname == undefined || lname == null) {
-            error3.style.visibility = 'visible';
+            error3.show();
             a = 1;
         } else {
-            error3.style.visibility = 'hidden';
+            error3.hide();
             a = 0;
         }
 
         //check email
-        var error4 = document.getElementById("error4");
         var emailValue = document.getElementById("signup_email").value;
         var testEmail = /^[A-Z0-9._%+-]+@([A-Z0-9-]+\.)+[A-Z]{2,4}$/i;
         if (!testEmail.test(emailValue)) {
-            error4.style.visibility = 'visible';
+            error4.show();
             b = 1;
         } else {
-            error4.style.visibility = 'hidden';
+            error4.hide();
             b = 0;
         }
 
         //check password	
-        var error5 = document.getElementById("error5");
         var passwordLength = document.getElementById("signup_password").value;
         if (passwordLength.length < 6) {
-            error5.style.visibility = 'visible';
+            error5.show();
             c = 1;
         } else {
-            error5.style.visibility = 'hidden';
+            error5.hide();
             c = 0;
         }
 
         if (a == 0 && c == 0 && b == 0) {
-            $("#form2").submit();
+            $.ajax({
+                type: 'GET', 
+                url: '/signup', 
+                data: {email: emailValue}, 
+                success: (data) => {
+                    if(data === 'success'){
+                        error6.hide()
+                        $("#form2").submit();
+                    } else {
+                        error6.show(); 
+                    }
+                }, 
+                error: () => {
+                    console.log('error'); 
+                }
+            }); 
+            
         }
 
     });
