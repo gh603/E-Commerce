@@ -8,9 +8,19 @@ const listeners = (function () {
         products: '.productList', 
     };
 
-    updateItemInCart = (id, data) => {
+    addItemInCart = (id, data) => {
         $.ajax({
             type: 'POST',
+            url: '/cart/' + id,
+            data: data,
+            success: () => { console.log('success'); },
+            error: () => { console.log('error'); }
+        })
+    }; 
+
+    updateItemInCart = (id, data) => {
+        $.ajax({
+            type: 'PUT',
             url: '/cart/' + id,
             data: data,
             success: () => { console.log('success'); },
@@ -51,11 +61,12 @@ const listeners = (function () {
             event.preventDefault();
             const id = $(event.target).parent().parent().children("td:nth-child(1)").html();
             const quantity = parseInt($(event.target).val());
+            const title = $(event.target).parent().next().text(); 
             if (quantity == 0) {
                 deleteFromCart(id);
             } else {
                 console.log("Update Item");
-                const data = { quantity: quantity };
+                const data = { quantity: quantity, title: title};
                 updateItemInCart(id, data);
             }
         },
@@ -64,17 +75,22 @@ const listeners = (function () {
             console.log('Adding item to cart');
             const id = $.trim($(event.target).parent().prev().prev().html());
             const title = $.trim($(event.target).parent().prev().text()); 
-            const data = { quantity: 1, title: title };
-            updateItemInCart(id, data);
+            const data = { quantity: 1, title: title};
+            addItemInCart(id, data);
         },
         addItemToCartFromDescHandler: (event) => {
             event.preventDefault(); 
             console.log('Adding item to cart'); 
             const modalBody = $(event.currentTarget).parent().prev(); 
             const id = $.trim(modalBody.find('div .id').html()); 
-            const data = {quantity: parseInt(modalBody.find('div div .qtyinput').val())}; 
+            const title = modalBody.prev().find('.modal-title').text(); 
+            console.log(title); 
+            const data = {
+                quantity: parseInt(modalBody.find('div div .qtyinput').val()), 
+                title: title, 
+            }; 
             console.log(data); 
-            updateItemInCart(id, data); 
+            addItemInCart(id, data); 
         }, 
         checkoutHandler: (event) => {
             event.preventDefault();

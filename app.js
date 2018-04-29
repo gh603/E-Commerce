@@ -100,7 +100,6 @@ app.post("/signup", function (req, res) {
 app.get("/signup", (req, res) => {
     console.log('GET: /signup');
     const email = req.query.email;
-    console.log(email);
     User.find({ email: email }, (err, user) => {
         if (err) {
             console.log(err);
@@ -139,7 +138,6 @@ app.get("/account", isLoggedIn, function (req, res) {
 //================
 app.get("/manage", isLoggedIn, function (req, res) {
     var filtercategory = "";
-    console.log(req.body);
     var perPage = 10000;
     var page = req.query.page || 1;
 
@@ -282,14 +280,13 @@ app.post("/orders", isLoggedIn, async function (req, res) {
                 foundCart.save(); 
             }
         });
-        console.log("newItems"+ newItems);
+        // console.log("newItems"+ newItems);
         for(let k = 0; k < foundCart.items.length; k++){
             Product.findById(newItems[k].id, function(err, foundProduct){
                 foundProduct.quantity -=  foundCart.items[k].quantity;
                 foundProduct.save();
-                console.log("newItems[k].quantity"+ newItems[k].quantity);
-                console.log("foundProduct.quantity"+ foundProduct.quantity);
-        
+                // console.log("newItems[k].quantity"+ newItems[k].quantity);
+                // console.log("foundProduct.quantity"+ foundProduct.quantity);
             })
         }
         req.flash("success", "Order successfully!"); 
@@ -304,6 +301,7 @@ app.post("/orders", isLoggedIn, async function (req, res) {
 //================
 // Cart
 //================
+// GET items in cart
 app.get("/cart", isLoggedIn, function (req, res) {
     console.log("GET: cart");
     Cart.findOne({ userId: req.user._id }, function (err, foundCart) {
@@ -315,12 +313,13 @@ app.get("/cart", isLoggedIn, function (req, res) {
     });
 });
 
+// Add Items into cart
 app.post("/cart/:id", isLoggedIn, function (req, res) {
     console.log("POST: cart");
 
     Cart.findOne({ userId: req.user._id }, function (err, foundCart) {
         if (err) {
-            //console.log(err);
+            console.log(err);
         } else {
             let isFound = false; 
             foundCart.items.forEach(item => {
@@ -345,16 +344,30 @@ app.post("/cart/:id", isLoggedIn, function (req, res) {
         }
     });
 });
-
+// Update quantity of items in cart
+app.put("/cart/:id", isLoggedIn, function(req, res){
+    Cart.findOne({ userId: req.user._id }, function (err, foundCart){
+        if(err) {
+            console.log(err); 
+        } else {
+            foundCart.items.forEach(item => {
+                if(item.title === req.body.title){
+                    item.quantity = req.body.quantity; 
+                }
+            }); 
+            foundCart.save(); 
+        }
+    });
+}); 
+// Delete item in cart. 
 app.delete("/cart/:id", isLoggedIn, function (req, res) {
-    console.log(req.params.id);
+    console.log("DELETE: cart")
     Cart.findOne({ userId: req.user._id }, function (err, foundCart) {
         if (err) {
             console.log(err);
         } else {
             foundCart.items.pull({ _id: req.params.id });
             foundCart.save();
-            console.log("DELETE: cart");
         }
     });
     // Cart.update( {userId: req.user._id }, { $pull: {id: [req.params.id] } } );
@@ -379,7 +392,6 @@ app.post("/search", function (req, res) {
             if (err) {
                 console.log(err);
             } else {
-                console.log(allProducts.length);
                 res.render("index", { products: allProducts, current: page, pages: Math.ceil(allProducts.length / perPage) });
 
             }
@@ -411,7 +423,6 @@ app.post("/items", isAdmin, function (req, res) {
             req.flash("error", "Wrong created!");
             console.log(err);
         } else {
-            console.log(newlyCreated);
             req.flash("success", "New item successfully created!");
             res.redirect("/items");
         }
@@ -424,7 +435,7 @@ app.post("/items", isAdmin, function (req, res) {
 
 app.put("/:id", isAdmin, function (req, res) {
     // find and update the correct campground
-    console.log("req.body="+req.body);
+    console.log("PUT: manager");
     Product.findByIdAndUpdate(req.params.id, req.body.product, function (err, updatedProduct) {
         console.log("req.body.product"+req.body.product);
         if (err) {
@@ -442,7 +453,7 @@ app.put("/:id", isAdmin, function (req, res) {
 //================
 app.delete("/delete", isAdmin, function (req, res) {
     //findByIdAndRemove
-    console.log(req.body.id);
+    console.log("DELETE: manager");
     Product.findById(req.body.id, function (err, foundProduct) {
         if (err) {
             req.flash("error", "Fail to delete ID: " + req.body.id);
