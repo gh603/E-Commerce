@@ -12,7 +12,6 @@ var userSchema = new mongoose.Schema({
 	address : String,
 	zipcode: String,
 	phone: String
-	// Email: String
 	
 });
 

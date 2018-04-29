@@ -72,7 +72,7 @@ app.post("/login", passport.authenticate("local",
 app.post("/signup", function (req, res) {
     // var newUser = new User({username: req.body.Email, FirstName: req.body.FirstName, LastName: req.body.LastName, Email: req.body.Email });
     var newUser = new User({ username: req.body.email, fname: req.body.fname, 
-        lname: req.body.lname, email: req.body.email, isManager: true, address: req.body.address, phone: req.body.phone, zipcode: req.body.zip });
+        lname: req.body.lname, email: req.body.email, isManager: false, address: req.body.address, phone: req.body.phone, zipcode: req.body.zip });
     User.register(newUser, req.body.password, function (err, user) {
         if (err) {
             console.log(err);
