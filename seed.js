@@ -34,7 +34,7 @@ var productData = [
         category: 'Headphone',
         image: 'https://images-na.ssl-images-amazon.com/images/I/71z5xSk89rL._SX425_.jpg',
         description: "Maximizing your personal audio experience has never been easier than with ZX-Series Monitor headphones. Built with comfort and performance in mind, there's no need to compromise.",
-        price: 18.00
+        price: 18.05
     },
 
     {
@@ -145,7 +145,7 @@ var productData = [
         category: 'Camera Lens',
         image: 'https://static.bhphoto.com/images/images500x500/Canon_5175B002_EF_24_70mm_f_2_8L_II_1457983216000_843008.jpg',
         description: 'Spanning a popular and versatile range of focal lengths, the EF 24-70mm f/2.8L II USM is a Canon L-series zoom commonly thought of as the workhorse of lenses. Ranging from wide-angle to portrait length, this lens is also distinguished by its constant f/2.8 maximum aperture to benefit working in difficult lighting conditions and to afford greater control over depth of field. ',
-        price: 1699.00,
+        price: 1699.99,
     },
 
     {
@@ -175,7 +175,7 @@ var productData = [
         category: 'Shoes',
         image: 'https://i.pinimg.com/736x/05/58/c7/0558c796ee706b5cb289ffb68e3b509c--is-the-best-to-the.jpg',
         description: 'Handmade Wingtip Oxford Goodyear Welted Shoes, made of fine quality Calfskin leather. Goodyear welted construction process makes the shoes highly durable, water resistant and comfortable fitting as the leather molds to the foot over time.',
-        price: 130.00,
+        price: 130.05,
     },
 
 
@@ -186,7 +186,7 @@ var productData = [
         category: 'Shoes',
         image: 'https://keep-ci-images.global.ssl.fastly.net/25ee7a9161885a7f0044de4f36680092.jpg',
         description: 'A fierce cat centers the horsebit hardware on a chic pump featuring a GG Supreme detail at the loafer-style vamp.',
-        price: 995.00,
+        price: 995.05,
     },
     {
         isDeleted: false,
@@ -195,7 +195,7 @@ var productData = [
         category: 'Shoes',
         image: 'http://farm5.static.flickr.com/4311/35352999243_ddc4db90f9.jpg',
         description: "There's no games with your training schedule when you have the comfort of the Nike Lunar Fingertrap TR! Textile upper with synthetic overlays offers a wrapped-like look. Lace-up closure for a secure, adjustable fit. Plush tongue and collar offers support. Mesh lining gives a breathable wear in shoe.Rubber outsole.",
-        price: 75.00,
+        price: 75.99,
     },
     {
         isDeleted: false,
@@ -204,7 +204,7 @@ var productData = [
         category: 'Phone',
         image: 'https://www.bell.ca/Styles/wireless/all_languages/all_regions/catalog_images/large/iPhoneX_spgry-en_lrg.png',
         description: 'iPhone x features an all-screen design with a 5.8-Inch super Retina HD display with HDR and true tone. Face ID lets you unlock and use Apple pay with just a glance. Powered by A11 Bionic, the most powerful and smartest chip ever in a smartphone. Supports augmented reality experiences in games and apps.',
-        price: 1299.0,
+        price: 1299.55,
     },
     {
         isDeleted: false,
