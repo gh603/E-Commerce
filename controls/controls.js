@@ -5,6 +5,7 @@ const listeners = (function () {
         remove: '.remove',
         checkout: '.checkout #submitbtn',
         search: '.navbar-form',
+        products: '.productList', 
     };
 
     updateItemInCart = (id, data) => {
@@ -28,14 +29,20 @@ const listeners = (function () {
     };
 
     filterInProducts = (data) => {
+        // $.post("/filter", data, data=>{
+        //     console.log(data); 
+        // })
         $.ajax({
             type: "GET", 
             url: '/items', 
             data: data, 
-            success: () => { console.log('success'); }, 
+            success: (data) => { 
+                $(DOMstrings.products).empty(); 
+                $(DOMstrings.products).html(data); 
+             }, 
             error: () => { console.log('error')}
         })
-    }
+    }; 
 
     return {
         removeItemFromCartHandler: (event) => {
@@ -98,6 +105,7 @@ const UIController = (function () {
     const DOMstrings = {
         cartNav: '.nav .cart', 
         cartBtn: '.card .cart', 
+        cartSubmit: '.checkout #submitbtn',
         modal: {
             modalTitle: '.modal-title', 
             modalId: '.modal-body .id', 
@@ -185,7 +193,7 @@ const UIController = (function () {
         data['title'] = $(card_desc).find('.title').text();
         data['description'] = $(card_desc).find('.item-desc').text(); 
         return data;
-    }
+    };
 
     showItemDescription = (event) => {
         const data = extractInfoFromCard(event);
@@ -195,7 +203,7 @@ const UIController = (function () {
         $(DOMstrings.modal.modalDes).find('p').eq(0).text(data.description);
         // $(DOMstrings.modal.modalInventory).find('p').eq(0).text(data.quantity); 
         $(DOMstrings.modal.modalImg).attr('src', data.img); 
-    }
+    };
 
     return {
         removeItemFromCartHandler: (event, table, priceIndex, taxRate) => {
@@ -214,7 +222,15 @@ const UIController = (function () {
         }, 
         viewItemDescHandler: (event) => {
             showItemDescription(event); 
-        }
+        },
+        changeItemState: (event) => {
+            const quantity = $(event.currentTarget).val(); 
+            if(quantity > 0){
+                $(DOMstrings.modal.modalBtnToSubmit).attr('disabled', false); 
+            } else {
+                $(DOMstrings.modal.modalBtnToSubmit).attr('disabled', true); 
+            }
+        }, 
     };
 })();
 
@@ -227,10 +243,12 @@ const controller = (function(reqCtrl, UICtrl) {
         checkout: '.checkout #submitbtn',
         search: '.navbar-form',
         cartTable: '#cart', 
-        totalPrice: '.totalprice', 
+        totalPrice: '.totalprice .thick', 
         sideList: '.sideList li', 
-        cartDesLink: '.card .img', 
+        cartDesLink: '.card', 
         modalAddToCart: '.modal-footer .btn',
+        modalQuantity: '.modal-body .qtyinput',
+        products: '.productList'
     }; 
 
     const config = {
@@ -239,61 +257,70 @@ const controller = (function(reqCtrl, UICtrl) {
     }; 
 
     addItemToCartHandler = () => {
-        $(DOMstrings.cart).click(event => {
+        $(DOMstrings.cart).on('click', event => {
             reqCtrl.addItemToCartHandler(event); 
             UICtrl.addItemToCartHandler(event); 
         }); 
-        $(DOMstrings.modalAddToCart).click(event => {
+        $(DOMstrings.modalAddToCart).on('click', event => {
             reqCtrl.addItemToCartFromDescHandler(event); 
         })
+    }; 
 
+    checkItemState = () => {
+        $(DOMstrings.modalQuantity).on('change', event => {
+            UICtrl.changeItemState(event); 
+        }); 
     }; 
 
     updateItemQuantityHandler = () => {
-        $(DOMstrings.quantity).change(event => {
+        $(DOMstrings.quantity).on('change', event => {
             UICtrl.updateItemQuantityHandler(event, $(DOMstrings.cartTable), config.priceIndex, config.taxRate); 
             reqCtrl.updateItemQuantityHandler(event); 
         }); 
     }; 
 
     removeItemFromCartHandler = () => {
-        $(DOMstrings.remove).click(event => {
+        $(DOMstrings.remove).on('click', event => {
             reqCtrl.removeItemFromCartHandler(event); 
             UICtrl.removeItemFromCartHandler(event, $(DOMstrings.cartTable), config.priceIndex, config.taxRate); 
         })
     }; 
 
     checkoutHandler = () => {
-        $(DOMstrings.checkout).click(event => {
+        $(DOMstrings.checkout).on('click', event => {
             reqCtrl.checkoutHandler(event); 
         })
     };
 
     filterInProductsHandler = () => {
-        $(DOMstrings.sideList).click(event => {
+        $(DOMstrings.sideList).on('click', event => {
             reqCtrl.filterHandler(event); 
         })
     }; 
     
     viewItemDescHandler = () => {
-        $(DOMstrings.cartDesLink).click(event => {
-            console.log(event); 
+        $(DOMstrings.products).delegate('.card .img', 'click', event => {
             UICtrl.viewItemDescHandler(event); 
-        })
+        }); 
+    }; 
+
+    setupEventListener = () => {
+        checkItemState();
+        viewItemDescHandler();
+        addItemToCartHandler(); 
+        updateItemQuantityHandler(); 
+        removeItemFromCartHandler(); 
+        checkoutHandler(); 
+        filterInProductsHandler(); 
+        // changeCartState();
     }
 
     return {
         init: () => {
-            viewItemDescHandler();
-            addItemToCartHandler(); 
-            updateItemQuantityHandler(); 
-            removeItemFromCartHandler(); 
-            checkoutHandler(); 
-            filterInProductsHandler(); 
+            setupEventListener();
         }
     }
 })(listeners, UIController); 
-
 
 $('document').ready(function () {
     controller.init(); 

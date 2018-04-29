@@ -47,15 +47,12 @@ app.use(function (req, res, next) {
     next();
 });
 
-
 //=================
 // Show
 //=================
-
 app.get("/", function (req, res) {
     res.render("auth");
 });
-
 
 //=================
 // Authentication
@@ -64,7 +61,6 @@ app.get("/login", function (req, res) {
     res.render("auth");
 });
 
-
 app.post("/login", passport.authenticate("local",
     {
 
@@ -72,8 +68,6 @@ app.post("/login", passport.authenticate("local",
         failureRedirect: "/login"
     }), function (req, res) {
     });
-
-
 
 app.post("/signup", function (req, res) {
     // var newUser = new User({username: req.body.Email, FirstName: req.body.FirstName, LastName: req.body.LastName, Email: req.body.Email });
@@ -103,6 +97,24 @@ app.post("/signup", function (req, res) {
     });
 });
 
+app.get("/signup", (req, res) => {
+    console.log('GET: /signup');
+    const email = req.query.email;
+    console.log(email);
+    User.find({ email: email }, (err, user) => {
+        if (err) {
+            console.log(err);
+            return res.render("auth");
+        } else {
+            if (user.length > 0) {
+                res.send('fail');
+            } else {
+                res.send('success');
+            }
+        }
+    });
+});
+
 app.get("/logout", function (req, res) {
     req.logout();
     res.redirect("/items");
@@ -111,7 +123,6 @@ app.get("/logout", function (req, res) {
 //================
 // Account
 //================
-
 app.get("/account", isLoggedIn, function (req, res) {
     User.findById(req.user._id, function(err, foundUser){
         if(err){
@@ -126,8 +137,6 @@ app.get("/account", isLoggedIn, function (req, res) {
 //================
 // Manager
 //================
-
-
 app.get("/manage", isLoggedIn, function (req, res) {
     var filtercategory = "";
     console.log(req.body);
@@ -168,19 +177,14 @@ app.get("/manage", isLoggedIn, function (req, res) {
         }
 
     });
-
-
-
-
 //================
 // Show products with filter function
 //================
 app.get("/items", isLoggedIn, function (req, res) {
     console.log("GET: items");
-    var filtercategory = req.query.cate || '';
-    console.log(filtercategory);
     var perPage = 9;
     var page = req.query.page || 1;
+    var filtercategory = req.query.cate || '';
 
     if (filtercategory === '') {
         Product
@@ -196,37 +200,30 @@ app.get("/items", isLoggedIn, function (req, res) {
                             console.log(err);
                         } else {
                             res.render("index", { products: allProducts, current: page, pages: Math.ceil(count / perPage) });
+                            return;
                         }
                     });
                 }
             });
     } else {
+        var query = { category: filtercategory };
         Product
-            .find({isDeleted: false})
+            .find({isDeleted: false}).find(query)
             .skip((perPage * page) - perPage)
-            // .limit(perPage)
+            .limit(perPage)
             .exec(function (err, allProducts) {
                 if (err) {
                     console.log(err);
                 } else {
-                    const filterProduct = allProducts.filter(product => product.category === filtercategory); 
-                    // var filterProduct = filter(allProducts,
-                    //     (x) => {
-                    //         console.log(x.category + ' vs. ' + filtercategory + ':'); 
-                    //         console.log(x.category === filtercategory); 
-                    //         x.category === filtercategory; 
-                    //     });
-                    console.log(filterProduct.length); 
-                    res.render("index", { products: filterProduct, current: page, pages: Math.ceil(filterProduct.length / perPage) });
+                    res.render('./partials/productList', { products: allProducts, current: page, pages: Math.ceil(allProducts.length / perPage) });
                 }
             });
-        }
-    });
+    };
+});
 
 //================
 // Order
 //================
-
 app.get("/orders", isLoggedIn, function (req, res) {
     console.log('GET: orders');
     Order.find({ userId: req.user._id }, function (err, allOrders) {
@@ -242,9 +239,6 @@ app.get("/orders", isLoggedIn, function (req, res) {
 //================
 // Checkout
 //================
-
-
-
 app.post("/orders", isLoggedIn, async function (req, res) {
     console.log('POST: orders');
     var newItems = []
@@ -257,7 +251,6 @@ app.post("/orders", isLoggedIn, async function (req, res) {
             console.log(err); 
             reject(err)
         } else {
-            
             resolve(foundCart1)
         }
 
@@ -303,11 +296,9 @@ app.post("/orders", isLoggedIn, async function (req, res) {
     
 })   
  
-
 //================
 // Cart
 //================
-
 app.get("/cart", isLoggedIn, function (req, res) {
     console.log("GET: cart");
     Cart.findOne({ userId: req.user._id }, function (err, foundCart) {
@@ -399,12 +390,9 @@ app.post("/search", function (req, res) {
         });
 });
 
-
 //================
 // Add
 //================
-
-
 //CREATE - add new item to DB
 app.post("/items", isAdmin, function (req, res) {
     // get data from form and add to products array
@@ -470,9 +458,6 @@ app.delete("/delete", isAdmin, function (req, res) {
     });
 });
 
-
-
-
 // ============
 // Middleware
 // ============
@@ -495,7 +480,6 @@ app.listen(8080, function () {
     console.log("The E-commerce Server Has Started!");
 });
 
-///////////////////////////////added on 4/26
 
 
 
