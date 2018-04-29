@@ -273,7 +273,8 @@ app.post("/orders", isLoggedIn, async function (req, res) {
         }
     }
     if(!flag){
-        const newOrder = { userId: req.user._id, items: newItems, total:total}; 
+       
+        const newOrder = { userId: req.user._id, items: foundCart.items, total:total}; 
         Order.create(newOrder, (err, newlyCreated) => {
             if(err) { console.log(err); }
             else {
@@ -449,10 +450,12 @@ app.delete("/delete", isAdmin, function (req, res) {
     console.log(req.body.id);
     Product.findById(req.body.id, function (err, foundProduct) {
         if (err) {
+            req.flash("error", "Fail to delete ID: " + req.body.id);
             res.redirect("back");
         } else {
             foundProduct.isDeleted = true;
             foundProduct.save();
+            req.flash("success", "ID: "+req.body.id+" Deleted successfully");
             res.redirect("/items");
         }
     });
