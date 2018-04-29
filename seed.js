@@ -219,13 +219,13 @@ var productData = [
 ]
 
 function seedDB() {
-    //Remove all campgrounds
+    
     Product.remove({}, function (err) {
         if (err) {
             console.log(err);
         }
         console.log("Initialize products!");
-        //add a few campgrounds
+       
         productData.forEach(function (seed) {
             Product.create(seed, function (err, product) {
                 if (err) {
