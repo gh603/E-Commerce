@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Manage</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- css -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="../styles/manage.css">
+    <!-- js -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="../js/manage.js"></script>
+	    <script src="../js/manage2.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="../styles/manage.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="../styles/main.css" />
+    <link rel="stylesheet" href="../styles/modal.css">
+    <script src='http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.5/jquery-ui.min.js'></script>
+    <script src="../js/index.js"></script>
+    <script src="../controls/controls.js"></script>
+    <script src="../js/modal.js"></script>
+
+	
+	
+	
+</head>
+
+<body>
+    <% include ./partials/navbar %>
+
+    <div class="manage">
+        <ul class="tab-group">
+            <li class="tab active">
+                <a href="#add">Add</a>
+            </li>
+            <li class="tab">
+                <a href="#delete">Delete</a>
+            </li>
+			<li class="tab">
+                <a href="#update">Update</a>
+            </li>
+        </ul>
+
+        <div class="tab-content">
+            <div id="add">
+                <h1>Add Product</h1>
+
+                <form action="/items" method="post">
+
+                    <div class="field-wrap">
+                        <input type="text" name="item" placeholder="Product Name" />
+                    </div>
+
+                    <div class="field-wrap">
+                        <input type="text" name="category" placeholder="Category" />
+                    </div>
+                    <div class="field-wrap">
+                        <input type="text" name="price" placeholder="Price" />
+                    </div>
+					 <div class="field-wrap">
+                        <input type="text" name="quantity" placeholder="Quantity" />
+                    </div>
+					 <div class="field-wrap">
+                        <input type="text" name="image" placeholder="Image" />
+                    </div>
+					 <div class="field-wrap">
+                        <input type="text" name="description" placeholder="Description" />
+                    </div>
+
+                    <button class="button button-block" />Add</button>
+
+                </form>
+
+            </div>
+            <div id="delete" onclick="test()">
+                <h1>Delete Product</h1>
+
+                <form action="/delete?_method=DELETE" method="post">
+
+                    <div class="field-wrap">
+                        <input type="text" name="id" placeholder="Product ID" />
+                    </div>
+                    <button  class="button button-block" />Delete</button>
+
+                </form>
+				
+				    <div style="margin-top:80px">
+						<div id='content'>
+							<div class="productList">
+								<% products.forEach(function(product){%>
+									<% if(product.isDeleted == false) { %>
+										<div class="card-content" >
+										
+										<form action="/delete?_method=DELETE" method="post">
+											
+											<div class="title"><%=product.item%></div>
+											<div class="top-bar">Price: 
+												<span>$<%=product.price%></span>
+											</div>
+											
+											<div class="id">ID: <%=product._id%></div>
+											
+											<div class="span">Category: <%=product.category%></div>
+
+											<div>Product ID: <%=product._id%></div>
+											<input type="text" name="id" value="<%=product._id%>" style="visibility:hidden" />
+											
+											<button class="glyphicon glyphicon-remove" style="float:right;width:30px;height:30px"></button>
+											<div class="img" ><img style="width:60px;height:60px;" src="<%=product.image%>"></div>
+											
+										</form>	
+										<hr>
+										</div>
+										<br>
+									
+								<%}})%>
+							</div>
+						</div>
+						
+					</div>
+            </div>
+			
+			
+			
+			
+			<div id="update">
+                <h1>Update Product</h1>
+
+				    <div style="margin-top:80px">
+						<div id='content'>
+							<div class="productList">
+							
+								
+								<% products.forEach(function(product){%>
+									<% if(product.isDeleted == false) { %>
+										<div class="card-content">
+										
+										<form action="/<%=product._id %>?_method=PUT" method="post">
+											<div class='form-row'>
+												<span class="title">Item:</span>
+												<input class="title_update edit" name="product[item]" value="<%=product.item%>"></input>
+											</div>
+											<div class='form-row'>
+												<span class="title">Price:</span>
+												<input  class="price_update edit" name="product[price]" value="<%=product.price%>"></input>
+											</div>
+											<div class='form-row'>
+												<span class="title">ID:</span>
+												<input  class="id_update edit" name="product[_id]" value="<%=product._id%>"></input>
+											</div>
+											<div class='form-row'>
+												<span class="title">Category:</span>
+												<input   class="category_update edit" name="product[category]" value="<%=product.category%>"></input>
+											</div>
+											<br class="quantity_update edit">
+											
+											
+											
+											<img style="width:100px;max-Height:100px;padding:5px" src="<%=product.image%>" ></input>
+											
+											<div class='form-row'>
+												<span class="title">Image:</span>
+												<input  class="img_update edit" name="product[image]" value="<%=product.image%>">
+											</div>
+											
+											
+											
+											<div class='form-row'>
+												<span class="title">Quantity:</span>
+											
+												<input  class="quantity_update edit" name="product[quantity]" value="<%=product.quantity%> "></input>
+											</div>
+											<br class="quantity_update edit">
+											<br class="quantity_update edit">
+											<div class='form-row'>
+												
+												<TEXTAREA class="description_update edit" name="product[description]" rows=5 cols=30 >"<%=product.description%>"</TEXTAREA>
+											</div>
+											<div  class="button_update glyphicon glyphicon-pencil" style="float:right;width:30px;height:30px;margin-left:10px" >  </div>
+											
+											<button class="button_update2 edit" style="float:right">update</button>
+											<br class="quantity_update edit">
+											<br class="quantity_update edit">
+											
+										</form>	
+										
+										<hr>
+										</div>
+										<br>
+									
+								<%}})%>
+							</div>
+						</div>
+						
+					</div>
+            </div>
+			
+			
+			
+			
+			
+        </div>
+    
+
+
+	
+	
+	
+</body>
+
+</html>
