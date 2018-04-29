@@ -20,36 +20,7 @@
 </head>
 
 <body>
-    <nav id="mySideNav" class="sidenav">
-        <div class='closeSideNav' onclick="closeSideNav()">&times; </div>
-        <div class='sidebartitle'>
-            Categories
-            <ul class='sideList'>
-                <li>Headphone</li>
-                <li>Shoes</li>
-                <li>Camera Lens</li>
-                <li>phone</li>
-            </ul>
-        </div>
-        <div class='sidebartitle'>
-            Price
-            <ul class='sideList'>
-                <li>Price Range 1</li>
-                <li>Price Range 2</li>
-                <li>Price Range 3</li>
-                <li>Price Range 4</li>
-            </ul>
-        </div>
-        <div class='sidebartitle'>
-            Brand
-            <ul class='sideList'>
-                <li>Brand 1</li>
-                <li>Brand 2</li>
-                <li>Brand 3</li>
-                <li>Brand 4</li>
-            </ul>
-        </div>
-    </nav>
+    <% include ./partials/sideNav %>
 
     <div id='main'>
         <% include ./partials/navbar %>
@@ -63,8 +34,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="img">
-                            <img src="https://www.t-mobile.com/content/dam/t-mobile/en-p/cell-phones/samsung/samsung-galaxy-s8/midnight-black/samsung-galaxy-s8-midnight-black-1-3x.jpg"
-                                alt="">
+                            <img src="" alt="">
                         </div>
                         <div style="margin: 6% 6%">
                             <div class="id">id</div>
@@ -96,40 +66,7 @@
                 <span style="font-size: 15px; cursor: pointer; padding-left: 30px" onclick="openSideNav()">&#9776; Filter</span>
             </div>
             <div class="productList">
-                <% products.forEach(function(product){%>
-                    <div class="card">
-                        <div class="card-content">
-                            <div class="top-bar">
-                                <span>$
-                                    <%=product.price%>
-                                </span>
-                            </div>
-                            <a data-toggle="modal" href="#tallModal" class="img">
-                                <img src="<%=product.image%>">
-                            </a>
-                            <!-- <div class="img"><img src="<%=product.image%>"></div> -->
-                        </div>
-                        <div class="card-description">
-                            <div class="id">
-                                <%=product._id%>
-                            </div>
-                            <div class="title">
-                                <%=product.item%>
-                            </div>
-                            <div class="cart">
-                                <span class="glyphicon glyphicon-shopping-cart"></span>
-                            </div>
-                            <div class='item-desc hidden'>
-                                    <%=product.description%>
-                            </div>
-                        </div>
-                        <div class="card-footer">
-                            <div class="span">
-                                <%=product.category%>
-                            </div>
-                        </div>
-                    </div>
-                    <%})%>
+                    <% include ./partials/productList %>
             </div>
         </div>
         <% include ./partials/pagination %>

@@ -62,7 +62,7 @@ var productData = [
 
     {
         item: 'iphone8',
-        category: 'phone',
+        category: 'Phone',
         quantity: 1,
         image: 'http://farm1.static.flickr.com/886/41507422672_3ecc8d2d29.jpg',
         price: 599.99,
@@ -70,7 +70,7 @@ var productData = [
 
     {
         item: 'iphone7',
-        category: 'phone',
+        category: 'Phone',
         quantity: 1,
         image: 'http://farm1.static.flickr.com/900/26740112187_ac6d4ec891.jpg',
         price: 499.99,
@@ -78,7 +78,7 @@ var productData = [
 
     {
         item: 'iphone6',
-        category: 'phone',
+        category: 'Phone',
         quantity: 1,
         image: 'https://cdn2.gsmarena.com/vv/bigpic/apple-iphone-6-4.jpg',
         price: 399.99,
@@ -86,7 +86,7 @@ var productData = [
 
     {
         item: 'iphone8plus',
-        category: 'phone',
+        category: 'Phone',
         quantity: 1,
         image: 'http://farm5.static.flickr.com/4623/27862145609_e520a1f18d.jpg',
         price: 699.99,
@@ -94,7 +94,7 @@ var productData = [
 
     {
         item: 'iphone7plus',
-        category: 'phone',
+        category: 'Phone',
         quantity: 1,
         image: 'http://farm1.static.flickr.com/830/40716346465_fd39ab06fe.jpg',
         price: 569.99,
@@ -102,7 +102,7 @@ var productData = [
 
     {
         item: 'iphone6plus',
-        category: 'phone',
+        category: 'Phone',
         quantity: 1,
         image: 'http://farm1.static.flickr.com/919/27739167768_2546cc7a23.jpg',
         price: 399.99,
@@ -172,7 +172,7 @@ var productData = [
     },
     {
         item: 'iphoneX',
-        category: 'phone',
+        category: 'Phone',
         quantity: 1,
         image: 'https://www.bell.ca/Styles/wireless/all_languages/all_regions/catalog_images/large/iPhoneX_spgry-en_lrg.png',
         description: 'iPhone x features an all-screen design with a 5.8-Inch super Retina HD display with HDR and true tone. Face ID lets you unlock and use Apple pay with just a glance. Powered by A11 Bionic, the most powerful and smartest chip ever in a smartphone. Supports augmented reality experiences in games and apps.',

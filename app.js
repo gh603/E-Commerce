@@ -71,13 +71,12 @@ app.post("/login", passport.authenticate("local",
     }), function (req, res) {
     });
 
-
-
-
 app.post("/signup", function (req, res) {
     // var newUser = new User({username: req.body.Email, FirstName: req.body.FirstName, LastName: req.body.LastName, Email: req.body.Email });
-    var newUser = new User({ username: req.body.email, fname: req.body.fname, 
-        lname: req.body.lname, email: req.body.email, isManager: false });
+    var newUser = new User({
+        username: req.body.email, fname: req.body.fname,
+        lname: req.body.lname, email: req.body.email, isManager: false
+    });
     User.register(newUser, req.body.password, function (err, user) {
         if (err) {
 
@@ -123,51 +122,27 @@ app.get("/login", function (req, res) {
 //================
 app.get("/items", isLoggedIn, function (req, res) {
     console.log("GET: items");
-    var filtercategory = req.query.cate || '';
-    console.log(filtercategory);
     var perPage = 9;
     var page = req.query.page || 1;
 
-    if (filtercategory === '') {
-        Product
-            .find({})
-            .skip((perPage * page) - perPage)
-            .limit(perPage)
-            .exec(function (err, allProducts) {
-                if (err) {
-                    console.log(err);
-                } else {
-                    Product.count().exec(function (err, count) {
-                        if (err) {
-                            console.log(err);
-                        } else {
-                            res.render("index", { products: allProducts, current: page, pages: Math.ceil(count / perPage) });
-                        }
-                    });
-                }
-            });
-    } else {
-        Product
-            .find({})
-            .skip((perPage * page) - perPage)
-            // .limit(perPage)
-            .exec(function (err, allProducts) {
-                if (err) {
-                    console.log(err);
-                } else {
-                    const filterProduct = allProducts.filter(product => product.category === filtercategory); 
-                    // var filterProduct = filter(allProducts,
-                    //     (x) => {
-                    //         console.log(x.category + ' vs. ' + filtercategory + ':'); 
-                    //         console.log(x.category === filtercategory); 
-                    //         x.category === filtercategory; 
-                    //     });
-                    console.log(filterProduct.length); 
-                    res.render("index", { products: filterProduct, current: page, pages: Math.ceil(filterProduct.length / perPage) });
-                }
-            });
-    }
-
+    Product
+        .find({})
+        .skip((perPage * page) - perPage)
+        .limit(perPage)
+        .exec(function (err, allProducts) {
+            if (err) {
+                console.log(err);
+            } else {
+                Product.count().exec(function (err, count) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        res.render("index", { products: allProducts, current: page, pages: Math.ceil(count / perPage) });
+                        return;
+                    }
+                });
+            }
+        });
 });
 
 //================
@@ -199,7 +174,7 @@ app.post("/orders", isLoggedIn, function (req, res) {
         } else {
             var newItems = [];
             var total = 0;
-            foundCart.items.forEach((item) =>{
+            foundCart.items.forEach((item) => {
                 newItems.push(item);
                 total += (item.price * item.quantity);
             });
@@ -211,14 +186,14 @@ app.post("/orders", isLoggedIn, function (req, res) {
                     console.log(newlyCreated);
                     foundCart.items = [];
                     foundCart.save();
-                    
+
                 }
             });
             console.log("luozhangji");
             res.redirect("/orders");
         }
     });
-    
+
 });
 //================
 // Cart
@@ -314,6 +289,29 @@ app.post("/search", function (req, res) {
             }
         });
 });
+
+
+//================
+// Filter
+//================
+app.post("/filter", (req, res) => {
+    var perPage = 9;
+    var page = req.query.page || 1;
+    var filtercategory = req.body.cate || '';
+    var query = {category: filtercategory}; 
+    console.log(query);
+    Product.find(query)
+        .skip((perPage * page) - perPage)
+        .limit(perPage)
+        .exec(function (err, allProducts) {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log(allProducts.length);
+                res.render('./partials/productList', { products: allProducts, current: page, pages: Math.ceil(allProducts.length / perPage) });
+            }
+        });
+})
 
 
 //================
