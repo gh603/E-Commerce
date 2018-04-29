@@ -29,9 +29,6 @@ const listeners = (function () {
     };
 
     filterInProducts = (data) => {
-        // $.post("/filter", data, data=>{
-        //     console.log(data); 
-        // })
         $.ajax({
             type: "GET", 
             url: '/items', 
@@ -204,7 +201,6 @@ const UIController = (function () {
         console.log($(DOMstrings.modal.modalPrice).find('p'));
         $(DOMstrings.modal.modalId).text(data.id);  
         $(DOMstrings.modal.modalDes).find('p').eq(0).text(data.description);
-        // $(DOMstrings.modal.modalInventory).find('p').eq(0).text(data.quantity); 
         $(DOMstrings.modal.modalImg).attr('src', data.img); 
         console.log($(DOMstrings.modal.modalStock).find('p'));
         $(DOMstrings.modal.modalInventory).find('p').eq(0).text(data.qty); 
@@ -262,7 +258,7 @@ const controller = (function(reqCtrl, UICtrl) {
     }; 
 
     addItemToCartHandler = () => {
-        $(DOMstrings.cart).on('click', event => {
+        $(DOMstrings.products).delegate('.card-description .cart', 'click', event => {
             reqCtrl.addItemToCartHandler(event); 
             UICtrl.addItemToCartHandler(event); 
         }); 

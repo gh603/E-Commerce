@@ -63,7 +63,6 @@ app.get("/login", function (req, res) {
 
 app.post("/login", passport.authenticate("local",
     {
-
         successRedirect: "/items",
         failureRedirect: "/login"
     }), function (req, res) {
@@ -71,8 +70,10 @@ app.post("/login", passport.authenticate("local",
 
 app.post("/signup", function (req, res) {
     // var newUser = new User({username: req.body.Email, FirstName: req.body.FirstName, LastName: req.body.LastName, Email: req.body.Email });
-    var newUser = new User({ username: req.body.email, fname: req.body.fname, 
-        lname: req.body.lname, email: req.body.email, isManager: true, address: req.body.address, phone: req.body.phone, zipcode: req.body.zip });
+    var newUser = new User({
+        username: req.body.email, fname: req.body.fname,
+        lname: req.body.lname, email: req.body.email, isManager: true, address: req.body.address, phone: req.body.phone, zipcode: req.body.zip
+    });
     User.register(newUser, req.body.password, function (err, user) {
         if (err) {
             console.log(err);
@@ -80,8 +81,6 @@ app.post("/signup", function (req, res) {
             return res.render("auth");
         }
         passport.authenticate("local")(req, res, function () {
-
-            console.log(newUser);
             var newCart = { userId: newUser._id, items: [] }
             Cart.create(newCart, function (err, newlyCreated) {
                 if (err) {
@@ -90,8 +89,8 @@ app.post("/signup", function (req, res) {
                     console.log(newlyCreated);
                 }
             });
-            
-            req.flash("success", "Welcome! " + newUser.fname );
+
+            req.flash("success", "Welcome! " + newUser.fname);
             res.redirect("/items");
         });
     });
@@ -100,7 +99,6 @@ app.post("/signup", function (req, res) {
 app.get("/signup", (req, res) => {
     console.log('GET: /signup');
     const email = req.query.email;
-    console.log(email);
     User.find({ email: email }, (err, user) => {
         if (err) {
             console.log(err);
@@ -124,22 +122,22 @@ app.get("/logout", function (req, res) {
 // Account
 //================
 app.get("/account", isLoggedIn, function (req, res) {
-    User.findById(req.user._id, function(err, foundUser){
-        if(err){
+    User.findById(req.user._id, function (err, foundUser) {
+        if (err) {
             console.log(err);
         } else {
-            res.render("account", {user: foundUser});
+            res.render("account", { user: foundUser });
         }
     })
-    
+
 });
 
 //================
 // Manager
 //================
 app.get("/manage", isLoggedIn, function (req, res) {
+    console.log("GET: /manage")
     var filtercategory = "";
-    console.log(req.body);
     var perPage = 10000;
     var page = req.query.page || 1;
 
@@ -163,7 +161,7 @@ app.get("/manage", isLoggedIn, function (req, res) {
             });
     } else {
         Product
-                  .find({})
+            .find({})
             .skip((perPage * page) - perPage)
             .limit(perPage)
             .exec(function (err, allProducts) {
@@ -174,9 +172,9 @@ app.get("/manage", isLoggedIn, function (req, res) {
                     res.render("manage", { products: filterProduct, current: page, pages: Math.ceil(filterProduct.length / perPage) });
                 }
             });
-        }
+    }
 
-    });
+});
 //================
 // Show products with filter function
 //================
@@ -188,7 +186,7 @@ app.get("/items", isLoggedIn, function (req, res) {
 
     if (filtercategory === '') {
         Product
-            .find({isDeleted: false})
+            .find({ isDeleted: false })
             .skip((perPage * page) - perPage)
             .limit(perPage)
             .exec(function (err, allProducts) {
@@ -208,7 +206,7 @@ app.get("/items", isLoggedIn, function (req, res) {
     } else {
         var query = { category: filtercategory };
         Product
-            .find({isDeleted: false}).find(query)
+            .find({ isDeleted: false }).find(query)
             .skip((perPage * page) - perPage)
             .limit(perPage)
             .exec(function (err, allProducts) {
@@ -231,6 +229,7 @@ app.get("/orders", isLoggedIn, function (req, res) {
         if (err) {
             console.log(err);
         } else {
+            console.log(allOrders);
             res.render("orders", { orders: allOrders });
         }
     });
@@ -241,62 +240,61 @@ app.get("/orders", isLoggedIn, function (req, res) {
 //================
 app.post("/orders", isLoggedIn, async function (req, res) {
     console.log('POST: orders');
-    var newItems = []
-    
+    var newItems = [];
+
     var total = 0;
     var flag = false;
-    const foundCart = await new Promise((resolve, reject)=>{
-        Cart.findOne({ userId: req.user._id}, (err, foundCart1) => {
-        if(err) {
-            console.log(err); 
-            reject(err)
-        } else {
-            resolve(foundCart1)
-        }
+    const foundCart = await new Promise((resolve, reject) => {
+        Cart.findOne({ userId: req.user._id }, (err, foundCart1) => {
+            if (err) {
+                console.log(err);
+                reject(err)
+            } else {
+                resolve(foundCart1)
+            }
 
         });
     })
-    for(let i = 0; i < foundCart.items.length; i++){
-        var item = foundCart.items[i]
-        var tmp = await new Promise((resolve, reject)=>{
-                total += item.price * item.quantity; 
-                Product.findById(item.id, (err, foundProduct) => {    
-                    resolve(foundProduct)
-                })
+    for (let i = 0; i < foundCart.items.length; i++) {
+        var item = foundCart.items[i];
+        var tmp = await new Promise((resolve, reject) => {
+            total += item.price * item.quantity;
+            Product.findById(item.id, (err, foundProduct) => {
+                resolve(foundProduct)
+            })
         })
-        newItems.push(tmp); 
-        total += item.price * item.quantity; 
+        newItems.push(tmp);
     }
-    for(let j = 0; j < newItems.length; j++){
-        if(foundCart.items[j].quantity>newItems[j].quantity){
+    for (let j = 0; j < newItems.length; j++) {
+        if (foundCart.items[j].quantity > newItems[j].quantity) {
             flag = true;
         }
     }
-    if(!flag){
-       
-        const newOrder = { userId: req.user._id, items: foundCart.items, total:total}; 
+    if (!flag) {
+
+        const newOrder = { userId: req.user._id, items: foundCart.items, total: total };
         Order.create(newOrder, (err, newlyCreated) => {
-            if(err) { console.log(err); }
+            if (err) { console.log(err); }
             else {
-                foundCart.items = []; 
-                foundCart.save(); 
+                foundCart.items = [];
+                foundCart.save();
             }
         });
-        for(let k = 0; k < newItems.length; k++){
-            Product.findById(newItems[k].id, function(err, foundProduct){
-                foundProduct.quantity -=  newItems[k].quantity;
+        for (let k = 0; k < newItems.length; k++) {
+            Product.findById(newItems[k].id, function (err, foundProduct) {
+                foundProduct.quantity -= newItems[k].quantity;
                 foundProduct.save();
             })
         }
-        req.flash("success", "Order successfully!"); 
+        req.flash("success", "Order successfully!");
         res.send("/orders");
     } else {
-            req.flash("error", "Not enough inventory!"); 
-            res.send("/cart");
+        req.flash("error", "Not enough inventory!");
+        res.send("/cart");
     }
-    
-})   
- 
+
+})
+
 //================
 // Cart
 //================
@@ -313,8 +311,6 @@ app.get("/cart", isLoggedIn, function (req, res) {
 
 app.post("/cart/:id", isLoggedIn, function (req, res) {
     console.log("POST: cart");
-    console.log(req.params.id);
-    console.log(req.body.quantity);
 
     Cart.findOne({ userId: req.user._id }, function (err, foundCart) {
         if (err) {
@@ -325,7 +321,6 @@ app.post("/cart/:id", isLoggedIn, function (req, res) {
                     console.log(err);
                 } else {
                     let isFound = false;
-                    // console.log("request item id:" + req.params.id); 
                     foundCart.items.forEach((item) => {
                         // console.log("cart item id:" + item._id); 
                         if (item._id == req.params.id) {
@@ -350,7 +345,6 @@ app.post("/cart/:id", isLoggedIn, function (req, res) {
 });
 
 app.delete("/cart/:id", isLoggedIn, function (req, res) {
-    console.log(req.params.id);
     Cart.findOne({ userId: req.user._id }, function (err, foundCart) {
         if (err) {
             console.log(err);
@@ -363,8 +357,6 @@ app.delete("/cart/:id", isLoggedIn, function (req, res) {
     // Cart.update( {userId: req.user._id }, { $pull: {id: [req.params.id] } } );
 
 });
-
-
 
 //================
 // Search
@@ -429,9 +421,7 @@ app.post("/items", isAdmin, function (req, res) {
 
 app.put("/:id", isAdmin, function (req, res) {
     // find and update the correct campground
-    console.log("req.body="+req.body);
     Product.findByIdAndUpdate(req.params.id, req.body.product, function (err, updatedProduct) {
-        console.log("req.body.product"+req.body.product);
         if (err) {
             req.flash("error", "Fail to update");
             res.redirect("/items");
@@ -447,7 +437,6 @@ app.put("/:id", isAdmin, function (req, res) {
 //================
 app.delete("/delete", isAdmin, function (req, res) {
     //findByIdAndRemove
-    console.log(req.body.id);
     Product.findById(req.body.id, function (err, foundProduct) {
         if (err) {
             req.flash("error", "Fail to delete ID: " + req.body.id);
@@ -455,7 +444,7 @@ app.delete("/delete", isAdmin, function (req, res) {
         } else {
             foundProduct.isDeleted = true;
             foundProduct.save();
-            req.flash("success", "ID: "+req.body.id+" Deleted successfully");
+            req.flash("success", "ID: " + req.body.id + " Deleted successfully");
             res.redirect("/items");
         }
     });
@@ -477,7 +466,6 @@ function isAdmin(req, res, next) {
     }
     res.redirect("/items");
 }
-
 
 app.listen(8080, function () {
     console.log("The E-commerce Server Has Started!");

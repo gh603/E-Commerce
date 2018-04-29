@@ -218,63 +218,6 @@ var productData = [
 
 ]
 
-// var cartData = [
-//     {
-//         userId: "5ade3079c3dbed2c01b73d16",
-//         items: [
-//             {
-//                 price: 70,
-//                 quantity: 1,
-//                 image: "https://tctechcrunch2011.files.wordpress.com/2014/11/solo2-wireless-red-quarter.jpg?w=738",
-//                 title: "Design Bundle Package",
-//             },
-//             {
-//                 price: 80,
-//                 quantity: 2,
-//                 image: "https://www.bell.ca/Styles/wireless/all_languages/all_regions/catalog_images/large/iPhoneX_spgry-en_lrg.png",
-//                 title: "Stuff on my Cat: The Book",
-//             },
-//             {
-//                 price: 90.05,
-//                 quantity: 3,
-//                 image: "https://www.grootgadgets.com/wp-content/uploads/2017/03/Canon-70-200mm-Lens-mug-White-replica-groot-gadgets-1-400x400.jpg",
-//                 title: "SpongeBob's First 100 Episodes",
-//             }
-
-//         ]
-//     }
-// ]
-
-// var orderData = [
-//     {
-//         userId: "5ade3079c3dbed2c01b73d16",
-//         total: 79.00,
-//         items: [
-//             {
-//                 image: 'https://tctechcrunch2011.files.wordpress.com/2014/11/solo2-wireless-red-quarter.jpg?w=738',
-//                 title: 'BEAT HEADPHONE',
-//                 quantity: 1
-//             }
-//         ]
-//     },
-//     {
-//         userId: "5ade3079c3dbed2c01b73d16",
-//         total: 128.00,
-//         items: [
-//             {
-//                 image: 'https://tctechcrunch2011.files.wordpress.com/2014/11/solo2-wireless-red-quarter.jpg?w=738',
-//                 title: 'BEAT HEADPHONE',
-//                 quantity: 1
-//             },
-//             {
-//                 image: 'https://www.bell.ca/Styles/wireless/all_languages/all_regions/catalog_images/large/iPhoneX_spgry-en_lrg.png',
-//                 title: 'IPHONEX',
-//                 quantity: 1
-//             }
-//         ]
-//     }
-//]
-
 function seedDB() {
     //Remove all campgrounds
     Product.remove({}, function (err) {
@@ -316,16 +259,6 @@ Cart.find({},function(err, foundCart){
 
         console.log("Finished Initialization of carts");
 })
-
-
-    // User.remove({}, function(err){
-    //         if(err){
-    //             console.log(err);
-    //         }
-    //         console.log("removed users!");
-
-
-    //     }); 
 
 }
 

@@ -43,7 +43,7 @@
                         <td><img src="<%=item.image%>" class="thumb"></td>
                         <td><input type="number" value="<%=item.quantity%>" min="0" max="99" class="qtyinput"></td>
                         <td><%=item.title%></td> 
-                        <td class="hidden"><%=item.price%></td>
+                        <td class="hidden"><%=item.price.toFixed(2)%></td>
                         <td>$<%=item.price * item.quantity%></td>
                         <td>
                             <span class="remove glyphicon glyphicon-trash"></span>

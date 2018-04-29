@@ -30,16 +30,18 @@
                         </tr>
                         <tr>
                             <td style="width:15%">April 3rd, 2018</td>
-                            <td style="width:15%"><%=order.total%></td>
+                            <td style="width:15%">$<%=order.total.toFixed(2)%></td>
                             <td style="width:70%"><%=order._id%></td>
                         </tr>
                     </table>
                     <div class="order-content">
                         <div class="orderItems">
-                            <%order.items.forEach(function(item){%>
+                            <%order.items.forEach(function(item){ console.log(item); %>
                                 <div class="Item">
                                     <div class="img"><img src="<%=item.image%>" /></div>
-                                    <div class="title"><%=item.title%></div>
+                                    <div class="title"><strong><%=item.title%></strong></div>
+                                    <div class="qty"><strong>Amount: </strong><%=item.quantity%></div>
+                                    <div class='total'><strong>SubTotal: </strong>$<%=(item.price * item.quantity).toFixed(2)%></div>
                                 </div>
                             <%})%>
                         </div>
